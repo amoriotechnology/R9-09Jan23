@@ -2861,11 +2861,11 @@ public function company_info()
         $this->db->select('*');
      $this->db->from('expense_packing_list a');
          $this->db->join('expense_packing_list_detail ac' , 'a.expense_packing_id=ac.expense_packing_id');
-         $this->db->join('product_information b' , 'b.product_id = a.product_id');
+         $this->db->join('product_information b' , 'b.product_id = ac.product_id');
      $this->db->where('a.expense_packing_id' , $expense_packing_id);
          $query = $this->db->get();
       //  $query = $this->db->query($sql);
-    //  echo $this->db->last_query();
+      echo $this->db->last_query();
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
@@ -2991,9 +2991,9 @@ public function company_info()
         }
     }
 
-         public function invoice_product_edit($purchase_id)
+    public function invoice_product_edit($purchase_id)
     {
-        $sql='SELECT b.* FROM `expense_packing_list_detail` a JOIN product_information b on b.product_id=a.product_id where a.expense_packing_id="'.$purchase_id.'"';
+        $sql='SELECT * FROM `expense_packing_list_detail` a JOIN product_information b on b.product_id=a.product_id where a.expense_packing_id="'.$purchase_id.'"';
 
         $query=$this->db->query($sql);
          if ($query->num_rows() > 0) {

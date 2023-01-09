@@ -345,7 +345,7 @@ textarea:focus, input:focus{
                                     <tr>
                                         <td class="span3 supplier">
                                          
-                                           <select  name="product_name" id="product_name_1" class="form-control product_name" onchange="product_detail(1)">
+                                           <select  name="product_name" id="product_name_1" class="form-control product_name"  onchange="supplier(1);product_detail(1)">
                                         
                                     </select>
 
@@ -959,7 +959,7 @@ textarea:focus, input:focus{
                                     <div class="form-group row" style="300"     >
                                     <label for="supplier" class="col-sm-4 col-form-label ">Supplier<i class="text-danger"></i></label>
                                     <div class="col-sm-8">
-                                        <select name="supplier_id" id="supplier_id" class="form-control " required="" tabindex="1">
+                                        <select name="supplier_id" id="supplier_id" class="form-control "  required="" tabindex="1">
                                             <option value=" "><?php echo display('select_one') ?></option>
                                             {all_supplier}
                                             <option value="{supplier_id}">{supplier_name}</option>
@@ -1063,7 +1063,7 @@ function addPurchaseOrderField2(divName){
        
 
 
-        newdiv.innerHTML ='<td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name" onchange="product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
+        newdiv.innerHTML ='<tr><td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name" onchange="supplier(' + count + ');product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td></tr>';
         document.getElementById(divName).appendChild(newdiv);
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
@@ -1134,8 +1134,9 @@ var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
 $('#vendor_gtotal').val(custo_final);  
 }
 });
-$('#add_invoice_item,#supplier_id').on('click change', function (e) {
-  
+//$('#add_invoice_item,#supplier_id').on('click change', function (e) {
+  function supplier(id){
+    console.log(id);
   var data = {
       value: $('#supplier_id').val()
    };
@@ -1149,22 +1150,32 @@ $('#add_invoice_item,#supplier_id').on('click change', function (e) {
       url:'<?php echo base_url();?>Cinvoice/getvendor_products',
       success: function(states, statut) {
         console.log(states);
-        $(".product_name").html("");
+        var select = $("#product_name_"+id);
+       // $("#product_name_"+id).html("");
+       for (i = 0; 1 < Object.keys(states).length; i++) {
+    select.append($('<option>', {
+        value: i,
+        text: states[i]
+    }));
+}
+
+
              if (Object.keys(states).length > 0) {
-                $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
+                $("#product_name_"+id).append($('<option></option>').val(0).html('Select a Product'));
              }
-             else {
-                    $(".product_name").append($('<option></option>').val(0).html(''));
-             }
+           //  else {
+                 //   $("#product_name_"+id).append($('<option></option>').val(0).html(''));
+             //}
 
            $.each(states, function (i, state) {
-            $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
+            $("#product_name_"+id).append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
            });;
       }
   });
+  }
 
-
-});
+//});
+/*
 $('#supplier_id').on('change', function (e) {
   
   var data = {
@@ -1191,7 +1202,7 @@ $('#supplier_id').on('change', function (e) {
       $(".cus").html(result[0]['currency_type']);
         $("label[for='custocurrency']").html(result[0]['currency_type']);
    
-       $.getJSON('https://open.er-api.com/v6/latest/<?php echo $curn_info_default; ?>', 
+       $.getJSON('https://open.er-api.com/v6/latest/<?php //echo //$curn_info_default; ?>', 
 function(data) {
  var custo_currency=result[0]['currency_type'];
     var x=data['rates'][custo_currency];
@@ -1205,7 +1216,7 @@ function(data) {
 
 
 });
-
+*/
 
 $('#insert_purchase').submit(function (event) {
     var dataString = {
@@ -1317,7 +1328,6 @@ window.onbeforeunload = function(){
        return false;
     }
 }
-
 $('#insert_supplier').submit(function (event) {
     var dataString = {
         dataString : $("#insert_supplier").serialize()
@@ -1328,25 +1338,38 @@ $('#insert_supplier').submit(function (event) {
         dataType:"json",
         url:"<?php echo base_url(); ?>Csupplier/insert_supplier",
         data:$("#insert_supplier").serialize(),
-        success:function (data) {
-       
-            $.each(data, function (i, item) {
-           result = '<option value=' + data[i].supplier_name + '>' + data[i].supplier_name + '</option>';
-       });
-     $('#supplier_id-button').hide();
-       $('#supplier_id').selectmenu();
-       $('#supplier_id').append(result).selectmenu('refresh',true);
+        success:function (states) {
+            $("#supplier_id").html("");
+             if (Object.keys(states).length > 0) {
+                $("#supplier_id").append($('<option></option>').val(0).html('Select a Vendor'));
+             }
+             else {
+                    $("#supplier_id").append($('<option></option>').val(0).html(''));
+             }
+
+           $.each(states, function (i, state) {
+            $("#supplier_id").append($('<option></option>').val(state.supplier_id).html(state.supplier_name));
+           });
+
        $('#add_vendor').modal('hide');
+     
       $("#bodyModal1").html("New Vendor Added Successfully");
+      
        $('#myModal1').modal('show');
+  
+      
+     
        window.setTimeout(function(){
         $('#myModal1').modal('hide');
         $('.modal-backdrop').remove();
+
  },2500);
+    
         }
     });
     event.preventDefault();
 });
+
 
 
 $('#insert_product_from_expense').submit(function (event) {

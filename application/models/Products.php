@@ -80,10 +80,11 @@ public function get_products() {
 
         ';
         $query = $this->db->query($sql);
+        //echo $this->db->last_query();
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }
-        return false;
+      
     }
     public function get_product()
     {

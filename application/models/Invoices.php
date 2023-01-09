@@ -3363,7 +3363,9 @@ print_r($data1);
     public function company_information() {
         $this->db->select('*');
         $this->db->from('company_information');
+        $this->db->where('create_by',$this->session->userdata('user_id'));
         $query = $this->db->get();
+      
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }

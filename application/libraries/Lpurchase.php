@@ -1543,50 +1543,62 @@ public function purchase_details_data($purchase_id) {
 
     }
 
-public function packing_update_form($purchase_id)
-{
-     $CI = & get_instance();
-     $CI->load->model('Purchases');
-      $invoice = $CI->Purchases->invoice_edit($purchase_id);
-
-      $invoice_detail = $CI->Purchases->invoice_detail_edit($purchase_id);
-      $purchase_detail = $CI->Purchases->retrieve_packing_editdata($purchase_id);
-   
-      // $customer_id = $purchase_detail[0]['customer_id'];
-
-      // $supplier_list = $CI->Suppliers->supplier_list("110", "0");
-
-      // $supplier_selected = $CI->Suppliers->supplier_search_item($supplier_id);
-
-
-
-      if (!empty($purchase_detail)) {
-
-          $i = 0;
-
-          foreach ($purchase_detail as $k => $v) {
-
-              $i++;
-
-              $purchase_detail[$k]['sl'] = $i;
-
-          }
-
-      }
-
-
-      $get_invoice_product = $CI->Purchases->invoice_product_edit($purchase_id);
-
-      $data['packinglist']=$purchase_detail;
-    $data['invoice']=$invoice;
-    $data['invoice_detail']=$invoice_detail;
-    $data['invoice_product']=$get_invoice_product;
-   
-print_r($get_invoice_product);
+    public function packing_update_form($purchase_id)
+    {
+         $CI = & get_instance();
+         $CI->load->model('Purchases');
+          $invoice = $CI->Purchases->invoice_edit($purchase_id);
     
-$packingedit  = $CI->parser->parse('purchase/editpackinglist', $data, true);
-return $packingedit;
-}
+          $invoice_detail = $CI->Purchases->invoice_detail_edit($purchase_id);
+          $purchase_detail = $CI->Purchases->retrieve_packing_editdata($purchase_id);
+       
+          // $customer_id = $purchase_detail[0]['customer_id'];
+    
+          // $supplier_list = $CI->Suppliers->supplier_list("110", "0");
+    
+          // $supplier_selected = $CI->Suppliers->supplier_search_item($supplier_id);
+    
+    
+    
+          if (!empty($purchase_detail)) {
+    
+              $i = 0;
+    
+              foreach ($purchase_detail as $k => $v) {
+    
+                  $i++;
+    
+                  $purchase_detail[$k]['sl'] = $i;
+    
+              }
+    
+          }
+    
+    
+          $get_invoice_product = $CI->Purchases->invoice_product_edit($purchase_id);
+    
+          $data['packinglist']=$purchase_detail;
+        $data['invoice']=$invoice;
+        $data['invoice_detail']=$invoice_detail;
+        $data['invoice_product']=$get_invoice_product;
+        $prodt = $CI->db->select('product_name,product_model,p_quantity')
+        ->from('product_information')
+        ->where('created_by',$get_invoice_product[0]['create_by'])
+        ->get()
+        ->result_array();
+      $data=array(
+        'packinglist'  =>$purchase_detail,
+        'invoice'   => $invoice,
+        'invoice_detail'   => $invoice_detail,
+        'invoice_product'  => $get_invoice_product,
+        'prodt'   =>  $prodt
+
+      );
+   //print_r($prodt);
+        
+    $packingedit  = $CI->parser->parse('purchase/editpackinglist', $data, true);
+    return $packingedit;
+    }
 
 }
 

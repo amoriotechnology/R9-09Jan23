@@ -60,7 +60,7 @@ class Invoice_content extends CI_Model {
         $this->db->where('uid', $id);
 
         $query = $this->db->get();
-echo $this->db->last_query();
+//echo $this->db->last_query();
         if ($query->num_rows() > 0) {
 
             return $query->result_array();

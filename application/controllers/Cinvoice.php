@@ -2356,7 +2356,7 @@ $this->db->update('bootgrid_data');
             'product' => $packing_details[0]['product_name']
         );
    
-print_r($packing_details);
+//print_r($packing_details);
        // echo $content = $CI->linvoice->invoice_add_form();
         $content = $this->load->view('invoice/packing_list_invoice_html', $data, true);
         //$content='';

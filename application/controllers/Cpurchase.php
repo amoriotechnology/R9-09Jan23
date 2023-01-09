@@ -731,7 +731,7 @@ $data=array(
         $dataw = $CA->invoice_design->retrieve_data();
         $datacontent = $CI->invoice_content->retrieve_data();
         $packing_details = $CB->Purchases->packing_details_data($expense_packing_id);
-        
+       // $packing_details = $CB->Invoices->packing_details_data($expense_id);
         $company_info=$this->Purchases->company_info();
         $data=array(
             'packing_details' => $packing_details,
@@ -739,19 +739,17 @@ $data=array(
            'invoice_setting' => $dataw,
             'invoice'  =>$packing_details[0]['invoice_no'],
             'invoice_date' => $packing_details[0]['invoice_date'],
-            'gross' => $packing_details[0]['gross_weight'],        
-                'remarks' => $packing_details[0]['remarks'],
+            'expense_packing_id'=>$packing_details[0]['expense_packing_id'],
+            'gross' => $packing_details[0]['gross_weight'],
             'container' => $packing_details[0]['container_no'],
-            'description' => $packing_details[0]['description'],
-            'thickness' => $packing_details[0]['thickness'],
-            'total' => $packing_details[0]['grand_total_amount'],
-            'serial' => $packing_details[0]['serial_no'],
-            'slab' => $packing_details[0]['slab_no'],
-            'width' => $packing_details[0]['width'],
-            'height' => $packing_details[0]['height'],
-            'area' => $packing_details[0]['area'],
-            'product' => $packing_details[0]['product_name'],
-            'packing_details' => $packing_details,
+            'remarks' => $packing_details[0]['remarks'],
+          
+           
+        
+           
+            'packing_details'=>$packing_details,
+          
+            'product' => $packing_details[0]['product_name']
 
         //    'pro_no'  => $pro_no
 

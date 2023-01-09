@@ -105,7 +105,7 @@
                                         <i class="text-danger"></i>
                                     </label>
                                     <div class="col-sm-6">
-                                        <input type="text" tabindex="3" class="form-control" name="gross_weight" placeholder="Gross Weight" id="gross_wight" />
+                                        <input type="text" tabindex="3" class="form-control" name="gross_weight" readonly placeholder="Gross Weight" id="gross_wight" />
                                     </div>
                                 </div>
                             </div>

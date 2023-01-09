@@ -595,7 +595,7 @@ setTimeout( function(){
   }).save('invoice_<?php echo $invoice.'.pdf'  ?>');
     callback1();
     callback2();
- }, 1500 );
+ }, 2500 );
 }
 function second(){
 setTimeout( function(){
@@ -607,13 +607,13 @@ $( '.close' ).click(function() {
   $( '#myModal_spacking' ).removeClass( 'open' );
   $( '.cont' ).removeClass( 'blur' );
 });
-}, 1500 );
+}, 3000 );
 }
 function third(){
     setTimeout( function(){
-        window.location='<?php  echo base_url();   ?>'+'Cpurchase/manage_packing_list';
+        window.location='<?php  echo base_url();   ?>'+'Cinvoice/manage_packing_list';
         window.close();
-    }, 3000 );
+    }, 3500 );
 }
 first(second,third);
 });

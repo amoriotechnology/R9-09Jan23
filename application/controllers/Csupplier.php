@@ -24,7 +24,7 @@ class Csupplier extends CI_Controller {
 
     //Insert supplier
         //Insert supplier
-        /*
+       
         public function insert_supplier() {
             $CI =& get_instance();
             $this->auth->check_admin_auth();
@@ -57,7 +57,7 @@ class Csupplier extends CI_Controller {
 
         }
            
-        */
+         /*
         public function insert_supplier() {
             $data = array(
                 'service_provider' => $this->input->post('service_provider',TRUE),
@@ -81,6 +81,7 @@ class Csupplier extends CI_Controller {
                 'status'        => 1,
                 );
             $this->db->insert('supplier_information',$data);
+            echo $this->db->last_query();
                 $supplier_id = $this->db->insert_id();
               $coa = $this->Suppliers->headcode();
             if($coa->HeadCode!=NULL){
@@ -132,6 +133,7 @@ class Csupplier extends CI_Controller {
                     exit;
                 }
         }
+        */
     //Manage supplier
     public function manage_supplier() {
         $CI =& get_instance();
