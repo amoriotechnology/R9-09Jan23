@@ -128,6 +128,15 @@ $CI = & get_instance();
         $this->template->full_admin_html_view($content);
     
     }
+    
+    public function get_po_details(){
+        $this->load->model('Purchases');
+        $po_num = $this->input->post('po');
+        $data = $this->Purchases->get_po_details($po_num);
+        echo json_encode($data);
+
+
+    }
     public function add_csv_purchase()
     {
          $CI = & get_instance();

@@ -83,7 +83,7 @@ textarea:focus, input:focus{
                                         <i class="text-danger">*</i>
                                     </label>
                                     <div class="col-sm-7">
-                                        <select name="supplier_id" id="supplier_id" class="form-control " required tabindex="1"> 
+                                        <select name="supplier_id" id="supplier_id" class="form-control" onchange="supplier(1);" required tabindex="1"> 
                                             <option value=""><?php echo display('select_one') ?></option>
                                             {all_supplier}
                                             <option value="{supplier_id}">{supplier_name}</option>
@@ -329,11 +329,32 @@ textarea:focus, input:focus{
 
 <br>
                         <div class="table-responsive">
+                        <table class="taxtab table table-bordered table-hover">
+                        <tr>
+                        <td class="hiden" style="width:30%;border:none;text-align:end;font-weight:bold;">
+                            Todays Rate : 
+                         </td>
+                
+                                <td class="hiden" style="width:200px;padding:5px;background-color: #38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
+                                 = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" id="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
+                    <td style="border:none;text-align:right;font-weight:bold;">Tax : 
+                                 </td>
+                                <td style="width:40%">
+<select name="tx"  id="product_tax" class="form-control" >
+<option value="Select the Tax" selected>Select the Tax</option>
+<?php foreach($tax as $tx){?>
+  
+    <option value="<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';?>">  <?php echo $tx['tax_id'].'-'.$tx['tax'].'%';  ?></option>
+<?php } ?>
+</select>
+</td>
+</tr>
+</table>
                             <table class="table table-bordered table-hover" id="purchaseTable">
                                 <thead>
                                      <tr>
                                             <th class="text-center" width="20%">Product Name(SKU)<i class="text-danger">*</i>  &nbsp;&nbsp; <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#product_info"><i class="ti-plus m-r-2"></i></a></th> 
-                                            <th class="text-center" width="20%">Slabs<i class="text-danger">*</i></th> 
+                                            <th class="text-center" width="20%">Description<i class="text-danger">*</i></th> 
                                             <th class="text-center">Balance</th> 
                                             <th class="text-center">Quantity (Sq. ft)<i class="text-danger">*</i></th>
                                             <th class="text-center">Unit Cost<i class="text-danger">*</i></th>
@@ -345,7 +366,7 @@ textarea:focus, input:focus{
                                     <tr>
                                         <td class="span3 supplier">
                                          
-                                           <select  name="product_name" id="product_name_1" class="form-control product_name"  onchange="supplier(1);product_detail(1)">
+                                           <select  name="product_name" id="product_name_1" class="form-control product_name"  onchange="product_detail(1)">
                                         
                                     </select>
 
@@ -415,11 +436,10 @@ textarea:focus, input:focus{
 
                                             <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
                                     </tr><tr>
-                                    <td style="width:30%;border:none;" ><span class="hiden" style="float: right;width:30%;border:none;text-align:end;font-weight:bold;">Today's Rate :</span>
+                                    <td style="width:30%;border:none;" >
                          </td> 
                 
-                                <td  style="width:30%px;border:none;"><span class="hiden" style="width:200px;padding:5px;background-color:#38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
-                                 = <input style="color:black;width:70px;text-align:center;padding:5px;" type="text" id="custocurrency_rate"/>&nbsp;<label for="custocurrency"></label></span></td>
+                                <td  style="width:30%px;border:none;"></td>
                     <td style="border:none;text-align:right;font-weight:bold;" colspan="3"><b><?php echo "Grand Total" ?>:</b><br/><b>(Preferred Currency)</b></td>
                                     <td>
                                     <table border="0">
@@ -902,7 +922,7 @@ textarea:focus, input:focus{
             </form>
 
           <!------ add new product-->
-
+          <form id="insert_product_from_expense"  method="post">
             <div class="modal fade" id="product_info" role="dialog">
 <div class="modal-dialog">
     <div class="modal-content">
@@ -911,129 +931,139 @@ textarea:focus, input:focus{
             <h3 class="modal-title"><?php echo display('new_product') ?></h3>
         </div>
         <div class="modal-body">
-        <form id="insert_product_from_expense"  method="post">
             <div id="customeMessage" class="alert hide"></div>
-    
-      <form action="ada">
+      <!-- <form action="ada"> -->
     <div class="panel-body">
 <input type ="hidden" name="csrf_test_name" id="" value="<?php echo $this->security->get_csrf_hash();?>">
       <div class="row">
    <div class="form-group row">
                                     <label for="barcode_or_qrcode" class="col-sm-4 col-form-label"><?php echo display('barcode_or_qrcode') ?> <i class="text-danger"></i></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" name="productid" type="text" id="product_id" placeholder="<?php echo display('barcode_or_qrcode') ?>"  tabindex="1" >
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="product_id" type="text" id="product_id"   style="width:40%;" placeholder="<?php echo display('barcode_or_qrcode') ?>"  tabindex="1" >
                                     </div>
                                 </div>
     <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-            <div class="col-sm-6">
-                <div class="form-group row">
-                    <label for="quantity" class="col-sm-4 col-form-label"><?php echo 'Quantity' ?> <i class="text-danger">*</i></label>
-                    <div class="col-sm-8">
-                        <input class="form-control" name="quantity" type="number" id="quantity" placeholder="Enter Product Quantity only" required tabindex="1" >
-                    </div>
-                </div>
-            </div>
-        </div>
-          <div class="row">
+    <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="quantity" class="col-sm-4 col-form-label"><?php echo 'Quantity' ?> <i class="text-danger">*</i></label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control" name="quantity" type="number" id="quantity" placeholder="Enter Product Quantity only" required tabindex="1" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="product_name" class="col-sm-4 col-form-label"><?php echo display('product_name') ?> <i class="text-danger">*</i></label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" name="productname" type="text" id="product_name" placeholder="<?php echo display('product_name') ?>" required tabindex="1" >
+                                        <input class="form-control" name="product_name" type="text" id="product_name" placeholder="<?php echo display('product_name') ?>" required tabindex="1" >
                                     </div>
                                 </div>
                             </div>
-        </div>
-       <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group row">
-                    <label for="product_model" class="col-sm-4 col-form-label"><?php echo display('model') ?> <i class="text-danger"></i></label>
-                    <div class="col-sm-8">
-                        <input type="text" tabindex="" class="form-control" id="product_model" name="model" placeholder="<?php echo display('model') ?>" />
-                    </div>
-                </div>
-            </div>
-        </div>
-                                                <div class="row">
-                             <div class="col-sm-6" >
-                                    <div class="form-group row" style="300"     >
-                                    <label for="supplier" class="col-sm-4 col-form-label ">Supplier<i class="text-danger"></i></label>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="serial_no" class="col-sm-4 col-form-label"><?php echo display('serial_no') ?> </label>
                                     <div class="col-sm-8">
-                                        <select name="supplier_id" id="supplier_id" class="form-control "  required="" tabindex="1">
+                                        <input type="text" tabindex="" class="form-control " id="serial_no" name="serial_no" placeholder="111,abc,XYz"   />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="product_model" class="col-sm-4 col-form-label"><?php echo display('model') ?> <i class="text-danger"></i></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" tabindex="" class="form-control" id="product_model" name="model" placeholder="<?php echo display('model') ?>" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group row">
+                                    <label for="category_id" class="col-sm-4 col-form-label"><?php echo display('category') ?></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="category_id" name="category_id" tabindex="3">
+                                            <option value=""></option>
+                                            <?php if ($category_list) { ?>
+                                                {category_list}
+                                                <option value="{category_id}">{category_name}</option>
+                                                {/category_list}
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="sell_price" class="col-sm-4 col-form-label"><?php echo display('sell_price') ?> <i class="text-danger">*</i> </label>
+                                    <div class="col-sm-8">
+                                        <input class="form-control text-right" id="sell_price" name="price" type="text" required="" placeholder="0.00" tabindex="5" min="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group row">
+                                    <label for="unit" class="col-sm-4 col-form-label"><?php echo display('unit') ?></label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="unit" name="unit" tabindex="-1" aria-hidden="true">
+                                            <option value="">Select One</option>
+                                            <?php if ($unit_list) { ?>
+                                                {unit_list}
+                                                <option value="{unit_name}">{unit_name}</option>
+                                                {/unit_list}
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="table-responsive product-supplier">
+                            <table class="table table-bordered table-hover"  id="product_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"><?php echo display('supplier') ?> <i class="text-danger">*</i></th>
+                                        <th class="text-center"><?php echo display('supplier_price') ?> <i class="text-danger">*</i></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="proudt_item">
+                                    <tr class="">
+                                        <td width="300">
+                                        <select name="supplier_id" id="supplier_id" class="form-control " style="width:100%;" required=""  tabindex="1">
                                             <option value=" "><?php echo display('select_one') ?></option>
                                             {all_supplier}
                                             <option value="{supplier_id}">{supplier_name}</option>
                                             {/all_supplier}
                                         </select>
-                                    </div>
-            </div>
-        </div>
-         <div class="row">
-            <div class="col-sm-7">
-                <div class="form-group row">
-                    <label for="sell_price" class="col-sm-4 col-form-label"><?php echo display('sell_price') ?> <i class="text-danger">*</i> </label>
-                    <div class="col-sm-6">
-                        <input class="form-control text-right" id="sell_price" name="price" type="text" required="" placeholder="0.00" tabindex="5" min="0">
+                                        </td>
+                                        <td class="">
+                                            <input type="text" tabindex="6" class="form-control text-right" name="supplier_price" placeholder="0.00"  required  min="0"/>
+                                        <!-- </td>
+                                        <td width="100"> <a  id="add_purchase_item" class="btn btn-info btn-sm" name="add-invoice-item" onClick="addpruduct('proudt_item');"  tabindex="9"/><i class="fa fa-plus-square" aria-hidden="true"></i></a> <a class="btn btn-danger btn-sm"  value="<?php echo display('delete') ?>" onclick="deleteRow(this)" tabindex="10"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <center><label for="description" class="col-form-label"><?php echo display('product_details') ?></label></center>
+                                <textarea class="form-control" name="description" id="description" rows="2" placeholder="<?php echo display('product_details') ?>" tabindex="2"></textarea>
+                            </div>
+                        </div><br>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <input type="submit" id="add-product" class="btn btn-primary btn-large" name="add-product"    value="<?php echo display('save') ?>" tabindex="10"/>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-      </div>
-      <div class="row">
-              <div class="col-sm-7">
-                <div class="form-group row">
-                    <label for="category_id" class="col-sm-4 col-form-label"><?php echo display('category') ?></label>
-                    <div class="col-sm-8"     >
-                        <select class="form-control" id="category_id" width:158px;  name="category_id" tabindex="10">
-                            <option value=""></option>
-                            <?php if ($category_list) { ?>
-                                {category_list}
-                                <option value="{category_id}">{category_name}</option>
-                                {/category_list}
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-      </div>
-<div class="row">
-      <div class="col-sm-7">
-                <div class="form-group row">
-                    <label for="unit" class="col-sm-4 col-form-label"><?php echo display('unit') ?></label>
-                    <div class="col-sm-8">
-                        <select class="form-control" id="unit" name="unit" tabindex="-1" aria-hidden="true">
-                            <option value="">Select One</option>
-                            <?php if ($unit_list) { ?>
-                                {unit_list}
-                                <option value="{unit_name}">{unit_name}</option>
-                                {/unit_list}
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-   <div class="row">
-            <div class="col-sm-12">
-                <center><label for="description" class="col-form-label"><?php echo display('product_details') ?></label></center>
-                <textarea class="form-control" name="description" id="description" rows="2" placeholder="<?php echo display('product_details') ?>" tabindex="2"></textarea>
-            </div>
-        </div><br>
-        <div class="form-group row">
-            <div class="col-sm-6">
-                <input type="submit" id="add-product" class="btn btn-primary btn-large" name="insert_product_from_expense" value="<?php echo display('save') ?>s" tabindex="10"/>
-                  </div>
-               </div>
-           </div>
-        </div>
-        </form>
-                          </div>
-                       
-                   </div><!-- /.modal-content -->
-               </div><!-- /.modal-dialog -->
-          </div><!-- /.modal -->
-         
-          
+                </form>
 
 <!-- Purchase Report End -->
 <script>
@@ -1063,7 +1093,7 @@ function addPurchaseOrderField2(divName){
        
 
 
-        newdiv.innerHTML ='<tr><td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name" onchange="supplier(' + count + ');product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td></tr>';
+        newdiv.innerHTML ='<tr><td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name" onchange="product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td></tr>';
         document.getElementById(divName).appendChild(newdiv);
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
@@ -1111,7 +1141,7 @@ $( document ).ready(function() {
 
     $('#final_submit').hide();
 $('#download').hide();
-                        $('.hiden').css("display","none");
+                     //   $('.hiden').css("display","none");
 
 
   
@@ -1152,30 +1182,24 @@ $('#vendor_gtotal').val(custo_final);
         console.log(states);
         var select = $("#product_name_"+id);
        // $("#product_name_"+id).html("");
-       for (i = 0; 1 < Object.keys(states).length; i++) {
-    select.append($('<option>', {
-        value: i,
-        text: states[i]
-    }));
-}
-
-
-             if (Object.keys(states).length > 0) {
-                $("#product_name_"+id).append($('<option></option>').val(0).html('Select a Product'));
+//        for (i = 0; 1 < Object.keys(states).length; i++) {
+//     select.append($('<option>', {
+//         value: i,
+//         text: states[i]
+//     }));
+// }
+  if (Object.keys(states).length > 0) {
+                $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
              }
-           //  else {
-                 //   $("#product_name_"+id).append($('<option></option>').val(0).html(''));
-             //}
-
-           $.each(states, function (i, state) {
-            $("#product_name_"+id).append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
+          $.each(states, function (i, state) {
+            $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
            });;
       }
   });
   }
 
 //});
-/*
+
 $('#supplier_id').on('change', function (e) {
   
   var data = {
@@ -1202,12 +1226,12 @@ $('#supplier_id').on('change', function (e) {
       $(".cus").html(result[0]['currency_type']);
         $("label[for='custocurrency']").html(result[0]['currency_type']);
    
-       $.getJSON('https://open.er-api.com/v6/latest/<?php //echo //$curn_info_default; ?>', 
+       $.getJSON('https://open.er-api.com/v6/latest/<?php echo $curn_info_default; ?>', 
 function(data) {
  var custo_currency=result[0]['currency_type'];
     var x=data['rates'][custo_currency];
  var Rate =parseFloat(x).toFixed(3);
-
+console.log(Rate);
   $('.hiden').show();
   $("#custocurrency_rate").val(Rate);
 });
@@ -1216,7 +1240,7 @@ function(data) {
 
 
 });
-*/
+
 
 $('#insert_purchase').submit(function (event) {
     var dataString = {
@@ -1340,15 +1364,19 @@ $('#insert_supplier').submit(function (event) {
         data:$("#insert_supplier").serialize(),
         success:function (states) {
             $("#supplier_id").html("");
-             if (Object.keys(states).length > 0) {
-                $("#supplier_id").append($('<option></option>').val(0).html('Select a Vendor'));
-             }
-             else {
-                    $("#supplier_id").append($('<option></option>').val(0).html(''));
-             }
+           //  if (Object.keys(states).length > 0) {
+             //   $("#supplier_id").append($('<option></option>').val(0).html('Select a Vendor'));
+           //  }
+           //  else {
+           //         $("#supplier_id").append($('<option></option>').val(0).html(''));
+          //   }
 
            $.each(states, function (i, state) {
+            if(state){
             $("#supplier_id").append($('<option></option>').val(state.supplier_id).html(state.supplier_name));
+            }else{
+                $("#supplier_id").append($('<option></option>').val("").html(""));
+            }
            });
 
        $('#add_vendor').modal('hide');
@@ -1369,8 +1397,6 @@ $('#insert_supplier').submit(function (event) {
     });
     event.preventDefault();
 });
-
-
 
 $('#insert_product_from_expense').submit(function (event) {
     var dataString = {
@@ -1403,6 +1429,9 @@ $('#insert_product_from_expense').submit(function (event) {
     </script>
   <!-- style for currency list   -->
 <style>
+    .main-footer {
+ display:none;
+}
        #supplier_id-button{
         display:none;
     }

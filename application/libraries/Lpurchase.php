@@ -41,7 +41,10 @@ class Lpurchase {
         $category_list = $CI->Categories->category_list_product();
 
         $unit_list     = $CI->Units->unit_list();
-
+        $taxfield1 = $CI->db->select('tax_id,tax')
+        ->from('tax_information')
+        ->get()
+        ->result_array();
 
         $data = array(
 
@@ -50,7 +53,7 @@ class Lpurchase {
             'all_supplier'  => $all_supplier,
             'product_list'  => $all_product_list,
 
-           
+            'tax'           => $taxfield1,
 
             'invoice_no'    => $CI->auth->generator(10),
 
@@ -98,6 +101,10 @@ class Lpurchase {
      ->from('tax_information')
      ->get()
      ->result_array();
+     $po_number = $CI->db->select('chalan_no')
+     ->from('purchase_order')
+     ->get()
+     ->result_array();
         $data = array(
             'curn_info_default' =>$curn_info_default[0]['currency_name'],
             'currency' => $currency_details[0]['currency'],
@@ -106,6 +113,7 @@ class Lpurchase {
             'product_list'  => $all_product_list,
             'tax'           => $taxfield1,
            'products' =>$products,
+           'po'  => $po_number,
             'invoice_no'    => $CI->auth->generator(10),
             'category_list'=> $category_list,
             'unit_list'    => $unit_list,
@@ -330,7 +338,10 @@ class Lpurchase {
      
         $voucher_no = $CI->Purchases->voucher_no();
 
-    
+        $taxfield1 = $CI->db->select('tax_id,tax')
+        ->from('tax_information')
+        ->get()
+        ->result_array();
 
         $data = array(
             'curn_info_default' =>$curn_info_default[0]['currency_name'],
@@ -339,7 +350,7 @@ class Lpurchase {
             'title'         => 'Add Purchase Order',
 
             'all_supplier'  => $all_supplier,
-            
+            'tax'           => $taxfield1,
             
             'voucher_no' => $voucher_no ,
 

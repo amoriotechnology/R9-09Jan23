@@ -198,14 +198,17 @@ class Llpurchase {
         $category_list = $CI->Categories->category_list_product();
 
         $unit_list     = $CI->Units->unit_list();
-
+        $taxfield1 = $CI->db->select('tax_id,tax')
+        ->from('tax_information')
+        ->get()
+        ->result_array();
 
         $data = array(
 
             'title'         => display('add_purchase'),
 
             'all_supplier'  => $all_supplier,
-
+            'tax'           => $taxfield1,
             'invoice_no'    => $CI->auth->generator(10),
 
             'category_list'=> $category_list,

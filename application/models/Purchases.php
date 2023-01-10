@@ -2883,6 +2883,22 @@ public function company_info()
         }
        
     }
+    public function get_po_details($po_num) {
+        $this->db->select('b.*');
+        $this->db->from('purchase_order a');
+            $this->db->join('purchase_order_details b' , 'a.purchase_order_id=b.purchase_id');
+        
+        $this->db->where('a.chalan_no' ,$po_num);
+            $query = $this->db->get();
+         //  $query = $this->db->query($sql);
+       
+           if ($query->num_rows() > 0) {
+               return $query->result_array();
+           }
+
+    }
+
+
 
     public function packing_details_data($expense_packing_id) {
         // $sql='SELECT * FROM expense_packing_list as a JOIN expense_packing_list_detail as b ON b.product_id = a.product_id WHERE a.expense_packing_id = '.$expense_packing_id;
