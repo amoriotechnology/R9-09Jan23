@@ -159,9 +159,9 @@
                                     <div class="col-sm-6">
                                     <select name="shipment_company" id="supplier_id" class="form-control " required="" tabindex="1">
                                         <option value="{shipment_company}"><?php echo $shipment_company; ?></option>
-                                           <?php  foreach($all_supplier  as $supplier){  ?>
-                                            <option value="<?php  echo $supplier['supplier_name']   ?>"><?php  echo $supplier['supplier_name']   ?></option>
-                                      <?php   }  ?>
+                                          {all_supplier}
+                                            <option value="{supplier_name}">{supplier_name}</option>
+                                            {/all_supplier}
                                         </select>
                                               
                                     </div>
@@ -218,21 +218,7 @@
                                 
                                 </div> 
                             </div>
-                            <input type="hidden"  value="<?php echo $payment_id; ?>"  name="payment_id"/>
-                            <div class="col-sm-6">
-                               <div class="form-group row">
-                                    <label for="supplier_sss" class="col-sm-4 col-form-label">Shipment / BL Number
-                                        <i class="text-danger">*</i>
-                                    </label>
-                                     <div class="col-sm-8">
-                                      
-                                        <input type="text" required tabindex="2" class="form-control" name="shipment_bl_number" value="<?php echo $shipment_bl_number; ?>" id="date"  />
-                                    </div>
-                                
-                                </div> 
-                            </div>
-                           
-                        </div>
+
 
                            
                         </div>
@@ -310,13 +296,7 @@ preg_match('#\((.*?)\)#', $d, $match);
                                             </td>
 
                                             <td class="text-right">
-                                            <select name="pro_no[]" id="dropdown" class="form-control " required="" tabindex="1">
-                             <option value="{pro_no_reference}">{pro_no_reference}</option>
-                     <?php foreach($dropdown as $inv){ ?>
-          <option value="<?php echo $inv['chalan_no'] ; ?>"><?php echo $inv['chalan_no'] ; ?></option>
-                               <?php    }?>
-                                       </select>
-                                               
+                                                <input class="form-control" type="text" name="pro_no[]" id="pro_no" value="{pro_no_reference}"  />
                                             </td>
                                            
 
@@ -1138,43 +1118,6 @@ var popout = window.open("<?php  echo base_url(); ?>Ccpurchase/trucking_details_
   
 
 });  
-var count = 2;
-    var limits = 500;
-    "use strict";
-    function addTruckingOrderField(divName){
-        if (count == limits)  {
-        alert("You have reached the limit of adding " + count + " inputs");
-    }
-    else{
-        var newdiv = document.createElement('tr');
-        var tabin="cartoon_"+count;
-         tabindex = count * 4 ,
-       newdiv = document.createElement("tr");
-        tab1 = tabindex + 1;
-        
-        tab2 = tabindex + 2;
-        tab3 = tabindex + 3;
-        tab4 = tabindex + 4;
-        tab5 = tabindex + 5;
-        tab6 = tab5 + 1;
-        tab7 = tab6 +1;
-        newdiv.innerHTML ='<td class="span3 supplier"><input type="date" name="trucking_date[]" required="" class="form-control" tabindex="'+tab1+'" > <input type="hidden" class="autocomplete_hidden_value product_id_'+ count +'" name="product_id[]" id="SchoolHiddenId"/>  <input type="hidden" class="sl" value="'+ count +'">  </td> <td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="total_amt(' + count + ');"  placeholder="0.00" value="" min="0"/></td><td class="text-right"><input class="form-control" type="text" name="description[]" id="pro_no" value=""  /></td><td> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td><td>   <input type="text" name="product_rate[]" required="" style="padding:5px;" onkeyup="total_amt(' + count + ');"  id="product_rate_'+ count +'" class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"  style="width:100%;"/></td>  </tr> </table> </td><td class="text-right"><select class="form-control" type="text" name="pro_no[]" id="pro_no" value=""><option value=" "><?php echo display('select_one') ?></option> <?php foreach($dropdown as $inv){ ?><option value="<?php echo $inv['chalan_no'] ; ?>"><?php echo $inv['chalan_no'] ; ?></option><?php    }?> /> <select></td><td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly"</td> </tr></table></td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
-      
-
-  document.getElementById(divName).appendChild(newdiv);
-        document.getElementById(tabin).focus();
-        document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
-        document.getElementById("add_purchase").setAttribute("tabindex", tab6);
-  
-       
-        count++;
-
-        $("select.form-control:not(.dont-select-me)").select2({
-            placeholder: "Select option",
-            allowClear: true
-        });
-    }
-}
 $('.final_submit').on('click', function (e) {
 
 window.btn_clicked = true;      //set btn_clicked to true

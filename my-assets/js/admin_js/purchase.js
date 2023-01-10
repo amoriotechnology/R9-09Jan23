@@ -8,7 +8,7 @@
 
 
 //Calculate store product
-    "use strict";
+"use strict";
 function calculate_store(sl) {
    
     var gr_tot = 0;
@@ -41,7 +41,7 @@ var custo_final = isNaN(parseInt(valuee)) ? 0 : parseInt(valuee)
 $('#vendor_gtotal').val(custo_final);  
 var paid=$('#amount_paid').val();
 var f=parseInt(custo_final-paid);
-//$('#balance').val(f);
+$('#balance').val(f);
 }
 
 

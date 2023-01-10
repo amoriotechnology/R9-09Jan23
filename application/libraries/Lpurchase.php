@@ -1109,7 +1109,7 @@ $products = $CI->Products->get_products();
 
         );
 
-
+print_r($purchase_detail);
 
         $chapterList = $CI->parser->parse('purchase/edit_trucking_form', $data, true);
 

@@ -2139,9 +2139,15 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
            //Trucking 
     //Entry
     public function trucking_entry() {
+
         $purchase_id = date('YmdHis');
         $invoice_no= $this->input->post('invoice_no',TRUE);
         $p_id = $this->input->post('product_id',TRUE);
+      
+      //  $supplier_id = $this->input->post('supplier_id',TRUE);
+      //  $supinfo =$this->db->select('*')->from('supplier_information')->where('supplier_id',$supplier_id)->get()->row();
+      //  $sup_head = $supinfo->supplier_id.'-'.$supinfo->supplier_name;
+      //  $sup_coa = $this->db->select('*')->from('acc_coa')->where('HeadName',$sup_head)->get()->row();
         $receive_by=$this->session->userdata('user_id');
         $receive_date=date('Y-m-d');
         $createdate=date('Y-m-d H:i:s');
@@ -2151,6 +2157,7 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
           $bank_id = $this->input->post('bank_id',TRUE);
         if(!empty($bank_id)){
          $bankname = $this->db->select('bank_name')->from('bank_add')->where('bank_id',$bank_id)->get()->row()->bank_name;
+      
          $bankcoaid = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$bankname)->get()->row()->HeadCode;
        }else{
            $bankcoaid = '';
@@ -2171,46 +2178,61 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
             'shipment_company'   => $this->input->post('shipment_company',TRUE),
             'container_pickup_date'   => $this->input->post('container_pick_up_date',TRUE),
             'container_no'   => $this->input->post('container_number',TRUE),
-            'shipment_bl_number'   => $this->input->post('shipment_bl_number',TRUE),
             'delivery_date' => $this->input->post('delivery_date',TRUE),
             'grand_total_amount' => $this->input->post('gtotal',TRUE),
             'status'             => 1,
             'remarks'             => $this->input->post('remarks',TRUE)
+         
+
+          
         );
-        
+
+
+
         $purchase_id_1 = $this->db->where('invoice_no',$this->input->post('invoice_no',TRUE));
         $q=$this->db->get('expense_trucking');
         $row = $q->row_array();
     if(!empty($row['trucking_id'])){
         $this->session->set_userdata("trucking_1",$row['trucking_id']);
+      
         $this->db->where('invoice_no',$this->input->post('invoice_no',TRUE));
+ 
         $this->db->delete('expense_trucking');
         $this->db->insert('expense_trucking', $data);
-   }
+        
+   }   
     else{
     $this->db->insert('expense_trucking', $data);
+  
     }
        $purchase_id = $this->db->select('trucking_id')->from('expense_trucking')->where('invoice_no',$this->input->post('invoice_no',TRUE))->get()->row()->trucking_id;
+    
        $this->session->set_userdata("trucking_2",$purchase_id);
+
+
        if($this->input->post('paytype') == 2){
           if(!empty($paid_amount)){
         $this->db->insert('acc_transaction',$bankc);
+       
         $this->db->insert('acc_transaction',$supplierdebit);
       }
         }
         if($this->input->post('paytype') == 1){
           if(!empty($paid_amount)){
         $this->db->insert('acc_transaction',$cashinhand);
-        $this->db->insert('acc_transaction',$supplierdebit);
-        }
-        }
+        $this->db->insert('acc_transaction',$supplierdebit); 
+        }    
+        }       
+
         $trucking_date = $this->input->post('trucking_date',TRUE);
         $rate = $this->input->post('product_rate',TRUE);
         $quantity = $this->input->post('product_quantity',TRUE);
         $description = $this->input->post('description',TRUE);
         $pro_no =  $this->input->post('pro_no',TRUE);
         $t_price = $this->input->post('total_price',TRUE);
+      
         $rowCount = count($this->input->post('trucking_date',TRUE));
+
         for ($i = 0; $i < $rowCount; $i++) {
             $t_date = $this->input->post('trucking_date',TRUE);
             $trucking_rate = $this->input->post('product_rate',TRUE);
@@ -2228,24 +2250,31 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
                     'expense_trucking_detail_id' => $this->generator(15),
                     'expense_trucking_id'        =>  $this->session->userdata("trucking_2"),
                     'trucking_date' =>$trucking_date,
+                   
                     'qty'           => $product_quantity,
                     'description'               => $description,
                     'rate'              =>  $product_rate ,
+                  
                     'pro_no_reference'           => $pro_no,
                     'total'       => $total,
                     'create_by'          =>  $this->session->userdata('user_id'),
                     'status'             => 1
                 );
+             
             $this->db->where('expense_trucking_id', $this->session->userdata("trucking_1"));
               $this->db->delete('expense_trucking_details');
+
               $this->db->insert('expense_trucking_details', $data1);
+              
           //  if (!empty($quantity)) {
+               
           //  }
+   
     }
        // echo $rowCount;
+
         return $purchase_id."/".$invoice_no;
     }
-
     //Retrieve purchase Edit Data
     public function retrieve_purchase_editdata($purchase_id) {
 
