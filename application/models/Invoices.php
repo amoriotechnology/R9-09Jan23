@@ -249,7 +249,7 @@ public function packing_details_data($expense_id) {
 
    // $sql = 'SELECT * FROM sale_packing_list as a JOIN sale_packing_list_detail as ac JOIN product_information as b ON b.product_id = a.product_id';
    $query = $this->db->get(); 
-echo $this->db->last_query();
+
     if ($query->num_rows() > 0) {
         return $query->result_array();
     }

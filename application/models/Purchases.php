@@ -2894,7 +2894,7 @@ public function company_info()
      $this->db->where('a.expense_packing_id' , $expense_packing_id);
          $query = $this->db->get();
       //  $query = $this->db->query($sql);
-      echo $this->db->last_query();
+    
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }

@@ -1594,7 +1594,7 @@ public function purchase_details_data($purchase_id) {
         'prodt'   =>  $prodt
 
       );
-   //print_r($prodt);
+   
         
     $packingedit  = $CI->parser->parse('purchase/editpackinglist', $data, true);
     return $packingedit;

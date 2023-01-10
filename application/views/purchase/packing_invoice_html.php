@@ -55,347 +55,308 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
       <!-- <table id="tab"> -->
            
  <div class="container" id="content">
-
-<?php
-
- if($invoice_setting[0]['template']==1)
-            {
-                ?>
-               <div class="brand-section">
-<div class="row">
-   
-  
-  
-  <div class="col-sm-4" id='company_info' style="color:white;">
-         
-  <b> Company name : </b><?php echo $company_info[0]['company_name']; ?><br>
-<b>   Address : </b><?php echo $company_info[0]['address']; ?><br>
-<b>   Email : </b><?php echo $company_info[0]['email']; ?><br>
-<b>   Contact : </b><?php echo $company_info[0]['mobile']; ?><br>
-     </div>
-     <div class="col-sm-6 text-center" style="color:white;"><h3><?php echo $invoice_setting[0]['header']; ?></h3></div>
-     <div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$invoice_setting[0]['logo']; ?>" style='width: 100%;'>
-      
-      </div>
-</div>
-     </div>
-
-            
-                <div class="body-section">
-                    <div class="row">
-                        <div class="col-6">
-                        <table id="one" >
-    <tr><td  class="key">Packing List NO</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice;  ?></td></tr>
-    <tr><td  class="key">Gross Weight</td><td style="width:10px;">:</td><td calss="value"><?php echo $gross;  ?></td></tr>
- 
-</table>
-                                
-                        </div>
-                        <div class="col-6">
-                        <table id="two">
-<tr><td  class="key">Invoice Date</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice_date;  ?></td></tr>
-    <tr><td  class="key">Container No</td><td style="width:10px;">:</td><td calss="value"><?php echo $container;  ?></td></tr>
-   </table>
-                                                   
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="body-section">
-                    <table class="table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-white text-center">Product</th>
-                                <th class="text-white text-center">Description</th>
-                                <th class="text-white text-center">Thickness</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-size: 16px;"><?php echo $product; ?></td>
-                                <td style="font-size: 16px;"><?php echo $description; ?></td>
-                                <td style="font-size: 16px;"><?php echo $thickness; ?></td>
-                             </tr>
-            
-                        </tbody>
-                    </table><br><br><br>
-            
-                    <table class="table-bordered">
-                <thead>
-                    <tr>
-                        <th rowspan="2" class="text-white text-center">S.No</th>
-                        <th rowspan="2" class="text-white text-center">SLAB NO</th>
-                        <th colspan="2" class="text-white text-center">Net Measurement (Inches)</th>
-                        <th rowspan="2" class="text-white text-center">Area (Sq. Ft)</th>
-                    </tr>
-                    <tr> 
-                  
-                   
-                    <th class="text-white text-center">Width</th>
-                        <th class="text-white text-center">Height</th>
-       </tr>
-                </thead>
-              <tbody>
-                            <?php
-                                      if ($packing_details) {
-                                 $count=1;
-                                     for($i=0;$i<sizeof($packing_details);$i++){ ?>
-                      <tr>
-                          <td style="font-size: 16px;"><?php echo $count ;?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['slab_no']; ?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['width']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['height']; ?></td>
-                        <td style="font-size: 16px;"><?php echo $packing_details[$i]['area']; ?></td>
-                         
-                      <?php $count++;}}  ?>
-                      <tfoot>
-                                <tr>
-                                    <td colspan="4" style="text-align:right;font-weight:bold;">Total:</td>
-                                    <td style="font-size: 16px;"><?php echo $total;  ?></td>
-                                </tr>
-                                     </tfoot>
-                    
-                        
-                            </tbody>
-                    </table>
-                    <br>
-
-<h4>Remarks/Conditions :</h4><?php  echo $remarks; ?><br><br><br>
-        
-                  
-        </div>
-       
-    </div>  
     <?php 
-
-}
-elseif ($invoice_setting[0]['template']==2)
-{
-    ?>
-     <div class="brand-section">
-<div class="row" >
-
-<div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$invoice_setting[0]['logo']; ?>" style='width: 100%;'>
-
-</div>
-<div class="col-sm-6 text-center" style="color:white;"><h3><?php echo $invoice_setting[0]['header']; ?></h3></div>
-<div class="col-sm-4" style="color:white;font-weight:bold;" id='company_info'>
-<b> Company name : </b><?php echo $company_info[0]['company_name']; ?><br>
-<b>   Address : </b><?php echo $company_info[0]['address']; ?><br>
-<b>   Email : </b><?php echo $company_info[0]['email']; ?><br>
-<b>   Contact : </b><?php echo $company_info[0]['mobile']; ?><br>
-</div>
-</div>
-</div>
-
-<div class="body-section">
-                    <div class="row">
-                        <div class="col-6">
-                        <table id="one" >
+  
+     if($template==2)
+     {
+       ?>
+        <div class="brand-section">
+        <div class="row" >
+     
+     <div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$logo; ?>" style='width: 100%;'>
+        
+       </div>
+     <div class="col-sm-5 text-center" style="text-align:left;color:white;"><h3><?php echo $header; ?></h3></div>
+    <div class="col-sm-5" style="color:white;font-weight:bold;" id='company_info'>
+  
+          <b> Company name : </b><?php echo $company; ?><br>
+          <b>   Address : </b><?php echo $address; ?><br>
+          <b>   Email : </b><?php echo $email; ?><br>
+          <b>   Contact : </b><?php echo $phone; ?><br>
+       </div>
+ </div>
+        </div>
+        <div class="body-section">
+            <div class="row">
+                <div class="col-sm-6">
+                <table id="one" >
     <tr><td  class="key">Packing List NO</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice;  ?></td></tr>
     <tr><td  class="key">Gross Weight</td><td style="width:10px;">:</td><td calss="value"><?php echo $gross;  ?></td></tr>
  
 </table>
-                                
-                        </div>
-                        <div class="col-6">
-                        <table id="two">
+               </div>
+                <div class="col-sm-6">
+                <table id="two">
 <tr><td  class="key">Invoice Date</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice_date;  ?></td></tr>
     <tr><td  class="key">Container No</td><td style="width:10px;">:</td><td calss="value"><?php echo $container;  ?></td></tr>
    </table>
-                                                   
-                        </div>
-                    </div>
+                                           
                 </div>
+            </div>
+        </div>
 
-    <div class="body-section">
-        <table class="table-bordered">
-            <thead>
-                <tr>
-                    <th class="text-white text-center">Product</th>
-                    <th class="text-white text-center">Description</th>
-                    <th class="text-white text-center">Thickness</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-size: 16px;"><?php echo $product; ?></td>
-                    <td style="font-size: 16px;"><?php echo $description; ?></td>
-                    <td style="font-size: 16px;"><?php echo $thickness; ?></td>
-                 </tr>
+        <div class="body-section">
+           
 
-            </tbody>
-        </table><br><br><br>
+            <table class="table-bordered">
+                <thead>
+                <th class="text-center" width="10%">Serial No</th>
+                                            <th class="text-center">Bundle Reference</th>
+                                            
+                                            <th class="text-center">Product Name</th>
+
+                                            <th class="text-center">No of Bundle</th>
+
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            
+                                        </th>
+                                        <th class="text-center">Rate</th>
+
+
+
+<th class="text-center"  style="width:200px;">Amount</th>
+                </thead>
+                <tbody>
+      
+      <?php
+                          if ($packing_details) {
+                     $count=1;
+                         for($i=0;$i<sizeof($packing_details);$i++){ ?>
+          <tr>
+              <td style="font-size: 16px;"><?php echo $count ;?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+          </tr>
+          <?php $count++;}}  ?>
+        
+            
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
+                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                    </tr>
+                         </tfoot>
+            </table>
+            <br>
+
+<h4>Remarks/Conditions</h4><?php  echo $remarks;  ?><br><br>
+        
+            
+        </div>
+        <?php 
+
+}
+elseif($template==1)
+{
+?> 
+
+<div class="brand-section">
+   <div class="row">
+      
+     
+     
+     <div class="col-sm-5" id='company_info' style="color:white;">
+            
+     <b> Company name : </b><?php echo $company; ?><br>
+          <b>   Address : </b><?php echo $address; ?><br>
+          <b>   Email : </b><?php echo $email; ?><br>
+          <b>   Contact : </b><?php echo $phone; ?><br>
+        </div>
+        <div class="col-sm-5 " style="text-align:left;color:white;"><h3><?php echo $header; ?></h3></div>
+        <div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$logo; ?>" style='width: 100%;'>
+         
+         </div>
+  </div>
+        </div>
+        <div class="body-section">
+            <div class="row">
+                <div class="col-sm-6">
+                <table id="one" >
+    <tr><td  class="key">Packing List NO</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice;  ?></td></tr>
+    <tr><td  class="key">Gross Weight</td><td style="width:10px;">:</td><td calss="value"><?php echo $gross;  ?></td></tr>
+ 
+</table>
+               </div>
+                <div class="col-sm-6">
+                <table id="two">
+<tr><td  class="key">Invoice Date</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice_date;  ?></td></tr>
+    <tr><td  class="key">Container No</td><td style="width:10px;">:</td><td calss="value"><?php echo $container;  ?></td></tr>
+   </table>
+                                           
+                </div>
+            </div>
+        </div>
+
+        <div class="body-section">
+            
 
         <table class="table-bordered">
                 <thead>
-                    <tr>
-                        <th rowspan="2" class="text-white text-center">S.No</th>
-                        <th rowspan="2" class="text-white text-center">SLAB NO</th>
-                        <th colspan="2" class="text-white text-center">Net Measurement (Inches)</th>
-                        <th rowspan="2" class="text-white text-center">Area (Sq. Ft)</th>
-                    </tr>
-                    <tr> 
-                  
-                   
-                    <th class="text-white text-center">Width</th>
-                        <th class="text-white text-center">Height</th>
-       </tr>
-                </thead>
-            <tbody>
-                            <?php
-                                      if ($packing_details) {
-                                 $count=1;
-                                     for($i=0;$i<sizeof($packing_details);$i++){ ?>
-                      <tr>
-                          <td style="font-size: 16px;"><?php echo $count ;?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['slab_no']; ?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['width']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['height']; ?></td>
-                           <td style="font-size: 16px;"><?php echo $packing_details[$i]['area']; ?></td>
-                         
-                      <?php $count++;}}  ?>
-                      <tfoot>
-                                <tr>
-                                    <td colspan="4" style="text-align:right;font-weight:bold;">Total:</td>
-                                    <td style="font-size: 16px;"><?php echo $total;  ?></td>
-                                </tr>
-                                     </tfoot>
-                    
-                        
-                            </tbody>
-        </table>
-        <br>
+                <th class="text-center" width="10%">Serial No</th>
+                                            <th class="text-center">Bundle Reference</th>
+                                            
+                                            <th class="text-center">Product Name</th>
 
-        <h4>Remarks/Conditions :</h4><?php  echo $remarks; ?><br><br><br>
-    
-              
-    </div>
-   
-</div>  
-<?php 
+                                            <th class="text-center">No of Bundle</th>
+
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            
+                                        </th>
+                                        <th class="text-center">Rate</th>
+
+
+
+<th class="text-center"  style="width:200px;">Amount</th>
+                </thead>
+                <tbody>
+      
+      <?php
+                          if ($packing_details) {
+                     $count=1;
+                         for($i=0;$i<sizeof($packing_details);$i++){ ?>
+          <tr>
+              <td style="font-size: 16px;"><?php echo $count ;?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+          </tr>
+          <?php $count++;}}  ?>
+        
+            
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
+                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                    </tr>
+                         </tfoot>
+            </table>
+            <br>
+
+<h4>Remarks/Conditions</h4><?php  echo $remarks;  ?><br><br>
+        
+            
+        </div>
+
+        <?php 
 
 }
-elseif ($invoice_setting[0]['template']==3)
+elseif($template==3)
 {
-    ?>
+?>
+
 <div class="brand-section">
 <div class="row">
-
-<div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$invoice_setting[0]['logo']; ?>" style='width: 100%;'>
-
-</div>
-<div class="col-sm-6 text-center" style="color:white;"><h3><?php echo $invoice_setting[0]['header']; ?></h3></div>
-
-</div>
-</div> 
-<div class="body-section">
-<div class="row">
-<div class="col-sm-6 "></div>
-<div class="col-sm-6 " style="width:50%;">
-<table>
-
-<tr>  <td style="100px;font-weight:bold;"> Company name </td><td style="width:10px;">:</td><td> <?php echo $company_info[0]['company_name']; ?></td></tr>
-<tr>   <td style="100px;font-weight:bold;"> Address </td><td style="width:10px;">:</td><td> <?php echo $company_info[0]['address']; ?></td></tr>
-<tr>   <td style="100px;font-weight:bold;"> Email </td><td style="width:10px;">:</td><td> <?php echo $company_info[0]['email']; ?></td></tr>
-<tr>   <td style="100px;font-weight:bold;"> Contact </td><td style="width:10px;">:</td><td> <?php echo  $company_info[0]['mobile']; ?></td></tr>
+       
+       <div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$logo; ?>" style='width: 100%;'>
+          
+         </div>
+       <div class="col-sm-6 text-center" style="color:white;"><h3><?php echo $header; ?></h3></div>
+    
+   </div>
+        </div>
+        <div class="body-section">
+        <div class="row">
+        <div class="col-sm-6 "></div>
+            <div class="col-sm-6 " style="width:50%;">
+             <table>
+          
+        <tr>  <td style="100px;font-weight:bold;"> Company name </td><td style="width:10px;">:</td><td> <?php echo $company; ?></td></tr>
+        <tr>   <td style="100px;font-weight:bold;"> Address </td><td style="width:10px;">:</td><td> <?php echo $address; ?></td></tr>
+        <tr>   <td style="100px;font-weight:bold;"> Email </td><td style="width:10px;">:</td><td> <?php echo $email; ?></td></tr>
+        <tr>   <td style="100px;font-weight:bold;"> Contact </td><td style="width:10px;">:</td><td> <?php echo $phone; ?></td></tr>
 </tr>        
-
+             
 </table>
-</div></div>
-<div class="row"> <div class="col-sm-12 ">&nbsp;</div></div>
-
-                    <div class="row">
-                        <div class="col-6">
-                        <table id="one" >
+            </div></div>
+              <div class="row"> <div class="col-sm-12 ">&nbsp;</div></div>
+            <div class="row">
+                <div class="col-sm-6">
+                <table id="one" >
     <tr><td  class="key">Packing List NO</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice;  ?></td></tr>
     <tr><td  class="key">Gross Weight</td><td style="width:10px;">:</td><td calss="value"><?php echo $gross;  ?></td></tr>
  
 </table>
-                                
-                        </div>
-                        <div class="col-6">
-                        <table id="two">
+               </div>
+                <div class="col-sm-6">
+                <table id="two">
 <tr><td  class="key">Invoice Date</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice_date;  ?></td></tr>
     <tr><td  class="key">Container No</td><td style="width:10px;">:</td><td calss="value"><?php echo $container;  ?></td></tr>
    </table>
-                                                   
-                        </div>
-                    </div>
+                                           
                 </div>
-    <div class="body-section">
-        <table class="table-bordered">
-            <thead>
-                <tr>
-                    <th class="text-white text-center">Product</th>
-                    <th class="text-white text-center">Description</th>
-                    <th class="text-white text-center">Thickness</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="font-size: 16px;"><?php echo $product; ?></td>
-                    <td style="font-size: 16px;"><?php echo $description; ?></td>
-                    <td style="font-size: 16px;"><?php echo $thickness; ?></td>
-                 </tr>
+            </div>
+        </div>
 
-            </tbody>
-        </table><br><br><br>
-
+        <div class="body-section">
         <table class="table-bordered">
                 <thead>
-                    <tr>
-                        <th rowspan="2" class="text-white text-center">S.No</th>
-                        <th rowspan="2" class="text-white text-center">SLAB NO</th>
-                        <th colspan="2" class="text-white text-center">Net Measurement (Inches)</th>
-                        <th rowspan="2" class="text-white text-center">Area (Sq. Ft)</th>
-                    </tr>
-                    <tr> 
-                  
-                   
-                    <th class="text-white text-center">Width</th>
-                        <th class="text-white text-center">Height</th>
-       </tr>
+                <th class="text-center" width="10%">Serial No</th>
+                                            <th class="text-center">Bundle Reference</th>
+                                            
+                                            <th class="text-center">Product Name</th>
+
+                                            <th class="text-center">No of Bundle</th>
+
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            
+                                        </th>
+                                        <th class="text-center">Rate</th>
+
+
+
+<th class="text-center"  style="width:200px;">Amount</th>
                 </thead>
-            <tbody>
-                            <?php
-                                      if ($packing_details) {
-                                 $count=1;
-                                     for($i=0;$i<sizeof($packing_details);$i++){ ?>
-                      <tr>
-                          <td style="font-size: 16px;"><?php echo $count ;?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['slab_no']; ?></td>
-                          <td style="font-size: 16px;"><?php echo $packing_details[$i]['width']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['height']; ?></td>
-                         <td style="font-size: 16px;"><?php echo $packing_details[$i]['area']; ?></td>
-                         
-                      <?php $count++;}}  ?>
-                      <tfoot>
-                                <tr>
-                                    <td colspan="4" style="text-align:right;font-weight:bold;">Total:</td>
-                                    <td style="font-size: 16px;"><?php echo $total;  ?></td>
-                                </tr>
-                                     </tfoot>
-                    
-                        
-                            </tbody>
-        </table>
-        <br>
-
-        <h4>Remarks/Conditions :</h4><?php  echo $remarks; ?><br>
-    
-</div>
-
+                <tbody>
+      
+      <?php
+                          if ($packing_details) {
+                     $count=1;
+                         for($i=0;$i<sizeof($packing_details);$i++){ ?>
+          <tr>
+              <td style="font-size: 16px;"><?php echo $count ;?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
+              <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+          </tr>
+          <?php $count++;}}  ?>
         
-</div>
-<?php  } ?>
-</div>
-</section>
-<div class="modal fade" id="myModal_epacking" role="dialog" >
+            
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
+                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                    </tr>
+                         </tfoot>
+            </table>
+            <br>
+
+<h4>Remarks/Conditions</h4><?php  echo $remarks;  ?><br><br>
+        
+            
+        </div>
+        <?php  } ?>
+    </div>  
+    </section> <!-- /.content -->
+</div> <!-- /.content-wrapper -->
+      <!-- </table> -->
+      <div class="modal fade" id="myModal_spacking" role="dialog" >
     <div class="modal-dialog">
     
       <!-- Modal content-->
-      <div class="modal-content" style="width: 500px;height:100px;text-align:center;margin-bottom: 300px;">
+      <div class="modal-content" style="width: 500px;height:100px;text-align:center;margin-bottom:300px;">
         <div class="modal-header" style="">
       
           <h4 class="modal-title">Expenses - Packing List</h4>
@@ -414,7 +375,7 @@ elseif ($invoice_setting[0]['template']==3)
       
     </div>
   </div>
-  <style>
+      <style>
 
 .key{
     text-align:left;
@@ -587,7 +548,9 @@ table th, table td {
 .content{
     min-height:0px;
 }
+
 </style>     
+
 
 
 
@@ -603,6 +566,7 @@ table th, table td {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script>
+   
 $(document).ready(function () {
 function first(callback1,callback2){
 setTimeout( function(){
@@ -628,19 +592,19 @@ setTimeout( function(){
     pdf.setFontSize(10);
     pdf.setTextColor(150);
   }
-  }).save('invoice_no_<?php echo $invoice.'.pdf'  ?>');
+  }).save('invoice_<?php echo $invoice.'.pdf'  ?>');
     callback1();
     callback2();
  }, 2500 );
 }
 function second(){
 setTimeout( function(){
-    $( '#myModal_epacking' ).addClass( 'open' );
-if ( $( '#myModal_epacking' ).hasClass( 'open' ) ) {
+    $( '#myModal_spacking' ).addClass( 'open' );
+if ( $( '#myModal_spacking' ).hasClass( 'open' ) ) {
   $( '.container' ).addClass( 'blur' );
 }
 $( '.close' ).click(function() {
-  $( '#myModal_epacking' ).removeClass( 'open' );
+  $( '#myModal_spacking' ).removeClass( 'open' );
   $( '.cont' ).removeClass( 'blur' );
 });
 }, 3000 );
@@ -653,6 +617,7 @@ function third(){
 }
 first(second,third);
 });
+
    </script>
  
 

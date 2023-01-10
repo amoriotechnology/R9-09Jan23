@@ -728,15 +728,22 @@ $data=array(
         $CB->load->model('Purchases');
         $CA->load->model('invoice_design');
         $CC->load->model('invoice_content');
+        $CC->load->model('Ppurchases');
         $dataw = $CA->invoice_design->retrieve_data();
         $datacontent = $CI->invoice_content->retrieve_data();
         $packing_details = $CB->Purchases->packing_details_data($expense_packing_id);
        // $packing_details = $CB->Invoices->packing_details_data($expense_id);
-        $company_info=$this->Purchases->company_info();
+       $company_info = $CI->Ppurchases->retrieve_company();
         $data=array(
             'packing_details' => $packing_details,
-            'company_info' => $company_info,
-           'invoice_setting' => $dataw,
+            'company' => $company_info[0]['company_name'],
+            'address' => $company_info[0]['address'],
+            'email' => $company_info[0]['email'],
+            'phone' => $company_info[0]['mobile'],
+            'header'=> $dataw[0]['header'],
+            'logo'=> $dataw[0]['logo'],
+            'color'=> $dataw[0]['color'],
+            'template'=> $dataw[0]['template'],
             'invoice'  =>$packing_details[0]['invoice_no'],
             'invoice_date' => $packing_details[0]['invoice_date'],
             'expense_packing_id'=>$packing_details[0]['expense_packing_id'],

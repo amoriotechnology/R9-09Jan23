@@ -503,8 +503,45 @@ margin-top: 12px;margin-bottom: 20px;"  /> -->
 <script type="text/javascript">
 
 
-let count12 = 0;
-let s1=0;
+var count = 2;
+    var limits = 500;
+        "use strict";
+    function addpackingList(divName){
+
+       
+  
+        if (count == limits)  {
+            alert("You have reached the limit of adding " + count + " inputs");
+        }
+        else{
+            var newdiv = document.createElement('tr');
+            var tabin="product_name_"+count;
+            tabindex = count * 4 ,
+            newdiv = document.createElement("tr");
+            tab1 = tabindex + 1;
+            
+            tab2 = tabindex + 2;
+            tab3 = tabindex + 3;
+            tab4 = tabindex + 4;
+            tab5 = tabindex + 5;
+            tab6 = tab5 + 1;
+            tab7 = tab6 +1;
+            newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" required onchange="product_detail('+count+');"   style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td>   <td class="wt"> <input type="text" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" name="quantity[]" id="available_quantity_'+count+'" class="form-control text-right stock_ctn_'+count+'"  onkeyup="total_amt('+count+');" placeholder="0.00" /> </td>   <td class="wt"> <input type="text" readonly name="rate[]" id="rate_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>      <td class="text-right"> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td>  <td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr>';
+            document.getElementById(divName).appendChild(newdiv);
+            // document.getElementById(tabin).focus();
+            document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
+            document.getElementById("add_purchase").setAttribute("tabindex", tab6);
+           // document.getElementById("add_purchase_another").setAttribute("tabindex", tab7);
+            
+            count++;
+
+            $("select.form-control:not(.dont-select-me)").select2({
+                placeholder: "Select option",
+                allowClear: true
+            });
+        }
+    }
+     
 
     
 function addCrate(divName){
@@ -757,6 +794,67 @@ window.onbeforeunload = function(){
        return false;
     }
 }
+function product_detail(id){
 
+var pdt=$('#product_name_'+id).val();
+   const myArray = pdt.split("-");
+   var product_nam=myArray[0];
+   var product_model=myArray[1];
+   console.log(product_nam+"^"+product_model);
+  var data = {
+    
+       product_nam:product_nam,
+       product_model:product_model
+    };
+    data[csrfName] = csrfHash;
+
+    $.ajax({
+        type:'POST',
+        data: data, 
+     dataType:"json",
+        url:'<?php echo base_url();?>Cinvoice/product_id',
+        success: function(result, statut) {
+      console.log(result);
+          $("#prod_id_"+id).val(result[0]['product_id']);
+          $("#rate_"+id).val(result[0]['price']);
+          
+        }
+    });
+
+  
+}
+var arr=[];
+$(document).ready(function(){
+var tot=$('#Total').val();
+$('#gross_wight').val(tot);
+
+
+});
+    function total_amt(id){
+
+var sum=0;
+
+var total='total_price_'+id;
+
+var quantity='available_quantity_'+id;
+var amount = 'rate_'+ id;
+
+var quan=$('#'+quantity).val();
+var amt=$('#'+amount).val();
+var result=parseInt(quan) * parseInt(amt);
+result = isNaN(result) ? 0 : result;
+arr.push(result);
+$('#'+total).val(result);
+
+gt();
+}
+function gt(){
+var sum=0;
+$('.total_price').each(function() {
+sum += parseFloat($(this).val());
+});
+$('#Total').val(sum);
+$('#gross_wight').val(sum);
+}
 </script>
 
