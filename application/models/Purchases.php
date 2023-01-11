@@ -1574,7 +1574,7 @@ return $output;
         $quantity = $this->input->post('product_quantity',TRUE);
         $t_price = $this->input->post('total_price',TRUE);
         $discount = $this->input->post('discount',TRUE);
-        $slab = $this->input->post('slab',TRUE);
+      
 
         for ($i = 0, $n = count($p_id); $i < $n; $i++) {
             $product_quantity = $quantity[$i];
@@ -1588,7 +1588,7 @@ return $output;
                 'purchase_detail_id' => $this->generator(15),
                 'purchase_id'        => $this->session->userdata("purchase_2"),
                 'product_id'         => $product_id,
-                'slab'    =>  $slab[$i],
+              
                 'quantity'           => $product_quantity,
                 'rate'               => $product_rate,
                 'total_amount'       => $total_price,
@@ -1599,13 +1599,15 @@ return $output;
             );
 
            
-            $this->db->where('purchase_id', $this->session->userdata("purchase_1"));
-
-            $this->db->delete('product_purchase_details');
+          
             $this->db->insert('product_purchase_details', $data1);
-
+          
             
         }
+                $this->db->where('purchase_id', $this->session->userdata("purchase_1"));
+
+        $this->db->delete('product_purchase_details');
+        
         return $purchase_id."/".$chalan_no;
        
     }
@@ -1772,6 +1774,7 @@ $this->db->insert('expense_packing_list_detail', $data1);
 
 
      //Purchase Order Entry
+     /*
      public function purchase_order_entry() {
         $purchase_id = date('YmdHis');
 $chalan_no =$this->input->post('chalan_no',TRUE);
@@ -1804,11 +1807,11 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
              
             }
         }
-
+ 
         $data = array(
             'purchase_order_id'        => $purchase_id,
             'create_by'       =>  $this->session->userdata('user_id'),
-
+            'tax_details'  =>  $this->input->post('tax_details',TRUE),
 
             'ship_to'         =>$this->input->post('ship_to',TRUE),
             'created_by'       =>$this->input->post('created_by',TRUE),
@@ -1819,7 +1822,8 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
 
             'chalan_no'          => $this->input->post('chalan_no',TRUE),
             'supplier_id'        => $this->input->post('supplier_id',TRUE),
-            'grand_total_amount' => $this->input->post('total',TRUE),
+            'total' => $this->input->post('total',TRUE),
+            'grand_total_amount' => $this->input->post('gtotal',TRUE),
              'gtotal_preferred_currency' => $this->input->post('vendor_gtotal',TRUE),
             'total_discount'     => $this->input->post('discount',TRUE),
             'purchase_date'      => $receive_date,
@@ -1943,9 +1947,11 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
        $this->db->delete('purchase_order');
   
         $this->db->insert('purchase_order', $data);
+      
       }
       else{
         $this->db->insert('purchase_order', $data);
+       
       }
         $purchase_id = $this->db->select('purchase_order_id')->from('purchase_order')->where('chalan_no',$this->input->post('chalan_no',TRUE))->get()->row()->purchase_order_id;
     
@@ -2015,7 +2021,222 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
       
         return $purchase_id."/".$chalan_no;
     }
-
+*/
+public function purchase_order_entry() {
+    $purchase_id = date('YmdHis');
+$chalan_no =$this->input->post('chalan_no',TRUE);
+    $p_id = $this->input->post('product_id',TRUE);
+    $supplier_id = $this->input->post('supplier_id',TRUE);
+    $supinfo =$this->db->select('*')->from('supplier_information')->where('supplier_id',$supplier_id)->get()->row();
+    $sup_head = $supinfo->supplier_id.'-'.$supinfo->supplier_name;
+    $sup_coa = $this->db->select('*')->from('acc_coa')->where('HeadName',$sup_head)->get()->row();
+    $receive_by=$this->session->userdata('user_id');
+    $receive_date=date('Y-m-d');
+    $createdate=date('Y-m-d H:i:s');
+    $paid_amount = $this->input->post('amount_paid',TRUE);
+    $due_amount = $this->input->post('balance',TRUE);
+    $discount = $this->input->post('discount',TRUE);
+      $bank_id = $this->input->post('bank_id',TRUE);
+    if(!empty($bank_id)){
+     $bankname = $this->db->select('bank_name')->from('bank_add')->where('bank_id',$bank_id)->get()->row()->bank_name;
+     $bankcoaid = $this->db->select('HeadCode')->from('acc_coa')->where('HeadName',$bankname)->get()->row()->HeadCode;
+   }else{
+       $bankcoaid = '';
+   }
+    //supplier & product id relation ship checker.
+    for ($i = 0, $n = count($p_id); $i < $n; $i++) {
+        $product_id = $p_id[$i];
+        $value = $this->product_supplier_check($product_id, $supplier_id);
+        if ($value == 0) {
+            $this->session->set_flashdata('error_message', display('product_and_supplier_did_not_match'));
+        }
+    }
+    $data = array(
+        'purchase_order_id'        => $purchase_id,
+        'create_by'       =>  $this->session->userdata('user_id'),
+        'ship_to'         =>$this->input->post('ship_to',TRUE),
+        'created_by'       =>$this->input->post('created_by',TRUE),
+        'payment_terms' => $this->input->post('payment_terms',TRUE),
+        'shipment_terms' => $this->input->post('shipment_terms',TRUE),
+        'est_ship_date'  => $this->input->post('est_ship_date',TRUE),
+        'chalan_no'          => $this->input->post('chalan_no',TRUE),
+        'supplier_id'        => $this->input->post('supplier_id',TRUE),
+        'grand_total_amount' => $this->input->post('total',TRUE),
+         'gtotal_preferred_currency' => $this->input->post('vendor_gtotal',TRUE),
+        'total_discount'     => $this->input->post('discount',TRUE),
+        'purchase_date'      => $receive_date,
+        'purchase_details'   => $this->input->post('purchase_details',TRUE),
+        'payment_due_date'   => $this->input->post('payment_due_date',TRUE),
+        'remarks'            => $this->input->post('remarks',TRUE),
+        'message_invoice'    => $this->input->post('message_invoice',TRUE),
+        'tax_details'    => $this->input->post('tx',TRUE),
+        'etd'   => $this->input->post('etd',TRUE),
+        'eta'   => $this->input->post('eta',TRUE),
+        'shipping_line'   => $this->input->post('shipping_line',TRUE),
+        'container_no'   => $this->input->post('container_no',TRUE),
+        'bl_number'   => $this->input->post('bl_number',TRUE),
+        'isf_filling'   => $this->input->post('isf_filling',TRUE),
+        'paid_amount'        => $paid_amount,
+        'due_amount'         => $due_amount,
+        'status'             => 1,
+        'bank_id'            =>  $this->input->post('bank_id',TRUE),
+        'payment_type'       =>  $this->input->post('paytype',TRUE),
+    );
+    //Supplier Credit
+    $purchasecoatran = array(
+      'VNo'            =>  $purchase_id,
+      'Vtype'          =>  'Purchase',
+      'VDate'          =>  $this->input->post('purchase_date',TRUE),
+      'COAID'          =>  $sup_coa->HeadCode,
+      'Narration'      =>  'Supplier .'.$supinfo->supplier_name,
+      'Debit'          =>  0,
+      'Credit'         =>  $this->input->post('grand_total_price',TRUE),
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $receive_by,
+      'CreateDate'     =>  $receive_date,
+      'IsAppove'       =>  1
+    );
+      ///Inventory Debit
+   $coscr = array(
+  'VNo'            =>  $purchase_id,
+  'Vtype'          =>  'Purchase',
+  'VDate'          =>  $this->input->post('purchase_date',TRUE),
+  'COAID'          =>  10107,
+  'Narration'      =>  'Inventory Debit For Supplier '.$supinfo->supplier_name,
+  'Debit'          =>  $this->input->post('grand_total_price',TRUE),
+  'Credit'         =>  0,//purchase price asbe
+  'IsPosted'       => 1,
+  'CreateBy'       => $receive_by,
+  'CreateDate'     => $createdate,
+  'IsAppove'       => 1
+);
+   // Expense for company
+     $expense = array(
+  'VNo'            => $purchase_id,
+  'Vtype'          => 'Purchase',
+  'VDate'          => $this->input->post('purchase_date',TRUE),
+  'COAID'          => 402,
+  'Narration'      => 'Company Credit For  '.$supinfo->supplier_name,
+  'Debit'          => $this->input->post('grand_total_price',TRUE),
+  'Credit'         => 0,//purchase price asbe
+  'IsPosted'       => 1,
+  'CreateBy'       => $receive_by,
+  'CreateDate'     => $createdate,
+  'IsAppove'       => 1
+);
+         $cashinhand = array(
+  'VNo'            =>  $purchase_id,
+  'Vtype'          =>  'Purchase',
+  'VDate'          =>  $this->input->post('purchase_date',TRUE),
+  'COAID'          =>  1020101,
+  'Narration'      =>  'Cash in Hand For Supplier '.$supinfo->supplier_name,
+  'Debit'          =>  0,
+  'Credit'         =>  $paid_amount,
+  'IsPosted'       =>  1,
+  'CreateBy'       =>  $receive_by,
+  'CreateDate'     =>  $createdate,
+  'IsAppove'       =>  1
+);
+ $supplierdebit = array(
+      'VNo'            =>  $purchase_id,
+      'Vtype'          =>  'Purchase',
+      'VDate'          =>  $this->input->post('purchase_date',TRUE),
+      'COAID'          =>  $sup_coa->HeadCode,
+      'Narration'      =>  'Supplier .'.$supinfo->supplier_name,
+      'Debit'          =>  $paid_amount,
+      'Credit'         =>  0,
+      'IsPosted'       =>  1,
+      'CreateBy'       =>  $receive_by,
+      'CreateDate'     =>  $receive_date,
+      'IsAppove'       =>  1
+    );
+              // bank ledger
+$bankc = array(
+  'VNo'            =>  $purchase_id,
+  'Vtype'          =>  'Purchase',
+  'VDate'          =>  $this->input->post('purchase_date',TRUE),
+  'COAID'          =>  $bankcoaid,
+  'Narration'      =>  'Paid amount for Supplier  '.$supinfo->supplier_name,
+  'Debit'          =>  0,
+  'Credit'         =>  $paid_amount,
+  'IsPosted'       =>  1,
+  'CreateBy'       =>  $receive_by,
+  'CreateDate'     =>  $createdate,
+  'IsAppove'       =>  1
+);
+// Bank summary for credit
+   //new end
+   $purchase_id_1 = $this->db->where('chalan_no',$this->input->post('chalan_no',TRUE));
+   $q=$this->db->get('purchase_order');
+   $row = $q->row_array();
+ //  echo $row['purchase_order_id'];
+  if(!empty($row['purchase_order_id'])){
+   $this->session->set_userdata("SESSION_NAME_1",$row['purchase_order_id']);
+   $this->db->where('chalan_no', $this->input->post('chalan_no',TRUE));
+   $this->db->delete('purchase_order');
+    $this->db->insert('purchase_order', $data);
+  }
+  else{
+    $this->db->insert('purchase_order', $data);
+  }
+    $purchase_id = $this->db->select('purchase_order_id')->from('purchase_order')->where('chalan_no',$this->input->post('chalan_no',TRUE))->get()->row()->purchase_order_id;
+    $this->session->set_userdata("SESSION_NAME",$purchase_id);
+    $this->db->insert('acc_transaction',$coscr);
+    $this->db->insert('acc_transaction',$purchasecoatran);
+    $this->db->insert('acc_transaction',$expense);
+    if($this->input->post('paytype') == 2){
+      if(!empty($paid_amount)){
+    $this->db->insert('acc_transaction',$bankc);
+    $this->db->insert('acc_transaction',$supplierdebit);
+  }
+    }
+    if($this->input->post('paytype') == 1){
+      if(!empty($paid_amount)){
+    $this->db->insert('acc_transaction',$cashinhand);
+    $this->db->insert('acc_transaction',$supplierdebit);
+    }
+    }
+    $rate = $this->input->post('product_rate',TRUE);
+    $quantity = $this->input->post('product_quantity',TRUE);
+    $slabs_po = $this->input->post('slabs',TRUE);
+    $t_price = $this->input->post('total_price',TRUE);
+    $discount = $this->input->post('discount',TRUE);
+    $description = $this->input->post('description',TRUE);
+    for ($i = 0, $n = count($p_id); $i < $n; $i++) {
+        $slabs = $slabs_po[$i];
+        $product_quantity = $quantity[$i];
+        $product_rate = $rate[$i];
+        $product_id = $p_id[$i];
+        $total_price = $t_price[$i];
+        $descr       = $description[$i];
+        $disc = 0;
+        $data1 = array(
+            'purchase_order_detail_id' => $this->generator(15),
+            'purchase_id'        =>  $this->session->userdata("SESSION_NAME"),
+            'product_id'         => $product_id,
+            'slabs'              => $slabs,
+            'quantity'           => $product_quantity,
+            'rate'               => $product_rate,
+            'total_amount'       => $total_price,
+            'description'                =>   $descr,
+            'discount'           => $disc,
+            'create_by'          => $this->session->userdata('user_id'),
+            'status'             => 1
+        );
+      //
+  //    SESSION_NAME_1
+      //  echo $purchase_id;
+      //  $this->db->where('purchase_id', $purchase_id );
+       // $this->db->delete('purchase_order_details');
+     //   echo $this->db->last_query();
+      //  if (!empty($quantity)) {
+        $this->db->where('purchase_id', $this->session->userdata("SESSION_NAME_1"));
+        $this->db->delete('purchase_order_details');
+        $this->db->insert('purchase_order_details', $data1);
+       // }
+    }
+    return $purchase_id."/".$chalan_no;
+}
     public function invoice_dropdown(){
         $this->db->select('chalan_no');
         $this->db->from('product_purchase');
@@ -2884,7 +3105,7 @@ public function company_info()
        
     }
     public function get_po_details($po_num) {
-        $this->db->select('b.*');
+        $this->db->select('a.*,b.*');
         $this->db->from('purchase_order a');
             $this->db->join('purchase_order_details b' , 'a.purchase_order_id=b.purchase_id');
         

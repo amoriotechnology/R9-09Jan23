@@ -1,18 +1,53 @@
    
 
     "use strict";
-    function deleteRow(e) {
-debugger;
-        var t = $("#purchaseTable > tbody > tr").length;
-        if (1 == t) alert("There only one row you can't delete.");
+    function deleteRow(t) {
+        var a = $("#purchaseTable > tbody > tr").length;
+        if (1 == a)
+            alert("There only one row you can't delete.");
         else {
-            var a = e.parentNode.parentNode;
-            a.parentNode.removeChild(a)
+            var e = t.parentNode.parentNode;
+            e.parentNode.removeChild(e),
+                    calculateSum();
+            invoice_paidamount();
+            var current = 1;
+            $("#purchaseTable > tbody > tr td input.productSelection").each(function () {
+                current++;
+                $(this).attr('id', 'product_name' + current);
+            });
+            var common_qnt = 1;
+            $("#purchaseTable > tbody > tr td input.common_qnt").each(function () {
+                common_qnt++;
+                $(this).attr('id', 'total_qntt_' + common_qnt);
+                $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+                $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+            });
+            var common_rate = 1;
+            $("#purchaseTable > tbody > tr td input.common_rate").each(function () {
+                common_rate++;
+                $(this).attr('id', 'price_item_' + common_rate);
+                $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+                $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+            });
+            var common_discount = 1;
+            $("#purchaseTable > tbody > tr td input.common_discount").each(function () {
+                common_discount++;
+                $(this).attr('id', 'discount_' + common_discount);
+                $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+                $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+            });
+            var common_total_price = 1;
+            $("#purchaseTable > tbody > tr td input.common_total_price").each(function () {
+                common_total_price++;
+                $(this).attr('id', 'total_price_' + common_total_price);
+            });
+    
+           
+    
         }
-       count =count- 1;
-      
+    
+       // calculateSum();
     }
-
 
          "use strict";
     function addPurchaseOrderField2(divName){
@@ -105,67 +140,59 @@ function full_paid() {
     //Delete row
 
     "use strict";
-function calculateSum() {
-     var taxnumber = $("#txfieldnum").val();
-    var t = 0,
-            a = 0,
-            e = 0,
-            o = 0,
-            p = 0,
-            f = 0,
-            tx = 0,
-            ds = 0,
-            ad = 0;
-
-    //Total Tax
-   for(var i=0;i<taxnumber;i++){
-      
-var j = 0;
-    $(".total_tax"+i).each(function () {
-        isNaN(this.value) || 0 == this.value.length || (j += parseFloat(this.value))
-    });
-            $("#total_tax_ammount"+i).val(j.toFixed(2, 2));
-             
-    }
-            //Total Discount
-            $(".total_discount").each(function () {
-        isNaN(this.value) || 0 == this.value.length || (p += parseFloat(this.value))
-    }),
-            $("#total_discount_ammount").val(p.toFixed(2, 2)),
-
-             $(".totalTax").each(function () {
-        isNaN(this.value) || 0 == this.value.length || (f += parseFloat(this.value))
-    }),
-            $("#total_tax_amount").val(f.toFixed(2, 2)),
+    function calculateSum() {
+        var taxnumber = $("#txfieldnum").val();
+         var t = 0,
+               a = 0,
+               e = 0,
+               o = 0,
+               p = 0,
+               f = 0,
+               ad = 0,
+               tx = 0,
+               ds = 0,
+               s_cost =  $("#shipping_cost").val();
+   
+       //Total Tax
+      for(var i=0;i<taxnumber;i++){
          
-            //Total Price
-            $(".total_price").each(function () {
-        isNaN(this.value) || 0 == this.value.length || (t += parseFloat(this.value))
-    }),
-
- $(".dppr").each(function () {
-        isNaN(this.value) || 0 == this.value.length || (ad += parseFloat(this.value))
-    }),
+   var j = 0;
+       $(".total_tax"+i).each(function () {
+           isNaN(this.value) || 0 == this.value.length || (j += parseFloat(this.value))
+       });
+               $("#total_tax_ammount"+i).val(j.toFixed(2, 2));
+                
+       }
+               //Total Discount
+               $(".total_discount").each(function () {
+           isNaN(this.value) || 0 == this.value.length || (p += parseFloat(this.value))
+       }),
+               $("#total_discount_ammount").val(p.toFixed(2, 2)),
+   
+                $(".totalTax").each(function () {
+           isNaN(this.value) || 0 == this.value.length || (f += parseFloat(this.value))
+       }),
+               $("#total_tax_amount").val(f.toFixed(2, 2)),
             
-            o = a.toFixed(2, 2),
-            e = t.toFixed(2, 2),
-            tx = f.toFixed(2, 2),
-    ds = p.toFixed(2, 2);
-
-    var test = +tx + +e + -ds + + ad;
-    $("#grandTotal").val(test.toFixed(2, 2));
-
-
-    var gt = $("#grandTotal").val();
-    var invdis = $("#invoice_discount").val();
-    var total_discount_ammount = $("#total_discount_ammount").val();
-    var ttl_discount = +total_discount_ammount;
-    $("#total_discount_ammount").val(ttl_discount.toFixed(2, 2));
-    var grnt_totals = gt;
-    $("#grandTotal").val(grnt_totals);
-
-    
-}
+               //Total Price
+               $(".total_price").each(function () {
+           isNaN(this.value) || 0 == this.value.length || (t += parseFloat(this.value))
+       }),
+   
+    $(".dppr").each(function () {
+           isNaN(this.value) || 0 == this.value.length || (ad += parseFloat(this.value))
+       }),
+               
+               o = a.toFixed(2, 2),
+               e = t.toFixed(2, 2),
+               tx = f.toFixed(2, 2),
+       ds = p.toFixed(2, 2);
+   
+       var test = +tx + +s_cost + +e + -ds + + ad;
+       $("#Total").val(e);
+     
+       
+   }
 
 
 

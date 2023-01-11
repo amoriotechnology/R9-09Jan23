@@ -76,10 +76,11 @@ if($invoice_setting[0]['template']==1)
 <tr>
 <th class="text-center text-white">S.No</th>
  <th class="text-center text-white">Product Name(SKU)</th>
- <th class="text-center text-white">Slabs</th>
- <th class="text-center text-white">Rate</th>
+ <th class="text-center text-white">Description</th>
  <th class="text-center text-white">Quantity (Sq.ft)</th>
- <th class="text-center text-white">Unit Cost</th>
+ <th class="text-center text-white">Rate</th>
+ <!-- <th class="text-center text-white">Quantity (Sq.ft)</th> -->
+ <!-- <th class="text-center text-white">Unit Cost</th> -->
  <th class="text-center text-white">Total</th>
 </tr>
 </thead>
@@ -91,23 +92,49 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 <tr>
 <td style="font-size: 16px;"><?php  echo $count;  ?></td>
   <td style="font-size: 16px;"><?php  echo $order[$i]['product_name'];  ?></td>
-  <td style="font-size: 16px;"><?php  echo $order[$i]['slabs']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['description']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
+
  <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['rate']?></td>
-<td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
- <td style="font-size: 16px;"><?php  echo $order[$i]['price']?></td>
   <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['total_amount']?></td>
 
 
 </tr>
 <?php $count++;}}  ?>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;"> Total:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+</tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
 </tr>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['gtotal_preferred_currency']; ?></td>
 </tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
+</tr>
+
+
 </tbody>
 </table>
 <br>
@@ -176,10 +203,11 @@ elseif($invoice_setting[0]['template']==3)
 <tr>
 <th class="text-center text-white">S.No</th>
  <th class="text-center text-white">Product Name(SKU)</th>
- <th class="text-center text-white">Slabs</th>
- <th class="text-center text-white">Rate</th>
+ <th class="text-center text-white">Description</th>
  <th class="text-center text-white">Quantity (Sq.ft)</th>
- <th class="text-center text-white">Unit Cost</th>
+ <th class="text-center text-white">Rate</th>
+ <!-- <th class="text-center text-white">Quantity (Sq.ft)</th> -->
+ <!-- <th class="text-center text-white">Unit Cost</th> -->
  <th class="text-center text-white">Total</th>
 </tr>
 </thead>
@@ -191,23 +219,49 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 <tr>
 <td style="font-size: 16px;"><?php  echo $count;  ?></td>
   <td style="font-size: 16px;"><?php  echo $order[$i]['product_name'];  ?></td>
-  <td style="font-size: 16px;"><?php  echo $order[$i]['slabs']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['description']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
+
  <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['rate']?></td>
-<td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
- <td style="font-size: 16px;"><?php  echo $order[$i]['price']?></td>
   <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['total_amount']?></td>
 
 
 </tr>
 <?php $count++;}}  ?>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;"> Total:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+</tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
 </tr>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['gtotal_preferred_currency']; ?></td>
 </tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
+</tr>
+
+
 </tbody>
 </table>
 <br>
@@ -269,10 +323,11 @@ if($invoice_setting[0]['template']==2)
 <tr>
 <th class="text-center text-white">S.No</th>
  <th class="text-center text-white">Product Name(SKU)</th>
- <th class="text-center text-white">Slabs</th>
- <th class="text-center text-white">Rate</th>
+ <th class="text-center text-white">Description</th>
  <th class="text-center text-white">Quantity (Sq.ft)</th>
- <th class="text-center text-white">Unit Cost</th>
+ <th class="text-center text-white">Rate</th>
+ <!-- <th class="text-center text-white">Quantity (Sq.ft)</th> -->
+ <!-- <th class="text-center text-white">Unit Cost</th> -->
  <th class="text-center text-white">Total</th>
 </tr>
 </thead>
@@ -284,23 +339,51 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 <tr>
 <td style="font-size: 16px;"><?php  echo $count;  ?></td>
   <td style="font-size: 16px;"><?php  echo $order[$i]['product_name'];  ?></td>
-  <td style="font-size: 16px;"><?php  echo $order[$i]['slabs']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['description']?></td>
+  <td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
+
  <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['rate']?></td>
-<td style="font-size: 16px;"><?php  echo $order[$i]['quantity']?></td>
- <td style="font-size: 16px;"><?php  echo $order[$i]['price']?></td>
   <td style="font-size: 16px;"><?php  echo $currency." " ; ?><?php  echo $order[$i]['total_amount']?></td>
 
 
 </tr>
 <?php $count++;}}  ?>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;"> Total:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+</tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total:</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['grand_total_amount']; ?></td>
 </tr>
 <tr>
- <td colspan="6" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Grand Total(Preferred Currency):</td>
  <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['gtotal_preferred_currency']; ?></td>
 </tr>
+
+
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
+</tr>
+
+<tr>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
+</tr>
+
+
+
+
 </tbody>
 </table>
 <br>

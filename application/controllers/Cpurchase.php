@@ -672,26 +672,30 @@ $CI = & get_instance();
 
      //Retrive right now inserted data to cretae html
     public function purchase_order_details_data($purchase_id) {
-
-
-
         $CI = & get_instance();
         $CI->auth->check_admin_auth();
-
         $CI->load->library('linvoice');
         $data=array();
         $this->load->model('Purchases');
         $this->load->model('invoice_design');
-        $invoice_no = $this->uri->segment(3); 
+        $invoice_no = $this->uri->segment(3);
         $currency_details = $CI->Web_settings->retrieve_setting_editdata();
+        // $invoice_list = $this->Purchases->invoice_list();
         $data['invoice'] =$this->Purchases->get_purchases_invoice($invoice_no);
+        // print_r( $data); die();
         $data['order'] =$this->Purchases->get_purchases_order($invoice_no);
-      
+        //  print_r( $data['invoice']); die();
         $data['supplier'] =$this->Purchases->get_supplier($invoice_no);
-  
         $data['company_info'] =$this->Purchases->company_info();
       //  $order = json_decode($data['order'], true);
+      $taxfield1 = $CI->db->select('tax_id,tax')
+      ->from('tax_information')
+      ->get()
+      ->result_array();
 $data=array(
+    'tax'           => $taxfield1,
+    // 'paid_amount'    =>  $invoice_list,
+    // 'due_amount'      =>  $invoice_list,
     'currency'       => $currency_details[0]['currency'],
     'invoice_setting'  =>$this->invoice_design->retrieve_data(),
     'invoice' =>$this->Purchases->get_purchases_invoice($invoice_no),
@@ -700,17 +704,10 @@ $data=array(
     'supplier_currency' =>$data['supplier'][0]['currency_type'],
     'company_info' =>$this->Purchases->company_info()
 );
-
-
         //$data['invoice_setting'] =$this->invoice_design->retrieve_data();
-       
-      
         $content = $this->load->view('purchase/purchase_order_invoice', $data, true);
         //$content='';
         $this->template->full_admin_html_view($content);
-
-
-      
     }
 
       public function ocean_import_details_data() {

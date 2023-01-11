@@ -135,7 +135,26 @@
                     </div>
 
                     <div class="panel-body">
-                       
+                    <div class="row">
+<div class="col-sm-6" >
+    <div class="form-group row">
+        <label for="ISF" class="col-sm-4 col-form-label">PO Number
+            <i class="text-danger">*</i>
+        </label>
+        <div class="col-sm-6">
+        <select name="po" class="form-control"  id="po" tabindex="3" style="width150px">
+                                              <option value="Select PO Number" selected>Select PO Number</option>
+                                              <option value="Not Available">Not Available</option>
+                                              <?php  foreach($po as $p){   ?>
+                                            <option value="<?php  echo $p['chalan_no'] ; ?>"><?php  echo $p['chalan_no'] ; ?></option>
+                                            <?php   }  ?>
+                                            
+                             </select>
+        </div>
+    </div>
+</div>
+                                              </div>
+                     <div class="with_po">  
                     <form id="insert_purchase"  method="post">  
                         <div class="row">
                             <div class="col-sm-6">
@@ -144,26 +163,9 @@
                                         <i class="text-danger">*</i>
                                     </label>
                                     <div class="col-sm-6">
-                                        <select name="supplier_id" id="supplier_id" class="form-control " required="" tabindex="1"> 
-                                            <option value=" "><?php echo display('select_one') ?></option>
-                                            {all_supplier}
-                                            <option value="{supplier_id}">{supplier_name}</option>
-                                            {/all_supplier}
-                                        </select>
+                                      <input type="text" id="s_id" name="supplier_id" />
                                     </div>
-                                  <?php if($this->permission1->method('add_supplier','create')->access()){ ?>
-                                    <div class="col-sm-2">
-
-
-                                     <!--    <a class="btn btn-success" title="Add New Supplier" href="<?php echo base_url('Csupplier'); ?>"><i class="fa fa-user"></i></a> -->
-
-
-
-                                          <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#add_vendor"><i class="fa fa-user"></i></a>
-
-
-                                    </div>
-                                <?php }?>
+                                 
                                 </div> 
                             </div>
                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
@@ -243,32 +245,8 @@
 </div>
 
 </div>
-<div class="row">
-<div class="col-sm-6" id="isf_no">
-    <div class="form-group row">
-        <label for="ISF" class="col-sm-4 col-form-label">PO Number
-            <i class="text-danger">*</i>
-        </label>
-        <div class="col-sm-6">
-        <select name="po" class="form-control"  id="po" tabindex="3" style="width150px">
-                                              <option value="Select PO Number" selected>Select PO Number</option>
-                                              <?php  foreach($po as $p){   ?>
-                                            <option value="<?php  echo $p['chalan_no'] ; ?>"><?php  echo $p['chalan_no'] ; ?></option>
-                                            <?php   }  ?>
-                                            
-                             </select>
-        </div>
-    </div>
-</div>
-<div class="col-sm-6" id="isf_no">
-    <div class="form-group row">
-    <button type="button" class="btn btn-info" style="background-color: #38469f;"data-toggle="modal" data-target="#packmodal" id="packbutton">Choose Packing Invoice   </button>
+<button type="button" class="btn btn-info" style="background-color: #38469f;"data-toggle="modal" data-target="#packmodal" id="packbutton">Choose Packing Invoice   </button>
 <input type="text" name="packing_id" value="" id="packing_id" style="font-weight:bold;">
-    </div>
-</div>
-
-</div>
-
                           <div class="row">
 
 
@@ -422,7 +400,407 @@ textarea:focus, input:focus{
                          </td>
                 
                                 <td class="hiden" style="width:200px;padding:5px;background-color: #38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
-                                 = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" id="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
+                                 = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" class="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
+                    <td style="border:none;text-align:right;font-weight:bold;">Tax : 
+                                 </td>
+                                <td style="width:40%">
+<select name="tx"   class="product_tax"  class="form-control" >
+<option value="Select the Tax" selected>Select the Tax</option>
+<?php foreach($tax as $tx){?>
+  
+    <option value="<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';?>">  <?php echo $tx['tax_id'].'-'.$tx['tax'].'%';  ?></option>
+<?php } ?>
+</select>
+</td>
+</tr>
+</table>
+                            <table class="table table-bordered table-hover" id="purchaseTable1">
+                                <thead>
+                                     <tr>
+                                            <th class="text-center" width="20%">Product<i class="text-danger">*</i>  &nbsp;&nbsp; <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#product_info"><i class="ti-plus m-r-2"></i></a></th> 
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">Quantity <i class="text-danger">*</i></th>
+                                            <th class="text-center"><?php echo display('rate') ?><i class="text-danger">*</i></th>
+                                            <th class="text-center"><?php echo display('total') ?></th>
+                                            <th class="text-center"><?php echo display('action') ?></th>
+                                        </tr>
+                                </thead>
+                                <tbody >
+                                  
+                                </tbody>
+                              
+                            </table>
+                        </div>
+                        <div class="form-group row">
+    
+  </div>
+
+                      
+                        <div class="row">
+                        <div class="col-sm-12">
+                               <div class="form-group row">
+                                    <label for="adress" class="col-sm-2 col-form-label">Remarks / Details
+                                    </label>
+                                    <div class="col-sm-10">
+                                    <textarea class="form-control" rows="4" cols="50" id="remark" name="remark" placeholder="Remarks" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div>
+                            </div>
+                        <div class="row">
+                        <div class="col-sm-12">
+                               <div class="form-group row">
+                                    <label for="adress" class="col-sm-2 col-form-label">Message on Invoice
+                                    </label>
+                                    <div class="col-sm-10">
+                                        <textarea class="form-control" rows="4" cols="50" id="adress" name="message_invoice" placeholder="Message on Invoice" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div>
+
+                        
+
+
+                             <!-- <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="adress" class="col-sm-4 col-form-label">Attachements
+                                    </label>
+                                    <div class="col-sm-8">
+                                       <input type="file" name="attachments" class="form-control">
+                                    </div>
+                                </div> 
+                            </div> -->
+                        </div>
+
+                    
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label col-sm-2 col-form-label">Upload File</label>
+            <div class="preview-zone hidden col-sm-10">
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <div><b>Preview</b></div>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-danger btn-xs remove-preview">
+                      <i class="fa fa-times"></i> Reset This Form
+                    </button>
+                  </div>
+                </div>
+                <div class="box-body"></div>
+              </div>
+            </div>
+            <div class="dropzone-wrapper col-sm-10">
+              <div class="dropzone-desc">
+                <i class="glyphicon glyphicon-download-alt"></i>
+                <p>Choose an image file or drag it here.</p>
+              </div>
+              <input type="file" name="attachments" class="dropzone">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-md-6">
+          <button type="submit" class="btn btn-primary pull-right">Upload</button>
+        </div>
+      </div> -->
+   
+
+                        <div class="form-group row" style="
+    margin-top: 1%;
+">
+                            <div class="col-sm-6">
+                                <input type="submit" id="add_purchase" class="btn btn-primary btn-large" name="add-purchase" value="Save" />
+                                <a    class="final_submit" class='final_submit btn btn-primary btn-large'>Submit</a>
+
+<a id="download" class="download"  class='btn btn-primary btn-large'>Download</a>
+                            </div>
+                        </div>
+
+
+<!-- 
+                         <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="submit" id="create_po" class="btn btn-primary btn-large" name="create_po" value="Create PO Invoice" />
+
+                                <input type="submit" id="create_po" class="btn btn-primary btn-large" name="create_po" value="Create Ocean Import Trucking Invoice" />
+
+                                <input type="submit" id="create_po" class="btn btn-primary btn-large" name="create_po" value="Create Trucking Invoice" />
+
+                               <input type="submit" value="Save the detail of invoice" name="add-purchase-another" class="btn btn-large btn-success" id="add_purchase_another" >
+                            </div>
+                        </div> -->
+
+                     
+
+</form>
+</div>
+<div class="without_po">
+<form id="insert_purchase1"  method="post">  
+                        <div class="row">
+                            <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="supplier_sss" class="col-sm-4 col-form-label">Vendor
+                                        <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <select name="supplier_id" id="supplier_id" class="form-control " required="" tabindex="1"> 
+                                            <option value=" "><?php echo display('select_one') ?></option>
+                                            {all_supplier}
+                                            <option value="{supplier_id}">{supplier_name}</option>
+                                            {/all_supplier}
+                                        </select>
+                                    </div>
+                                  <?php if($this->permission1->method('add_supplier','create')->access()){ ?>
+                                    <div class="col-sm-2">
+
+
+                                     <!--    <a class="btn btn-success" title="Add New Supplier" href="<?php echo base_url('Csupplier'); ?>"><i class="fa fa-user"></i></a> -->
+
+
+
+                                          <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#add_vendor"><i class="fa fa-user"></i></a>
+
+
+                                    </div>
+                                <?php }?>
+                                </div> 
+                            </div>
+                            <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                            <input type="hidden"  value="<?php echo $payment_id; ?>"  name="payment_id"/>
+                             <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="date" class="col-sm-4 col-form-label">Expenses / Bill date
+                                        <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <?php $date = date('Y-m-d'); ?>
+                                        <input type="date" required tabindex="2" class="form-control datepicker" name="bill_date" value="<?php echo $date; ?>" id="date"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="invoice_no" class="col-sm-4 col-form-label"><?php echo display('invoice_no') ?>
+                                        <i class="text-danger"></i>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" tabindex="3" class="form-control" name="chalan" placeholder="<?php echo display('invoice_no') ?>" id="chalan" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                          <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="date" class="col-sm-4 col-form-label">Payment due date
+                                        <i class="text-danger">*</i>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <?php $date = date('Y-m-d'); ?>
+                                        <input type="date" required tabindex="2" class="form-control datepicker" name="payment_due_date" value="<?php echo $date; ?>" id="date1"  />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+<div class="col-sm-6">
+
+    <div class="form-group row">
+
+        <label for="invoice_no" class="col-sm-4 col-form-label"> ISF FIELD
+
+            <i class="text-danger">*</i>
+
+        </label>
+
+        <div class="col-sm-6">
+
+        <select name="isf_field" class="form-control"  id="isf_dropdown" tabindex="3" style="width150px">
+                                              <option value=""selected>Select ISF NO</option>
+                                            <option value="1"><?php echo display('NO') ?></option>
+                                            <option value="2"><?php echo display('YES') ?></option>
+                             </select>
+
+        </div>
+
+    </div>
+
+</div>
+
+ <div class="col-sm-6" id="isf_no">
+    <div class="form-group row">
+        <label for="ISF" class="col-sm-4 col-form-label">ISF NO
+            <i class="text-danger">*</i>
+        </label>
+        <div class="col-sm-8">
+        <input name="isf_no"  class="form-control bankpayment"   value=""  >
+        </div>
+    </div>
+</div>
+
+</div>
+<button type="button" class="btn btn-info" style="background-color: #38469f;"data-toggle="modal" data-target="#packmodal" id="packbutton">Choose Packing Invoice   </button>
+<input type="text" name="packing_id" value="" id="packing_id" style="font-weight:bold;">
+                          <div class="row">
+
+
+                            <!--  <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="adress" class="col-sm-4 col-form-label"><?php echo display('details') ?>
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" rows="4" cols="50" id="adress" name="purchase_details" placeholder=" <?php echo display('details') ?>" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div> -->
+                            
+
+                        </div>
+
+
+
+
+                       <!--  <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="etd" class="col-sm-4 col-form-label">ETD
+                                        <i class="text-danger"></i>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" tabindex="3" class="form-control" name="etd" placeholder="ETD" id="etd" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="eta" class="col-sm-4 col-form-label">ETA
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" tabindex="4" id="eta" name="eta" placeholder="ETA" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div> -->
+
+
+
+
+                        <!--  <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="shipping_line" class="col-sm-4 col-form-label">Shipping Line
+                                        <i class="text-danger"></i>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" tabindex="3" class="form-control" name="shipping_line" placeholder="Shipping Line" id="shipping_line" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="container_no" class="col-sm-4 col-form-label">Container No
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" tabindex="4" id="container_no" name="container_no" placeholder="Container No" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div> -->
+
+
+                          <!-- <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="bl_number" class="col-sm-4 col-form-label">BL Number
+                                        <i class="text-danger"></i>
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input type="text" tabindex="3" class="form-control" name="bl_number" placeholder="BL Number" id="bl_number" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="isf_filling" class="col-sm-4 col-form-label">ISF Filling No
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <textarea class="form-control" tabindex="4" id="isf_filling" name="isf_filling" placeholder="ISF Filling No" rows="1"></textarea>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div> -->
+
+
+
+                             <!-- <div class="row">
+                              <div class="col-sm-6" id="payment_from_1">
+                                <div class="form-group row">
+                                    <label for="payment_type" class="col-sm-4 col-form-label"><?php
+                                        echo display('payment_type');
+                                        ?> <i class="text-danger">*</i></label>
+                                    <div class="col-sm-6">
+                                        <select name="paytype" class="form-control" required="" onchange="bank_paymet(this.value)">
+                                            <option value="1"><?php echo display('cash_payment');?></option>
+                                            <option value="2"><?php echo display('bank_payment');?></option>
+                                          
+                                        </select>
+                                      
+
+                                     
+                                    </div>
+                                 
+                                </div>
+                            </div>
+                             <div class="col-sm-6" id="bank_div">
+                            <div class="form-group row">
+                                <label for="bank" class="col-sm-4 col-form-label"><?php
+                                    echo display('bank');
+                                    ?> <i class="text-danger">*</i></label>
+                                <div class="col-sm-8">
+                                   <select name="bank_id" class="form-control bankpayment"  id="bank_id">
+                                        <option value="">Select Location</option>
+                                        <?php foreach($bank_list as $bank){?>
+                                            <option value="<?php echo $bank['bank_id']?>"><?php echo $bank['bank_name'];?></option>
+                                        <?php }?>
+                                    </select>
+                                 
+                                </div>
+                             
+                            </div>
+                        </div>
+                        </div> -->
+                        <style>
+        input {
+    border: none;
+  
+ }
+textarea:focus, input:focus{
+   
+    outline: none;
+}
+ .text-right {
+    text-align: left; 
+}
+</style>
+<br>
+                           <div class="table-responsive">
+                           <table class="taxtab table table-bordered table-hover">
+                        <tr>
+                        <td class="hiden" style="width:30%;border:none;text-align:end;font-weight:bold;">
+                            Todays Rate : 
+                         </td>
+                
+                                <td class="hiden" style="width:200px;padding:5px;background-color: #38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
+                                 = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" class="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
                     <td style="border:none;text-align:right;font-weight:bold;">Tax : 
                                  </td>
                                 <td style="width:40%">
@@ -727,9 +1105,9 @@ textarea:focus, input:focus{
 ">
                             <div class="col-sm-6">
                                 <input type="submit" id="add_purchase" class="btn btn-primary btn-large" name="add-purchase" value="Save" />
-                                <a  style="color: #fff;"  id="final_submit" class='final_submit btn btn-primary'>Submit</a>
+                                <a    id="final_submit" class='final_submit btn btn-primary'>Submit</a>
 
-<a id="download" style="color: #fff;" class='btn btn-primary'>Download</a>
+<a id="download" class="download"  class='btn btn-primary'>Download</a>
                             </div>
                         </div>
 
@@ -749,13 +1127,16 @@ textarea:focus, input:focus{
 
                      
 
-</form><input type="hidden" id="invoice_hdn"/> <input type="hidden" id="invoice_hdn1"/>
+</form>
+</div>
+<input type="hidden" id="invoice_hdn"/> <input type="hidden" id="invoice_hdn1"/>
                     </div>
                 </div>
 
             </div>
         </div>
     </section>
+
 
 
   <!-- Pack  Modal -->
@@ -1854,7 +2235,7 @@ function addPurchaseOrderField1(divName){
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
         document.getElementById("add_purchase").setAttribute("tabindex", tab6);
-     document.getElementById("add_purchase_another").setAttribute("tabindex", tab7);
+   
        
         count++;
 
@@ -1865,7 +2246,86 @@ function addPurchaseOrderField1(divName){
     }
 }
 
+$('#insert_purchase').submit(function (event) {
+    var dataString = {
+        dataString : $("#insert_purchase").serialize()
+    
+   };
+   dataString[csrfName] = csrfHash;
+  
+    $.ajax({
+        type:"POST",
+        dataType:"json",
+        url:"<?php echo base_url(); ?>Cpurchase/insert_purchase",
+        data:$("#insert_purchase").serialize(),
 
+        success:function (data) {
+        console.log(data);
+   
+            var split = data.split("/");
+            $('#invoice_hdn1').val(split[0]);
+         console.log(split[0]+"---"+split[1]);
+     
+            $('#invoice_hdn').val(split[1]);
+            $("#bodyModal1").html('New Expense Created Successfully');
+        
+            $('#final_submit,.final_submit').show();
+$('.download').show();
+    $('#myModal1').modal('show');
+    window.setTimeout(function(){
+        $('.modal').modal('hide');
+       
+$('.modal-backdrop').remove();
+$("#bodyModal1").html("");
+ },2500);
+
+
+       }
+
+    });
+
+    event.preventDefault();
+});
+$('#insert_purchase1').submit(function (event) {
+    var dataString = {
+        dataString : $("#insert_purchase1").serialize()
+    
+   };
+   dataString[csrfName] = csrfHash;
+  
+    $.ajax({
+        type:"POST",
+        dataType:"json",
+        url:"<?php echo base_url(); ?>Cpurchase/insert_purchase",
+        data:$("#insert_purchase1").serialize(),
+
+        success:function (data) {
+        console.log(data);
+   
+            var split = data.split("/");
+            $('#invoice_hdn1').val(split[0]);
+         console.log(split[0]+"---"+split[1]);
+     
+            $('#invoice_hdn').val(split[1]);
+            $("#bodyModal1").html('New Expense Created Successfully');
+        
+            $('#final_submit,.final_submit').show();
+$('.download').show();
+    $('#myModal1').modal('show');
+    window.setTimeout(function(){
+        $('.modal').modal('hide');
+       
+$('.modal-backdrop').remove();
+$("#bodyModal1").html("");
+ },2500);
+
+
+       }
+
+    });
+
+    event.preventDefault();
+});
 
 $('#isf_dropdown').on('change', function() {
   if ( this.value == '2')
@@ -1875,6 +2335,13 @@ $('#isf_dropdown').on('change', function() {
 }).trigger("change");
 
 $('#po').on('change', function (e) {
+ //   $('#add_purchase').show();
+    $('#purchaseTable1 tbody').empty();
+   // $('##purchaseTable1').html("");
+    if($('#po').val() !=="Not Available"){
+        $
+        $('.with_po').show();
+        $('.without_po').hide();
     var data = {
        po:$('#po').val()
      
@@ -1888,34 +2355,56 @@ $('#po').on('change', function (e) {
      dataType:"json",
         url:'<?php echo base_url();?>Cpurchase/get_po_details',
         success: function(result, statut) {
-            const tbl = document.querySelector('#purchaseTable');
-            const template = d => `<tr>
-    <td>${d.product_id}</td>
-    <td>${d.product_id}</td>
-    <td>${d.quantity}</td>
-    <td>${d.rate}</td>
-    <td>${d.total_amount}</td>
-  </tr>`;
+            console.log(result[0]['supplier_id']);
+$('#s_id').val(result[0]['supplier_id']);
+$('#Total').val(result[0]['grand_total_amount']);
 
-// A function that takes a table, returns a function to accept an arrya of objects.
-// It will then add the relevant template(s) to the provided table. 
-const render = tbl => d => tbl.innerHTML += d.map(i => template(i)).join('');
+            $.each(result, function (index, value) {
 
-// Fire the render function. 
-render(tbl)(result);
+                
+    var c=index+1;
+          $("#purchaseTable1 tbody").append('<tr><td><input type="text" name="product_id[]" id="product_id_'+c+'"   value="'+value.product_id+'" /></td><td><input type="text" name="description[]"    value="'+value.product_id+'" /></td><td>'+
+         ' <input type="text" class="qnty" id="cartoon_'+c+'" name="product_quantity[]" value="'+value.quantity+'" onkeyup="calculate_store('+c+');" onchange="calculate_store('+c+')" /></td>'+
+    '<td><input type="text" readonly="" name="product_rate[]" required="" onkeyup="calculate_store('+c+');" onchange="calculate_store('+c+');" id="product_rate_'+c+'" class="product_rate_'+c+'" class="rate"  value="'+value.rate+'" /></td>'+
+    '<td><input type="text" name="total_price[]" id="total_price_'+c+'"   value="'+value.total_amount+'" /></td>'+
+ '</tr>');
+        //c++;
+   });
+   $("#purchaseTable1 tbody").append('<tr>  <td style="text-align:right;" colspan="4"><b><?php echo "Total" ?>:</b></td>'+
+ '<td style="text-align:left;"> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td> <td>'+
+' <input type="text" id="Total" value="0.00" style="padding:5px;" alue="0.00" class="text-right" name="total"  readonly="readonly" />'+
+ ' </td> </tr> </table> </td>   </tr>  <tr>  <td style="text-align:right;" colspan="4"><b>Tax Details :</b></td> '+
+ '<td style="text-align:left;"> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td> <td>    '+
+ ' <input type="text" id="tax_details" style="padding:5px;" class="text-right" value="0.00" name="tax_details"  readonly="readonly" />'+
+ ' </td> </tr> </table> </td>   </tr> <tr> <td style="text-align:right;" colspan="4"><b><?php echo "Grand Total" ?>:</b></td> '+
+ '<td>  <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" onchange=""value="0.00" readonly="readonly" />  </td> </tr>'+
+  '<tr><td style="border:none;text-align:right;font-weight:bold;" colspan="4"><b><?php echo "Grand Total" ?>:</b></td> <td>  <input type="text" style="padding:5px;"  id="vendor_gtotal"  name="vendor_gtotal" value="0.00" readonly="readonly" /> </td>   <input type="hidden" id="final_gtotal"  name="final_gtotal" />  <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td> </tr> <tr id="amt">  <td style="text-align:right;"  colspan="4"><b><?php echo "Amount Paid" ?>:</b></td>  <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="amount_paid"  style="padding:5px;" value="0.00" name="amount_paid"  readonly="readonly" /> </td> </tr> </table>   </td> </tr> <tr id="bal"> <td style="text-align:right;"  colspan="4"><b><?php echo "Balance Amount " ?>:</b></td> <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="balance"  style="padding:5px;" value="0.00" name="balance"  readonly="readonly" /> </td> </tr> </table> </td> </tr> <tr style="border-right:none;border-left:none;border-bottom:none;border-top:none">  <td colspan="6" style="text-align: end;"> <input type="submit" value="Make Payment" class="btn btn-primary btn-large" id="paypls"/> </td> </tr>');
         //  $("#amount_paid").val(result[0]['amt_paid']);
         //  $("#balance").val(result[0]['balance']);
             console.log(result);
         }
     });
+    }else{
+        $('.without_po').show();
+        $('.with_po').hide();
+    }
 
-
+});
+$('.qnty').on('change', function (e) {
+   
+       var qnty=$(this).val();
+       var rate = $(this).parent().parent().find('.rate').val();
+       var amount = qnty*rate;
+       $(this).parent().parent().find('.amt').val(amount);
+    
 });
 
 //Total
         $(document).ready(function(){
+            $('.with_po').hide();
+            $('.without_po').hide();
    // $('#payment_modal').modal("show");
-    $('#product_tax').on('change', function (e) {
+    $('#product_tax,.product_tax').on('change', function (e) {
         var first=$("#Total").val();
     var tax= $('#product_tax').val();
 var field = tax.split('-');
@@ -1932,7 +2421,7 @@ var answer=0;
 
  var amt=parseInt(answer)+parseInt(first);
  var num = isNaN(parseInt(amt)) ? 0 : parseInt(amt)
- var custo_amt=$('#custocurrency_rate').val(); 
+ var custo_amt=$('.custocurrency_rate').val(); 
  console.log("numhere :"+num +"-"+custo_amt);
  var value=parseInt(num*custo_amt);
  var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
@@ -1945,7 +2434,7 @@ $( document ).ready(function() {
     $('#gtotal').on('change textInput input', function (e) {
     calculate();
 });
-$('#custocurrency_rate').on('change textInput input', function (e) {
+$('.custocurrency_rate').on('change textInput input', function (e) {
     calculate();
 });
 
@@ -1954,7 +2443,7 @@ $('.common_qnt').on('change textInput input', function (e) {
 });
 
 });
-$('#product_tax').on('change', function (e) {
+$('#product_tax,.product_tax').on('change', function (e) {
     var optionSelected = $("option:selected", this);
     var valueSelected = this.value;
     var total=$('#Total').val();
@@ -2015,7 +2504,7 @@ var answer=0;
   console.log(gtotal);
 var amt=parseInt(answer)+parseInt(first);
  var num = isNaN(parseInt(amt)) ? 0 : parseInt(amt)
- var custo_amt=$('#custocurrency_rate').val();
+ var custo_amt=$('.custocurrency_rate').val();
  $("#gtotal").val(num);  
  console.log(num +"-"+custo_amt);
  localStorage.setItem("customer_grand_amount_sale",num);
@@ -2045,7 +2534,7 @@ var num = isNaN(parseInt(amt)) ? 0 : parseInt(amt);
 $("#gtotal").val(num);  
 localStorage.setItem("customer_grand_amount_sale",num);
 
-var custo_amt=$('#custocurrency_rate').val();
+var custo_amt=$('.custocurrency_rate').val();
 
 console.log(num +"-"+custo_amt);
 var value=parseInt(num*custo_amt);
@@ -2241,7 +2730,6 @@ var pdt=$('#product_name_'+id).val();
 }
 $( document ).ready(function() {
     $('#add_invoice_item,#supplier_id').on('click change', function (e) {
-  
   var data = {
       value: $('#supplier_id').val()
    };
@@ -2249,27 +2737,23 @@ $( document ).ready(function() {
   $.ajax({
       type:'POST',
       data: data,
-   
       //dataType tells jQuery to expect JSON response
       dataType:"json",
       url:'<?php echo base_url();?>Cinvoice/getvendor_products',
       success: function(states, statut) {
         console.log(states);
-        $(".product_name").html("");
+        // $(".product_name").html("");
              if (Object.keys(states).length > 0) {
                 $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
              }
              else {
                     $(".product_name").append($('<option></option>').val(0).html(''));
              }
-
            $.each(states, function (i, state) {
             $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
            });;
       }
   });
-
-
 });
 
 
@@ -2314,8 +2798,8 @@ $( document ).ready(function() {
     });
     event.preventDefault();
 });
-    $('#final_submit').hide();
-$('#download').hide();
+    $('#final_submit,.final_submit').hide();
+$('.download').hide();
                         $('.hiden').css("display","none");
 
   
@@ -2324,13 +2808,13 @@ $('#Total').on('change textInput input', function (e) {
     calculate();
 });
 
-$('#custocurrency_rate').on('change textInput input', function (e) {
+$('.custocurrency_rate').on('change textInput input', function (e) {
     calculate();
 });
 function calculate(){
   
   var first=$("#Total").val();
-var custo_amt=$('#custocurrency_rate').val();
+var custo_amt=$('.custocurrency_rate').val();
 var value=parseInt(first*custo_amt);
 
 var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
@@ -2372,7 +2856,7 @@ function(data) {
  Rate = isNaN(Rate) ? 0 : Rate;
   console.log(Rate);
   $('.hiden').show();
-  $("#custocurrency_rate").val(Rate);
+  $(".custocurrency_rate").val(Rate);
 });
       }
   });
@@ -2523,47 +3007,8 @@ $('.remove-preview').on('click', function() {
  },2000);
 }       
 
-$('#insert_purchase').submit(function (event) {
-    var dataString = {
-        dataString : $("#insert_purchase").serialize()
-    
-   };
-   dataString[csrfName] = csrfHash;
-  
-    $.ajax({
-        type:"POST",
-        dataType:"json",
-        url:"<?php echo base_url(); ?>Cpurchase/insert_purchase",
-        data:$("#insert_purchase").serialize(),
 
-        success:function (data) {
-        console.log(data);
-   
-            var split = data.split("/");
-            $('#invoice_hdn1').val(split[0]);
-         console.log(split[0]+"---"+split[1]);
-     
-            $('#invoice_hdn').val(split[1]);
-            $("#bodyModal1").html('New Expense Created Successfully');
-        
-            $('#final_submit').show();
-$('#download').show();
-    $('#myModal1').modal('show');
-    window.setTimeout(function(){
-        $('.modal').modal('hide');
-       
-$('.modal-backdrop').remove();
-$("#bodyModal1").html("");
- },2500);
-
-
-       }
-
-    });
-
-    event.preventDefault();
-});
-$('#download').on('click', function (e) {
+$('.download').on('click', function (e) {
 
  var popout = window.open("<?php  echo base_url(); ?>Cpurchase/purchase_details_data/"+$('#invoice_hdn1').val());
  
@@ -2628,12 +3073,9 @@ $('.modal-backdrop').remove();
       }, 2500);
        
 });
-$('#add_purchase').on('click', function (e) {
-save.click =true;
 
-});
 window.onbeforeunload = function(){
-    if(!window.btn_clicked && save.click){
+    if(!window.btn_clicked ){
        // window.btn_clicked = true; 
         $('#myModal3').modal('show');
        return false;

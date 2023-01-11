@@ -107,9 +107,56 @@ function deleteRow(e) {
             $(this).attr('id', 'total_price_' + common_total_price);
         });
     }
-    calculateSum();
+    //calculateSum();
 }
+"use strict";
+function deleteRow(t) {
+    var a = $("#purchaseTable > tbody > tr").length;
+    if (1 == a)
+        alert("There only one row you can't delete.");
+    else {
+        var e = t.parentNode.parentNode;
+        e.parentNode.removeChild(e),
+                calculateSum();
+        invoice_paidamount();
+        var current = 1;
+        $("#purchaseTable > tbody > tr td input.productSelection").each(function () {
+            current++;
+            $(this).attr('id', 'product_name' + current);
+        });
+        var common_qnt = 1;
+        $("#purchaseTable > tbody > tr td input.common_qnt").each(function () {
+            common_qnt++;
+            $(this).attr('id', 'total_qntt_' + common_qnt);
+            $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+            $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+        });
+        var common_rate = 1;
+        $("#purchaseTable > tbody > tr td input.common_rate").each(function () {
+            common_rate++;
+            $(this).attr('id', 'price_item_' + common_rate);
+            $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+            $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+        });
+        var common_discount = 1;
+        $("#purchaseTable > tbody > tr td input.common_discount").each(function () {
+            common_discount++;
+            $(this).attr('id', 'discount_' + common_discount);
+            $(this).attr('onkeyup', 'quantity_calculate('+common_qnt+');');
+            $(this).attr('onchange', 'quantity_calculate('+common_qnt+');');
+        });
+        var common_total_price = 1;
+        $("#purchaseTable > tbody > tr td input.common_total_price").each(function () {
+            common_total_price++;
+            $(this).attr('id', 'total_price_' + common_total_price);
+        });
 
+       
+
+    }
+
+   // calculateSum();
+}
 
 "use strict";
 function calculateSum() {
@@ -152,6 +199,7 @@ var j = 0;
             e = t.toFixed(2, 2),
             tx = f.toFixed(2, 2),
     ds = p.toFixed(2, 2);
+ 
     var test = +tx + +s_cost + +e + -ds + + ad;
     $("#Total").val(e);
 }
