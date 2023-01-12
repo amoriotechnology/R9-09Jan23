@@ -166,7 +166,11 @@ class Lpurchase {
         $unit_list     = $CI->Units->unit_list();
 
         $voucher_no = $CI->Purchases->packing_voucher_no();
-
+        $units = $CI->db->select('unit_name')
+        ->from('units')
+        ->where('created_by',$CI->session->userdata('user_id'))
+        ->get()
+        ->result_array();
 
 
 
@@ -190,6 +194,7 @@ class Lpurchase {
             'discount_type' => $currency_details[0]['discount_type'],
 
             'bank_list'     => $bank_list,
+            'unit'  => $units
 
         );
 

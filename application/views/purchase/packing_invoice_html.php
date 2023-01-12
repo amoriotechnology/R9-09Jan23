@@ -107,9 +107,10 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
 
                                             <th class="text-center">No of Bundle</th>
 
-                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity / Bundle in <?php  echo $packing_details[0]['thickness'];  ?>
                                             
                                         </th>
+                                        <th class="text-center">Quantity / Package</th>
                                         <th class="text-center">Rate</th>
 
 
@@ -126,8 +127,10 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
               <td style="font-size: 16px;"><?php echo $count ;?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['no_of_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_package']; ?></td>
+          
              <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
              <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
           </tr>

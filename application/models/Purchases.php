@@ -1711,11 +1711,16 @@ return $output;
         $product_name =$this->input->post('product_name',TRUE);
         $bundle_no = $this->input->post('bundle_no',TRUE);
         $quantity = $this->input->post('quantity',TRUE);
+
+        $q_per_bundle=$this->input->post('q_per_bundle',TRUE);
+        $q_per_package=$this->input->post('q_per_package',TRUE);
+        
+
         $rate = $this->input->post('rate',TRUE);
         $total_price =$this->input->post('total_price',TRUE);
       //  $bundle = $this->input->post('bundle',TRUE);
         $p_id1 = $this->input->post('product_id',TRUE);
-        $rowCount = count($this->input->post('quantity',TRUE));
+        $rowCount = count($this->input->post('product_name',TRUE));
         $this->db->where('expense_packing_id', $this->session->userdata("packing_1"));
         $this->db->delete('expense_packing_list_detail');
      //   echo $this->db->last_query();echo "<br/>";
@@ -1724,8 +1729,14 @@ return $output;
             $bun_reff = $bun_ref[$i];
             $p_name=$product_name[$i];
             $b_no =$bundle_no[$i];
+
+            $qnty_bundle =$q_per_bundle[$i];
+
+            $qnty_package=$q_per_package[$i];
+
+
             $p_id =$p_id1[$i];
-            $qnty = $quantity[$i];
+           
           //  $bundlee =$bundle[$i];
             $rte = $rate[$i];
             $t_price = $total_price[$i];
@@ -1739,7 +1750,9 @@ return $output;
                'product_name' =>$p_name,
                 'product_id' => $p_id,
                 'bundle_no' => $b_no,
-                'quantity'       => $qnty,
+                
+                'quantity_per_bundle'  => $qnty_bundle,
+                'quantity_per_package'   => $qnty_package,
                 'rate' => $rte,
                 'total_price' => $t_price,
                 'create_by'          =>  $this->session->userdata('user_id'),
@@ -3128,10 +3141,10 @@ public function company_info()
      $this->db->from('expense_packing_list a');
          $this->db->join('expense_packing_list_detail ac' , 'a.expense_packing_id=ac.expense_packing_id');
          $this->db->join('product_information b' , 'b.product_id = ac.product_id');
-     $this->db->where('a.expense_packing_id' , $expense_packing_id);
+     $this->db->where('ac.expense_packing_id' , $expense_packing_id);
          $query = $this->db->get();
       //  $query = $this->db->query($sql);
-    
+    echo $this->db->last_query();
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }

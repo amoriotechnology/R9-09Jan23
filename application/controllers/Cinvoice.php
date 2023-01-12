@@ -794,10 +794,15 @@ public function deletesale(){
         $CI->load->library('linvoice');
         $products=$CI->Products->get_all_products();
         $data=array();
+        $units = $CI->db->select('unit_name')
+        ->from('units')
+        ->get()
+        ->result_array();
         $voucher_no = $CI->Invoices->packing_list_no();
         $data=array(
             'voucher_no' => $voucher_no,
-            'products'=> $products
+            'products'=> $products,
+            'unit'  => $units
             );
       
        // echo $content = $CI->linvoice->invoice_add_form();
