@@ -15,6 +15,34 @@
 <script src="<?php echo base_url()?>my-assets/js/admin_js/purchase.js" type="text/javascript"></script>
 
 <script src="<?php echo base_url()?>my-assets/js/admin_js/packing.js" type="text/javascript"></script>
+
+<style>
+    textarea:focus, input:focus{
+    outline: none;
+}
+
+input:disabled {
+   background-color: none;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+        background-color: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+input{
+    border:none;
+    background-color:none;
+}
+textarea:focus, input:focus{
+   
+    outline: none;
+}
+ .text-right {
+    text-align: left; 
+}
+    </style>
+
 <!-- Add New Purchase Start -->
 <div class="content-wrapper">
     <section class="content-header">
@@ -57,8 +85,8 @@
             }
         ?>
 
-        <!-- Purchase report -->
-        <div class="row">
+       <!-- Purchase report -->
+       <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-bd lobidrag">
                     <div class="panel-heading">
@@ -68,9 +96,7 @@
                     </div>
 
                     <div class="panel-body">
-
-                       
-                        <form id="insert_purchase"  method="post">          
+                    <form id="insert_purchase"  method="post">               
 
                         <div class="row">
 
@@ -93,7 +119,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" id="invoice_hdn"/> <input type="hidden" id="invoice_hdn1"/>
+
                              <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="date" class="col-sm-4 col-form-label">Invoice Date
@@ -101,7 +127,7 @@
                                     </label>
                                     <div class="col-sm-8">
                                         <?php $date = date('Y-m-d'); ?>
-                                        <input type="text" required tabindex="2" class="form-control datepicker" name="invoice_date" value="<?php echo $date; ?>" id="date"  />
+                                        <input type="date" required tabindex="2" class="form-control datepicker" name="invoice_date" value="<?php echo $date; ?>" id="date"  />
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +136,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
-                                    <label for="invoice_no" class="col-sm-4 col-form-label">Gross Weight
+                                    <label for="invoice_no" class="col-sm-4 col-form-label">No Of Bundle
                                         <i class="text-danger"></i>
                                     </label>
                                     <div class="col-sm-6">
@@ -118,8 +144,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <input type ="hidden" name="csrf_test_name" id="" value="<?php echo $this->security->get_csrf_hash();?>">
-                                         
+
                             <div class="col-sm-6">
                                <div class="form-group row">
                                     <label for="adress" class="col-sm-4 col-form-label">Container No
@@ -130,6 +155,7 @@
                                 </div> 
                             </div>
                         </div>
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
 
            <!--      <div>
                           <button type="button" class="btn btn-primary"  id="service_quotation_div">Create Crate</button>  
@@ -138,232 +164,186 @@
 <!-- 
                         <button type="button" class="btn btn-info" name="add-invoice-item"  onClick="addCrate('quotation_service1')"  tabindex="9"/><i class="fa fa-plus"></i> Add another crate</button> -->
 
-                        <br>
-<!--       
-      <div id='content'>
-                  <div class="crate_wrap" id="crate_wrap" style="
-          border: 1px solid #ddd;
-          padding: 6px;
-          margin: 5px;
-      ">
+        <br>
 
+
+       
 
 
               <div class="table-responsive" id="quotation_service1">
-                        <table class="table table-bordered table-hover" id="packingListTable">
-
-                             <thead>
-                                <tr><th colspan="3" class="bundlelable">Bundle</th></tr>
-                                     <tr>
-                                          
-                                           <th class="text-center" width="15%">Product<i class="text-danger">*</i></th> 
+              <table class="table table-bordered table-hover" id="packingListTable">
 
 
-                                           <th class="text-center" width="15%">Description<i class="text-danger">*</i></th>
+<thead>
+     <tr>
+       
+     <?php  echo $currency." ";  ?></td>
+     <th class="text-center" width="10%">Serial No<i class="text-danger">*</i></th>
+            <th class="text-center">Bundle Reference</th>
+            
+            <th class="text-center">Product Name<i class="text-danger">*</i></th>
 
+            <th class="text-center">No of Bundle<i class="text-danger">*</i></th>
+            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity Per Bundle<i class="text-danger">*</i>
+            <select name="thickness" id="thickness" class="form-control thickness"   style="width: 250px;">
+             <option value="Sq.ft" selected>Sq.ft</option>
+             <?php  foreach($unit_list as $unt){ ?>
+             <option value="<?php  echo $unt['unit_name']; ?>"><?php  echo $unt['unit_name']; ?></option>
 
-                                           <th class="text-center" width="15%">Thickness<i class="text-danger">*</i></th>
+         
+                <?php  }  ?>
+           </select></span>
+        </th>
+          
+            <th class="text-center">Quantity Per Package<i class="text-danger">*</i>
+        
+        </th>
 
-                                          
-                                         
-                                        </tr>
-                                </thead>
-
-                                <tbody id="">
-                                    <tr>
-                                        
-
-                                        <td class="span3 supplier">
-                                        <select name="product_name"  required class="form-control product_name"  id="product_name_1" tabindex="5" onchange="product_detail(1);">
-                                        <option value="Select the Product" selected>Select the Product</option>
-                                        <?php
-                                        foreach ($products as $ppn)
-                                        {
-                                         ?>
-                                          <option value="<?php echo $ppn['product_name'].'-'.$ppn['product_model']; ?>"><?php echo $ppn['product_name'].'-'.$ppn['product_model']; ?></option>
-                                          <?php
-                                        }?>
-                                    </select>
-                                    <input type="text"  name="product_id" id="prod_id_1"/>
-
-
-                               
-
-
-                                        
-
-                                            <input type="hidden" class="sl" value="1">
-
-                                             <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#product_info"><i class="ti-plus m-r-2"></i></a> -->
-
-                                        <!-- </td>
-
-                                        <input type="hidden" id="invoice_hdn"/> <input type="hidden" id="invoice_hdn1"/>
-                                        <td class="span3 supplier">
-                                           <input type="text" name="description" required class="form-control" placeholder="<?php echo display('description') ?>"  tabindex="5" >
-
-                                        </td>
-
-
-                                          <td class="span3 supplier">
-                                           <input type="text" name="thickness" required class="form-control" placeholder="Thickness"  tabindex="5" >
-
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-                        </div> -->
+            <th class="text-center">Rate<i class="text-danger">*</i></th>
 
 
 
+            <th class="text-center"  style="width:200px;">Amount</th>
+       
+            <th class="text-center"><?php echo display('action') ?></th>
+        </tr>
+</thead>
+<tbody id="addPurchaseItem">
+    <tr>
+         <td class="wt">
+                <input type="text" id="serial_number[]" name="serial_number[]" value="1" class="form-control text-right" placeholder="" />
+         </td>
 
-                        <div class="table-responsive" id="quotation_service1">
-                        <table class="table table-bordered table-hover" id="packingListTable">
-
-
-                                <thead>
-                                     <tr>
-                                       
-                                          
-                                     <th class="text-center" width="10%">Serial No<i class="text-danger">*</i></th>
-                                            <th class="text-center">Bundle Reference</th>
-                                            
-                                            <th class="text-center">Product Name<i class="text-danger">*</i></th>
-
-                                            <th class="text-center">No of Bundle<i class="text-danger">*</i></th>
-
-                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity<i class="text-danger">*</i>
-                                             <select name="thickness" id="thickness" class="form-control thickness"   style="width: 250px;">
-                                             <option value="Sq.ft" selected>Sq.ft</option>
-                                             <option value="Inches">Inches</option>
-                                           </select></span>
-                                        </th>
-
-                                            <th class="text-center">Rate<i class="text-danger">*</i></th>
+       <td class="wt">
+                <input type="text" name="bun_ref[]" id="bun_ref_1" class="form-control text-right stock_ctn_1" placeholder="0.00" />
+       </td>
+        
+       <td class="wt">
+       <div class="form-group row">
+ 
+    <div class="col-sm-6">
 
 
+            <select name="product_name[]" id="product_name_1" class="form-control product_name" onchange="product_detail(1);" required  style="width: 250px;">
 
-                                            <th class="text-center"  style="width:200px;">Amount</th>
-                                       
-                                            <th class="text-center"><?php echo display('action') ?></th>
-                                        </tr>
-                                </thead>
-                                <tbody id="addPurchaseItem">
-                                    <tr>
-                                         <td class="wt">
-                                                <input type="text" id="serial_number[]" name="serial_number[]" value="1" class="form-control text-right" placeholder="" />
-                                         </td>
+                <option value="">Select product</option>
 
-                                       <td class="wt">
-                                                <input type="text" name="bun_ref[]" id="bun_ref_1" class="form-control text-right stock_ctn_1" placeholder="0.00" />
-                                       </td>
-                                        
-                                       <td class="wt">
-                                       <div class="form-group row">
-                                 
-                                    <div class="col-sm-6">
+                 <?php foreach ($products as $pack) {?>
 
+                <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>
 
-                                            <select name="product_name[]" id="product_name_1" class="form-control product_name" onchange="product_detail(1);" required  style="width: 250px;">
+                 <?php }?>
 
-                                                <option value="">Select product</option>
+            </select>
+            <input type="hidden"  name="product_id[]" id="prod_id_1"/>
 
-                                                 <?php foreach ($products as $pack) {?>
+</div> 
+   
+    </td>   
+           
 
-                                                <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>
-
-                                                 <?php }?>
-
-                                            </select>
-                                            <input type="hidden"  name="product_id[]" id="prod_id_1"/>
-                                
-                                </div> 
-                                   
-                                    </td>   
-                                           
-
-                                       <td class="wt">
-                                                <input type="text" name="bundle_no[]" id="bundle_no_1" class="form-control text-right stock_ctn_1" placeholder="0.00" />
-                                       </td>
-
-                                       <td class="wt">
-                                                <input type="text" name="quantity[]" id="available_quantity_1" class="form-control text-right stock_ctn_1"  onkeyup="total_amt(1);" placeholder="0.00" />
-                                       </td>
+    <td class="wt">
+                <input type="text" name="bundle_no[]" class="bundle_no" id="bundle_no_1" class="form-control text-right stock_ctn_1" placeholder="0.00" />
+       </td>
+       <td class="wt">
+                <input type="text" name="q_per_bundle[]" id="q_per_bundle_1" onkeyup="total_amt(1);" class="form-control text-right stock_ctn_1" placeholder="0.00" />
+       </td>
+       <td class="wt">
+                <input type="text" name="q_per_package[]" id="q_per_package_1" onkeyup="total_amt(1);"  class="form-control text-right stock_ctn_1" placeholder="0.00" />
+       </td>
 
 
-                                       <td class="wt">
-                                                <input type="text" name="rate[]" id="rate_1" class="form-control text-right stock_ctn_1" placeholder="0.00" />
-                                       </td>
+
+       <td class="wt">
+       <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>    <input type="text" name="rate[]" id="rate_1" readonly class="form-control text-right stock_ctn_1" placeholder="0.00" /></td>
+     </tr>
+   </table>
+              
+       </td>
 
 
-                                            
-                                           
+            
+           
 
-                                            <td class="text-right">
-                                                <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_1" value="0.00" readonly="readonly" />
-                                            </td>
-                                            
-                                            <td>
-                                                <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button>
-                                            </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        
-                                        <td class="text-right" colspan="6"><b><?php echo display('total') ?>:</b></td>
+            <td class="text-right">
+            <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>       <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_1" value="0.00" readonly="readonly" /></td>
+     </tr>
+   </table>
+             
+            </td>
+            
+           
+            <td>
+                <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button>
+            </td>
+    </tr>
+</tbody>
+<tfoot>
+    <tr>
+        
+        <td class="text-right" colspan="7"><b><?php echo display('total') ?>:</b></td>
 
-                                        <td class="text-right">
-                                            <input type="text" id="Total" class="text-right form-control" name="total" value="0.00" readonly="readonly" />
-                                        </td>
-                                        <td> <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item"  onClick="addpackingList('addPurchaseItem')"  tabindex="9"/><i class="fa fa-plus"></i></button>
-                                           <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
-                                    </tr>
-                                       
-
-                                       <!--  <tr>
-                                        
-                                        <td class="text-right" colspan="7"><b><?php echo display('grand_total') ?>:</b></td>
-                                        <td class="text-right">
-                                            <input type="text" id="grandTotal" class="text-right form-control" name="grand_total_price" value="0.00" readonly="readonly" />
-                                        </td>
-                                        <td> </td>
-                                    </tr> -->
-                                       <!--   <tr>
-                                        
-                                        <td class="text-right" colspan="7"><b><?php echo display('paid_amount') ?>:</b></td>
-                                        <td class="text-right">
-                                            <input type="text" id="paidAmount" class="text-right form-control" onKeyup="invoice_paidamount()" name="paid_amount" value="" />
-                                        </td>
-                                        <td> </td>
-                                    </tr> -->
-                                    <!-- <tr>
-                                        <td colspan="2" class="text-right">
-                                             <input type="button" id="full_paid_tab" class="btn btn-warning" value="<?php echo display('full_paid') ?>" tabindex="16" onClick="full_paid()"/>
-                                        </td>
-                                        <td class="text-right" colspan="5"><b><?php echo display('due_amount') ?>:</b></td>
-                                        <td class="text-right">
-                                            <input type="text" id="dueAmmount" class="text-right form-control" name="due_amount" value="0.00" readonly="readonly" />
-                                        </td>
-                                        <td></td>
-                                    </tr> -->
+        <td class="text-right">
+        <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>    <input type="text" id="Total" class="text-right form-control" name="total" value="0.00" readonly="readonly" /></td>
+     </tr>
+   </table>
 
 
-                                  
-                                     
+            
+        </td>
+        <td> <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item"  onClick="addpackingList('addPurchaseItem')"  tabindex="9"/><i class="fa fa-plus"></i></button>
+           <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
+    </tr>
+       
 
-                                   
-                                </tfoot>
-                            </table>
+       <!--  <tr>
+        
+        <td class="text-right" colspan="7"><b><?php echo display('grand_total') ?>:</b></td>
+        <td class="text-right">
+            <input type="text" id="grandTotal" class="text-right form-control" name="grand_total_price" value="0.00" readonly="readonly" />
+        </td>
+        <td> </td>
+    </tr> -->
+       <!--   <tr>
+        
+        <td class="text-right" colspan="7"><b><?php echo display('paid_amount') ?>:</b></td>
+        <td class="text-right">
+            <input type="text" id="paidAmount" class="text-right form-control" onKeyup="invoice_paidamount()" name="paid_amount" value="" />
+        </td>
+        <td> </td>
+    </tr> -->
+    <!-- <tr>
+        <td colspan="2" class="text-right">
+             <input type="button" id="full_paid_tab" class="btn btn-warning" value="<?php echo display('full_paid') ?>" tabindex="16" onClick="full_paid()"/>
+        </td>
+        <td class="text-right" colspan="5"><b><?php echo display('due_amount') ?>:</b></td>
+        <td class="text-right">
+            <input type="text" id="dueAmmount" class="text-right form-control" name="due_amount" value="0.00" readonly="readonly" />
+        </td>
+        <td></td>
+    </tr> -->
+
+
+  
+     
+
+   
+</tfoot>
+</table>
                         </div>
 
-                       
                     </div>
-                    </div> 
-                     
+
+               
 
 
                            <div class="row">
@@ -374,7 +354,6 @@
                                     <div class="col-sm-8">
                                         <textarea class="form-control" rows="4" cols="50" id="adress" name="remarks" placeholder="Remarks" rows="1"></textarea>
                                     </div>
-
                                 </div> 
                             </div>
 
@@ -384,44 +363,25 @@
                                     <label for="adress" class="col-sm-4 col-form-label">Attachements
                                     </label>
                                     <div class="col-sm-8">
-                                    <!-- <input type='button' value='Add Bundle' id="buddle_2"    class="btn btn-primary" onclick="add(); " style="float: right;margin-left: 10px;    margin-right: 33px;
-    margin-top: 12px;margin-bottom: 20px;"  /> -->
+                             <!--       <input type='button' value='Add Bundle' id="buddle_2"    class="btn btn-primary" onclick="add(); " style="float: right;margin-left: 10px;    margin-right: 33px;
+    margin-top: 12px;margin-bottom: 20px;"  />-->
                                        <input type="file" name="attachments" class="form-control">
                                     </div>
                                 </div> 
                             </div>
-                           
+                        </div>
+
+<div class="form-group row">
                             <div class="col-sm-6">
-                            <div class="form-group row">
-                               <!--  <input type="submit" id="add_purchase" class="btn btn-primary btn-large" name="add-packing-list" value="Save" />
-                                <input type="submit" value="Sendemail With Attachement" name="add-packing-list-another" class="btn btn-large btn-success" style="display:none;" id="save_another" >
-                                <input type="submit" style="display:none;" id="download" class="btn btn-primary btn-large" name="add-packing-list" value="Download" /> -->
-
-                                <table>
-                                <tr>
-                                    <td>
-
-                                    <input type="submit" id="add_purchase" class="btn btn-primary btn-large" name="add-packing-list" value="<?php echo display('save') ?>" />
-
+                                <input type="submit" id="add_purchase" class="btn btn-primary btn-large" name="add-packing-list" value="Save" />
                                 <a  style="color: #fff;"  id="final_submit" class='final_submit btn btn-primary'>Submit</a>
+                       
 
-<a id="download" style="color: #fff;" class='btn btn-primary'>Download</a>  
-
-                                    </td>
-        
-                                  
-                                  
-                                    
-                                </tr>
-                               </table>
+<a id="download" style="color: #fff;" class='btn btn-primary'>Download</a>
+                   
                             </div>
                         </div>
-                        </div>
-
- 
-
-                            </form>
-
+                        </form>  <input type="hidden" id="invoice_hdn"/> <input type="hidden" id="invoice_hdn1"/>
                     </div>
                 </div>
 
@@ -729,7 +689,9 @@ var count = 2;
             tab5 = tabindex + 5;
             tab6 = tab5 + 1;
             tab7 = tab6 +1;
-            newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" onchange="product_detail('+count+');" required  style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td>   <td class="wt"> <input type="text" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" name="quantity[]" id="available_quantity_'+count+'" class="form-control text-right stock_ctn_'+count+'"  onkeyup="total_amt('+count+');" placeholder="0.00" /> </td>   <td class="wt"> <input type="text" name="rate[]" id="rate_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>      <td class="text-right"> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td>  <td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr>';
+            // newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" onchange="product_detail('+count+');" required  style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td>   <td class="wt"> <input type="text" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" name="quantity[]" id="available_quantity_'+count+'" class="form-control text-right stock_ctn_'+count+'"  onkeyup="total_amt('+count+');" placeholder="0.00" /> </td>   <td class="wt"> <input type="text" name="rate[]" id="rate_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>      <td class="text-right"> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td>  <td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr>';
+                       newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" onchange="product_detail('+count+');" required  style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td><td class="wt"> <input type="text" class="bundle_no" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" name="q_per_bundle[]" id="q_per_bundle_'+count+'" onkeyup="total_amt('+count+');" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" readonly name="q_per_package[]" id="q_per_package_'+count+'" onkeyup="total_amt('+count+');"  class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>    <td class="wt"><table border="0"> <tr><td><?php  echo $currency.' ';  ?></td><td>  <input type="text" name="rate[]" id="rate_'+count+'" readonly class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> </tr></table> </td>      <td class="text-right"> <table border="0"> <tr><td><?php  echo $currency.' ';  ?></td><td> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td> </tr></table></td><td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr> </tbody> <tfoot>';
+
             document.getElementById(divName).appendChild(newdiv);
             // document.getElementById(tabin).focus();
             document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
@@ -750,18 +712,27 @@ var count = 2;
 var sum=0;
 
 var total='total_price_'+id;
-
+var bundle_no ='bundle_no_'+id;
+var q_per_bundle ='q_per_bundle_'+id;
 var quantity='available_quantity_'+id;
-var amount = 'rate_'+ id;
+var b=$('#'+bundle_no).val();
+var qb=$('#'+q_per_bundle).val();
+var q_per_package = parseInt(b) * parseInt(qb);
+$('#q_per_package_'+id).val(q_per_package);
+var rate=$('#rate_'+id).val();
+var s=parseInt(rate) * parseInt(q_per_package);
+$('#total_price_'+id).val(s);
+// var amount = 'rate_'+ id;
 
-var quan=$('#'+quantity).val();
-var amt=$('#'+amount).val();
-var result=parseInt(quan) * parseInt(amt);
-result = isNaN(result) ? 0 : result;
-arr.push(result);
-$('#'+total).val(result);
+// var quan=$('#'+quantity).val();
+// var amt=$('#'+amount).val();
+// var result=parseInt(quan) * parseInt(amt);
+// result = isNaN(result) ? 0 : result;
+// arr.push(result);
+// $('#'+total).val(result);
 
-gt();
+ gt();
+ total_bundle();
 }
 function gt(){
 var sum=0;
@@ -769,7 +740,15 @@ $('.total_price').each(function() {
 sum += parseFloat($(this).val());
 });
 $('#Total').val(sum);
-$('#gross_wight').val(sum);
+
+}
+function total_bundle(){
+var tl_bundle=0;
+$('.bundle_no').each(function() {
+    tl_bundle += parseFloat($(this).val());
+});
+$('#gross_wight').val(tl_bundle);
+
 }
 function addCrate(divName){
 

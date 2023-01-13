@@ -218,7 +218,16 @@
                                 
                                 </div> 
                             </div>
-
+                            <div class="col-sm-6">
+                               <div class="form-group row">
+                                    <label for="supplier_sss" class="col-sm-4 col-form-label">Shipment / BL Number
+                                        <i class="text-danger">*</i>
+                                    </label>
+                                     <div class="col-sm-8">
+                                        <input type="text" required tabindex="2" class="form-control" name="shipment_bl_number" value="<?php echo $shipment_bl_number; ?>" id="date"  />
+                                    </div>
+                                </div>
+                            </div>
 
                            
                         </div>

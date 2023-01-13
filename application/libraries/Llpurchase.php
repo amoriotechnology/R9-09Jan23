@@ -945,6 +945,7 @@ class Llpurchase {
             $bank_list      = $CI->Web_settings->bank_list();
          
             $data = array(
+                'shipment_bl_number' =>$purchase_detail[0]['shipment_number'],
                 'curn_info_default' =>$curn_info_default[0]['currency_name'],
                 'currency'  =>$currency_details[0]['currency'],
                 'title'         => 'Edit Trucking Invoice',
@@ -1301,6 +1302,7 @@ class Llpurchase {
             'purchase_all_data'=> $purchase_detail,
             'company_info'     => $company_info,
             'Web_settings'     => $currency_details,
+            'shipment_number' => $purchase_detail[0]['shipment_number']
         );
         // echo "<pre>";
        

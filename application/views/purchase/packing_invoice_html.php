@@ -63,10 +63,10 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
         <div class="brand-section">
         <div class="row" >
      
-     <div class="col-sm-2"><img src="<?php echo  base_url().'assets/'.$logo; ?>" style='width: 100%;'>
+     <div class="col-sm-3"><img src="<?php echo  base_url().'assets/'.$logo; ?>" style='width: 100%;'>
         
        </div>
-     <div class="col-sm-5 text-center" style="text-align:left;color:white;"><h3><?php echo $header; ?></h3></div>
+     <div class="col-sm-4 text-center" style="text-align:left;color:white;"><h3><?php echo $header; ?></h3></div>
     <div class="col-sm-5" style="color:white;font-weight:bold;" id='company_info'>
   
           <b> Company name : </b><?php echo $company; ?><br>
@@ -107,10 +107,10 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
 
                                             <th class="text-center">No of Bundle</th>
 
-                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity / Bundle in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Qty/Bundle in <?php  echo $packing_details[0]['thickness'];  ?>
                                             
                                         </th>
-                                        <th class="text-center">Quantity / Package</th>
+                                        <th class="text-center">Qty/Pkg</th>
                                         <th class="text-center">Rate</th>
 
 
@@ -131,8 +131,15 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
              <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_bundle']; ?></td>
              <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_package']; ?></td>
           
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+             <td style="font-size: 16px;">
+              <?php echo $currency.$packing_details[$i]['rate'];  ?></td>
+   
+             </td>
+             <td style="font-size: 16px;">
+             <?php echo $currency.$packing_details[$i]['total_price'];  ?></td>
+ 
+             </td>
+            
           </tr>
           <?php $count++;}}  ?>
         
@@ -140,8 +147,13 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
-                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                        <td colspan="7" style="text-align:right;font-weight:bold;">Total:</td>
+                        
+                        <td style="font-size: 16px;">
+            <?php echo $currency.$packing_details[0]['grand_total_amount'];  ?></td>
+ 
+   
+  </td>
                     </tr>
                          </tfoot>
             </table>
@@ -196,9 +208,9 @@ elseif($template==1)
         </div>
 
         <div class="body-section">
-            
+           
 
-        <table class="table-bordered">
+            <table class="table-bordered">
                 <thead>
                 <th class="text-center" width="10%">Serial No</th>
                                             <th class="text-center">Bundle Reference</th>
@@ -207,9 +219,10 @@ elseif($template==1)
 
                                             <th class="text-center">No of Bundle</th>
 
-                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Qty/Bundle in <?php  echo $packing_details[0]['thickness'];  ?>
                                             
                                         </th>
+                                        <th class="text-center">Qty/Pkg</th>
                                         <th class="text-center">Rate</th>
 
 
@@ -226,10 +239,19 @@ elseif($template==1)
               <td style="font-size: 16px;"><?php echo $count ;?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['no_of_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_package']; ?></td>
+          
+             <td style="font-size: 16px;text-align-last: center;">
+                <input type="text" id="Total" class="text-right" name="total" value="<?php echo $currency." ".$packing_details[$i]['rate'];  ?>" readonly="readonly" /></td>
+   
+             </td>
+             <td style="font-size: 16px;text-align-last: center;">
+              <input type="text" id="Total" class="text-right" name="total" value="<?php echo $currency." ".$packing_details[$i]['total_price'];  ?>" readonly="readonly" /></td>
+ 
+             </td>
+            
           </tr>
           <?php $count++;}}  ?>
         
@@ -237,8 +259,13 @@ elseif($template==1)
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
-                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                        <td colspan="7" style="text-align:right;font-weight:bold;">Total:</td>
+                        
+                        <td style="font-size: 16px;text-align-last: center;">
+             <input type="text" id="Total" class="text-right" name="total" value=" <?php echo $currency." ".$packing_details[0]['grand_total_amount'];  ?>" readonly="readonly" /></td>
+ 
+   
+  </td>
                     </tr>
                          </tfoot>
             </table>
@@ -309,9 +336,10 @@ elseif($template==3)
 
                                             <th class="text-center">No of Bundle</th>
 
-                                            <th class="text-center"><span style="float: left; max-width: max-content;">Quantity in <?php  echo $packing_details[0]['thickness'];  ?>
+                                            <th class="text-center"><span style="float: left; max-width: max-content;">Qty/Bundle in <?php  echo $packing_details[0]['thickness'];  ?>
                                             
                                         </th>
+                                        <th class="text-center">Qty/Pkg</th>
                                         <th class="text-center">Rate</th>
 
 
@@ -328,10 +356,19 @@ elseif($template==3)
               <td style="font-size: 16px;"><?php echo $count ;?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_ref']; ?></td>
               <td style="font-size: 16px;"><?php echo $packing_details[$i]['product_name']."-".$packing_details[$i]['product_model']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['bundle_no']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity']; ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['rate'];  ?></td>
-             <td style="font-size: 16px;"><?php echo $packing_details[$i]['total_price'];  ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['no_of_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_bundle']; ?></td>
+             <td style="font-size: 16px;"><?php echo $packing_details[$i]['quantity_per_package']; ?></td>
+          
+             <td style="font-size: 16px;text-align-last: center;">
+                <input type="text" id="Total" class="text-right" name="total" value="<?php echo $currency." ".$packing_details[$i]['rate'];  ?>" readonly="readonly" /></td>
+   
+             </td>
+             <td style="font-size: 16px;text-align-last: center;">
+              <input type="text" id="Total" class="text-right" name="total" value="<?php echo $currency." ".$packing_details[$i]['total_price'];  ?>" readonly="readonly" /></td>
+ 
+             </td>
+            
           </tr>
           <?php $count++;}}  ?>
         
@@ -339,8 +376,13 @@ elseif($template==3)
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6" style="text-align:right;font-weight:bold;">Total:</td>
-                        <td style="font-size: 16px;"><?php echo $packing_details[0]['grand_total_amount'];  ?></td>
+                        <td colspan="7" style="text-align:right;font-weight:bold;">Total:</td>
+                        
+                        <td style="font-size: 16px;text-align-last: center;">
+             <input type="text" id="Total" class="text-right" name="total" value=" <?php echo $currency." ".$packing_details[0]['grand_total_amount'];  ?>" readonly="readonly" /></td>
+ 
+   
+  </td>
                     </tr>
                          </tfoot>
             </table>
@@ -569,7 +611,7 @@ table th, table td {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script>
-   
+  
 $(document).ready(function () {
 function first(callback1,callback2){
 setTimeout( function(){

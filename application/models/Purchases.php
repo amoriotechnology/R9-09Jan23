@@ -1749,7 +1749,7 @@ return $output;
                 'bundle_ref'               => $bun_reff,
                'product_name' =>$p_name,
                 'product_id' => $p_id,
-                'bundle_no' => $b_no,
+                'no_of_bundle' => $b_no,
                 
                 'quantity_per_bundle'  => $qnty_bundle,
                 'quantity_per_package'   => $qnty_package,
@@ -1758,13 +1758,13 @@ return $output;
                 'create_by'          =>  $this->session->userdata('user_id'),
                 'status'             => 1
             );
-          
+       
         
 //$this->db->where('expense_packing_id',$this->session->userdata('sale_p_2'));
 //  echo $this->db->last_query();echo "<br/>";
 //$this->db->delete('sale_packing_list_detail');
 $this->db->insert('expense_packing_list_detail', $data1);
-// echo $this->db->last_query();echo "<br/>";
+//echo $this->db->last_query();echo "<br/>";
 
     }
 
@@ -2258,7 +2258,14 @@ $bankc = array(
        // echo $this->db->last_query();die();
         return $query->result_array();
     }
-
+    public function shipment_bl_number() {
+        $query = $this->db->select('shipment_number')
+                ->from('expense_trucking')
+                ->where('created_by',$this->session->userdata('user_id'))
+                // ->where('supplier_name',$value)
+                ->where('status', '1')
+                ->get();
+    }
          //Ocean Import Entry
     public function ocean_import_entry() {
 
@@ -2397,6 +2404,7 @@ $bankc = array(
            $bankcoaid = '';
        }
        $payment_id=$this->input->post('payment_id');
+       $shipment_number = $this->input->post('shipment_bl_number',TRUE);
    $data = array(
     'payment_id' => $payment_id,
             'trucking_id'        => $purchase_id,
@@ -2410,6 +2418,7 @@ $bankc = array(
             'amt_paid'    => $this->input->post('amount_paid',TRUE),
             'balance'    => $this->input->post('balance',TRUE),
             'shipment_company'   => $this->input->post('shipment_company',TRUE),
+            'shipment_number' => $this->input->post('shipment_bl_number',TRUE),
             'container_pickup_date'   => $this->input->post('container_pick_up_date',TRUE),
             'container_no'   => $this->input->post('container_number',TRUE),
             'delivery_date' => $this->input->post('delivery_date',TRUE),
@@ -3135,16 +3144,18 @@ public function company_info()
 
 
     public function packing_details_data($expense_packing_id) {
+       // $sql='SELECT * FROM `expense_packing_list_detail` a JOIN product_information b on b.product_id=a.product_id where a.expense_packing_id="'.$purchase_id.'"';
         // $sql='SELECT * FROM expense_packing_list as a JOIN expense_packing_list_detail as b ON b.product_id = a.product_id WHERE a.expense_packing_id = '.$expense_packing_id;
   //$sql = 'SELECT * FROM expense_packing_list as a JOIN expense_packing_list_detail as ac JOIN product_information as b ON b.product_id = a.product_id WHERE a.expense_packing_id = '.$expense_packing_id;
         $this->db->select('*');
      $this->db->from('expense_packing_list a');
          $this->db->join('expense_packing_list_detail ac' , 'a.expense_packing_id=ac.expense_packing_id');
          $this->db->join('product_information b' , 'b.product_id = ac.product_id');
-     $this->db->where('ac.expense_packing_id' , $expense_packing_id);
+     $this->db->where('a.expense_packing_id' , $expense_packing_id);
+     $this->db->order_by("bundle_ref", "asc");
          $query = $this->db->get();
       //  $query = $this->db->query($sql);
-    echo $this->db->last_query();
+
         if ($query->num_rows() > 0) {
             return $query->result_array();
         }

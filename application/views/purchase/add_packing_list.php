@@ -6,7 +6,32 @@
 <script src="<?php echo base_url()?>my-assets/js/admin_js/purchase.js" type="text/javascript"></script>
 
 <script src="<?php echo base_url()?>my-assets/js/admin_js/packing.js" type="text/javascript"></script>
+<style>
+    textarea:focus, input:focus{
+    outline: none;
+}
 
+input:disabled {
+   background-color: none;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+        background-color: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+}
+input{
+    border:none;
+    background-color:none;
+}
+textarea:focus, input:focus{
+   
+    outline: none;
+}
+ .text-right {
+    text-align: left; 
+}
+    </style>
 
 <!-- Add New Purchase Start -->
 <div class="content-wrapper">
@@ -220,7 +245,13 @@
 
 
        <td class="wt">
-                <input type="text" name="rate[]" id="rate_1" readonly class="form-control text-right stock_ctn_1" placeholder="0.00" />
+       <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>    <input type="text" name="rate[]" id="rate_1" readonly class="form-control text-right stock_ctn_1" placeholder="0.00" /></td>
+     </tr>
+   </table>
+              
        </td>
 
 
@@ -228,7 +259,13 @@
            
 
             <td class="text-right">
-                <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_1" value="0.00" readonly="readonly" />
+            <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>       <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_1" value="0.00" readonly="readonly" /></td>
+     </tr>
+   </table>
+             
             </td>
             
            
@@ -243,7 +280,15 @@
         <td class="text-right" colspan="7"><b><?php echo display('total') ?>:</b></td>
 
         <td class="text-right">
-            <input type="text" id="Total" class="text-right form-control" name="total" value="0.00" readonly="readonly" />
+        <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>    <input type="text" id="Total" class="text-right form-control" name="total" value="0.00" readonly="readonly" /></td>
+     </tr>
+   </table>
+
+
+            
         </td>
         <td> <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item"  onClick="addpackingList('addPurchaseItem')"  tabindex="9"/><i class="fa fa-plus"></i></button>
            <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
@@ -442,7 +487,7 @@ var count = 2;
             tab5 = tabindex + 5;
             tab6 = tab5 + 1;
             tab7 = tab6 +1;
-            newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" onchange="product_detail('+count+');" required  style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td><td class="wt"> <input type="text" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" name="q_per_bundle[]" id="q_per_bundle_'+count+'" onkeyup="total_amt('+count+');" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" name="q_per_package[]" id="q_per_package_'+count+'" onkeyup="total_amt('+count+');"  class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>    <td class="wt"> <input type="text" name="rate[]" id="rate_'+count+'" readonly class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>      <td class="text-right"> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td>   <td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr> </tbody> <tfoot>';
+            newdiv.innerHTML =  '<tr> <td class="wt"> <input type="text" id="serial_number[]" name="serial_number[]" value="'+count+'" class="form-control text-right" placeholder="" /> </td>  <td class="wt"> <input type="text" name="bun_ref[]" id="bun_ref_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>  <td class="wt"> <div class="form-group row">  <div class="col-sm-6">   <select name="product_name[]" id="product_name_'+count+'" class="form-control product_name" onchange="product_detail('+count+');" required  style="width: 250px;">  <option value="">Select product</option>  <?php foreach ($products as $pack) {?>  <option value="<?php echo html_escape($pack['product_name']."-".$pack['product_model']);?>"><?php echo html_escape($pack['product_name']."-".$pack['product_model']);?></option>  <?php }?>  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+count+'"/>  </div>  </td><td class="wt"> <input type="text" name="bundle_no[]" id="bundle_no_'+count+'" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" name="q_per_bundle[]" id="q_per_bundle_'+count+'" onkeyup="total_amt('+count+');" class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> <td class="wt"> <input type="text" name="q_per_package[]" id="q_per_package_'+count+'" onkeyup="total_amt('+count+');"  class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td>    <td class="wt"><table border="0"> <tr><td><?php  echo $currency.' ';  ?></td><td>  <input type="text" name="rate[]" id="rate_'+count+'" readonly class="form-control text-right stock_ctn_'+count+'" placeholder="0.00" /> </td> </tr></table> </td>      <td class="text-right"> <table border="0"> <tr><td><?php  echo $currency.' ';  ?></td><td> <input class="form-control total_price text-right" type="text" name="total_price[]" id="total_price_'+count+'" value="0.00" readonly="readonly" /> </td> </tr></table></td><td> <button  class="btn btn-danger text-right red" type="button" value="<?php echo display('delete')?>" onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button> </td> </tr> </tbody> <tfoot>';
             document.getElementById(divName).appendChild(newdiv);
             // document.getElementById(tabin).focus();
             document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
@@ -483,6 +528,7 @@ $('#total_price_'+id).val(s);
 // $('#'+total).val(result);
 
  gt();
+ total_bundle();
 }
 function gt(){
 var sum=0;
@@ -491,6 +537,14 @@ sum += parseFloat($(this).val());
 });
 $('#Total').val(sum);
 $('#gross_wight').val(sum);
+}
+function total_bundle(){
+var tl_bundle=0;
+$('.bundle_no').each(function() {
+    tl_bundle += parseFloat($(this).val());
+});
+$('#gross_wight').val(tl_bundle);
+
 }
 function addCrate(divName){
 

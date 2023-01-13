@@ -352,16 +352,24 @@ public function packing_details_data($expense_id) {
         $this->db->insert('acc_transaction',$supplierdebit);
         }
         }
+   
+            
+         
         $serial_number = $this->input->post('serial_number',TRUE);
-            $bun_ref = $this->input->post('bun_ref',TRUE);
-            $product_name =$this->input->post('product_name',TRUE);
-            $bundle_no = $this->input->post('bundle_no',TRUE);
-            $quantity = $this->input->post('quantity',TRUE);
-            $rate = $this->input->post('rate',TRUE);
-            $total_price =$this->input->post('total_price',TRUE);
-          //  $bundle = $this->input->post('bundle',TRUE);
-            $p_id1 = $this->input->post('product_id',TRUE);
-            $rowCount = count($this->input->post('quantity',TRUE));
+        $bun_ref = $this->input->post('bun_ref',TRUE);
+        $product_name =$this->input->post('product_name',TRUE);
+        $bundle_no = $this->input->post('bundle_no',TRUE);
+        $quantity = $this->input->post('quantity',TRUE);
+
+        $q_per_bundle=$this->input->post('q_per_bundle',TRUE);
+        $q_per_package=$this->input->post('q_per_package',TRUE);
+        
+
+        $rate = $this->input->post('rate',TRUE);
+        $total_price =$this->input->post('total_price',TRUE);
+      //  $bundle = $this->input->post('bundle',TRUE);
+        $p_id1 = $this->input->post('product_id',TRUE);
+            $rowCount = count($this->input->post('product_name',TRUE));
             $this->db->where('expense_packing_id', $this->session->userdata("sale_p_1"));
             $this->db->delete('sale_packing_list_detail');
          //   echo $this->db->last_query();echo "<br/>";
@@ -370,8 +378,14 @@ public function packing_details_data($expense_id) {
                 $bun_reff = $bun_ref[$i];
                 $p_name=$product_name[$i];
                 $b_no =$bundle_no[$i];
+    
+                $qnty_bundle =$q_per_bundle[$i];
+    
+                $qnty_package=$q_per_package[$i];
+    
+    
                 $p_id =$p_id1[$i];
-                $qnty = $quantity[$i];
+               
               //  $bundlee =$bundle[$i];
                 $rte = $rate[$i];
                 $t_price = $total_price[$i];
@@ -384,14 +398,15 @@ public function packing_details_data($expense_id) {
                     'bundle_ref'               => $bun_reff,
                    'product_name' =>$p_name,
                     'product_id' => $p_id,
-                    'bundle_no' => $b_no,
-                    'quantity'       => $qnty,
+                    'no_of_bundle' => $b_no,
+                    
+                    'quantity_per_bundle'  => $qnty_bundle,
+                    'quantity_per_package'   => $qnty_package,
                     'rate' => $rte,
                     'total_price' => $t_price,
                     'create_by'          =>  $this->session->userdata('user_id'),
                     'status'             => 1
                 );
-              
             
     //$this->db->where('expense_packing_id',$this->session->userdata('sale_p_2'));
   //  echo $this->db->last_query();echo "<br/>";

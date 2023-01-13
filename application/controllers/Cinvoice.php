@@ -794,17 +794,18 @@ public function deletesale(){
         $CI->load->library('linvoice');
         $products=$CI->Products->get_all_products();
         $data=array();
-        $units = $CI->db->select('unit_name')
-        ->from('units')
-        ->get()
-        ->result_array();
+        $CI->load->model('Units');
         $voucher_no = $CI->Invoices->packing_list_no();
+        $unit_list     = $CI->Units->unit_list();
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
         $data=array(
+          //  'curn_info_default' =>$curn_info_default[0]['currency_name'],
+            'currency' => $currency_details[0]['currency'],
             'voucher_no' => $voucher_no,
             'products'=> $products,
-            'unit'  => $units
+            'unit_list'    => $unit_list,
             );
-      
+     
        // echo $content = $CI->linvoice->invoice_add_form();
         $content = $this->load->view('invoice/add_packing_list', $data, true);
         //$content='';
@@ -2336,8 +2337,9 @@ $this->db->update('bootgrid_data');
         $packing_details = $CB->Invoices->packing_details_data($expense_id);
      
 
- 
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
         $data=array(
+            'currency'       => $currency_details[0]['currency'],
             'header'=> $dataw[0]['header'],
             'logo'=> $dataw[0]['logo'],
             'color'=> $dataw[0]['color'],

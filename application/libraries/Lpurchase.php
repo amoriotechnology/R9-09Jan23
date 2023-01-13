@@ -159,23 +159,21 @@ class Lpurchase {
         $currency_details = $CI->Web_settings->retrieve_setting_editdata();
 
         $bank_list        = $CI->Web_settings->bank_list();
-
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
+        $curn_info_default = $CI->db->select('*')->from('currency_tbl')->where('icon',$currency_details[0]['currency'])->get()->result_array();
 
         $category_list = $CI->Categories->category_list_product();
 
         $unit_list     = $CI->Units->unit_list();
 
         $voucher_no = $CI->Purchases->packing_voucher_no();
-        $units = $CI->db->select('unit_name')
-        ->from('units')
-        ->where('created_by',$CI->session->userdata('user_id'))
-        ->get()
-        ->result_array();
+       
 
-
+     
 
         $data = array(
-
+            'curn_info_default' =>$curn_info_default[0]['currency_name'],
+            'currency' => $currency_details[0]['currency'],
             'title'         => 'Add Packing List',
 
             'all_supplier'  => $all_supplier,
@@ -184,7 +182,7 @@ class Lpurchase {
 
             'category_list'=> $category_list,
 
-            'unit_list'    => $unit_list,
+       
 
             'voucher_no'   => $voucher_no,
 
@@ -194,7 +192,7 @@ class Lpurchase {
             'discount_type' => $currency_details[0]['discount_type'],
 
             'bank_list'     => $bank_list,
-            'unit'  => $units
+            'unit'  => $unit_list
 
         );
 

@@ -320,8 +320,13 @@ preg_match('#\((.*?)\)#', $d, $match);
    </table>    
                                        </td>
 
-                                        <td class="text-right">
-                                            <input class="form-control" type="text" name="pro_no[]" id="pro_no" value=<?php echo $pf['pro_no_reference'] ; ?>    />
+                                       <td class="text-right">
+                                        <select name="pro_no[]" id="invoice_no" class="form-control " required="" tabindex="1">
+                                        <option value="<?php echo $pf['pro_no_reference'];?> "><?php echo $pf['pro_no_reference'];?> </option>
+                                           <?php foreach($invoice as $inv){ ?>
+                                            <option value="<?php echo $inv['commercial_invoice_number'] ; ?>"><?php echo $inv['commercial_invoice_number'] ; ?></option>
+                                        <?php    }?>
+                                        </select>
                                         </td>
                                            
                                         <td>
@@ -1346,8 +1351,8 @@ function addTruckingOrderField(t) {
         tab10 = tabindex + 10;
         tab11 = tabindex + 11;
         tab12 = tabindex + 12;
-        e.innerHTML ='<td class="span3 supplier"><input type="date" name="trucking_date[]" required="" class="form-control" tabindex="'+tab1+'" > <input type="hidden" class="autocomplete_hidden_value product_id_'+ count +'" name="product_id[]" id="SchoolHiddenId"/>  <input type="hidden" class="sl" value="'+ count +'">  </td> <td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="total_amt(' + count + ');"  placeholder="0.00" value="" min="0"/></td><td class="text-right"><input class="form-control" type="text" name="description[]" id="pro_no" value=""  /></td><td> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td><td>   <input type="text" name="product_rate[]" required="" onkeyup="total_amt(' + count + ');"  id="product_rate_'+ count +'" class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td>  </tr> </table> </td><td class="text-right"><input class="form-control" type="text" name="pro_no[]" id="pro_no" value=""  /></td><td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr></table>  </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
-                 
+        e.innerHTML ='<td class="span3 supplier"><input type="date" name="trucking_date[]" required="" class="form-control" tabindex="'+tab1+'" > <input type="hidden" class="autocomplete_hidden_value product_id_'+ count +'" name="product_id[]" id="SchoolHiddenId"/>  <input type="hidden" class="sl" value="'+ count +'">  </td> <td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="total_amt(' + count + ');"  placeholder="0.00" value="" min="0"/></td><td class="text-right"><input class="form-control" type="text" name="description[]" id="pro_no" value=""  /></td><td> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td><td>   <input type="text" name="product_rate[]" required="" onkeyup="total_amt(' + count + ');"  id="product_rate_'+ count +'" class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td>  </tr> </table> </td><td class="text-right"> <select name="pro_no[]" id="invoice_no" class="form-control " required="" tabindex="1"><?php foreach($invoice as $inv){ ?>
+  <option value="<?php echo $inv['commercial_invoice_number'] ; ?>"><?php echo $inv['commercial_invoice_number'] ; ?></option> <?php    }?> </select></td><td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr></table>  </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';          
         document.getElementById(t).appendChild(e),
              
                 count++

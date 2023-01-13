@@ -20,8 +20,10 @@ class Linvoice {
         // print_r($sale); die();
         $CI->load->library('occational');
         $company_info = $CI->Invoices->retrieve_company();
+        
         $currency_details = $CI->Web_settings->retrieve_setting_editdata();
         $data = array(
+            'currency'       => $currency_details[0]['currency'],
             'title'         => display('manage_invoice'),
             'total_invoice' => $CI->Invoices->count_invoice(),
             'currency'      => $currency_details[0]['currency'],
@@ -494,7 +496,7 @@ class Linvoice {
 
             'customer_list' => $get_customer,
             'company_info' => $company_info,
-            'invoice'  => $pro_number
+            'invoice'  => $pro_no_reference
 
         );
 

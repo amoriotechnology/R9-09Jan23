@@ -738,10 +738,11 @@ $data=array(
         $dataw = $CA->invoice_design->retrieve_data();
         $datacontent = $CI->invoice_content->retrieve_data();
         $packing_details = $CB->Purchases->packing_details_data($expense_packing_id);
-        print_r($packing_details);die();
+        $currency_details = $CI->Web_settings->retrieve_setting_editdata();
        // $packing_details = $CB->Invoices->packing_details_data($expense_id);
        $company_info = $CI->Ppurchases->retrieve_company();
         $data=array(
+            'currency'       => $currency_details[0]['currency'],
             'packing_details' => $packing_details,
             'company' => $company_info[0]['company_name'],
             'address' => $company_info[0]['address'],
