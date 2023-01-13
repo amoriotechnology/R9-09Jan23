@@ -422,7 +422,7 @@ textarea:focus, input:focus{
                                             <th class="text-center">Quantity <i class="text-danger">*</i></th>
                                             <th class="text-center"><?php echo display('rate') ?><i class="text-danger">*</i></th>
                                             <th class="text-center"><?php echo display('total') ?></th>
-                                            <th class="text-center"><?php echo display('action') ?></th>
+                                       
                                         </tr>
                                 </thead>
                                 <tbody >
@@ -793,7 +793,8 @@ textarea:focus, input:focus{
 </style>
 <br>
                            <div class="table-responsive">
-                           <table class="taxtab table table-bordered table-hover">
+                           <table class="taxtab table table-bordered table-hover" id="tax_append">
+                            <tbody>
                         <tr>
                         <td class="hiden" style="width:30%;border:none;text-align:end;font-weight:bold;">
                             Todays Rate : 
@@ -803,16 +804,9 @@ textarea:focus, input:focus{
                                  = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" class="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
                     <td style="border:none;text-align:right;font-weight:bold;">Tax : 
                                  </td>
-                                <td style="width:40%">
-<select name="tx"  id="product_tax" class="form-control" >
-<option value="Select the Tax" selected>Select the Tax</option>
-<?php foreach($tax as $tx){?>
-  
-    <option value="<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';?>">  <?php echo $tx['tax_id'].'-'.$tx['tax'].'%';  ?></option>
-<?php } ?>
-</select>
-</td>
+                                
 </tr>
+</tbody>
 </table>
                             <table class="table table-bordered table-hover" id="purchaseTable">
                                 <thead>
@@ -2327,7 +2321,7 @@ $('#po').on('change', function (e) {
      dataType:"json",
         url:'<?php echo base_url();?>Cpurchase/get_po_details',
         success: function(result, statut) {
-            console.log(result[0]['supplier_id']);
+            console.log(result);
 $('#s_id').val(result[0]['supplier_id']);
 $('#Total').val(result[0]['grand_total_amount']);
 
@@ -2342,17 +2336,20 @@ $('#Total').val(result[0]['grand_total_amount']);
  '</tr>');
         //c++;
    });
+   $("#tax_append tbody").append('<td style="width:40%"><select name="tx"  id="product_tax" class="form-control" >'+
+'<option value="'+result[0]['tax_details']+'" selected>'+result[0]['tax_details']+'</option>'+
+'<?php foreach($tax as $tx){?> <option value="<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';?>"> '+
+    '<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';  ?></option><?php } ?></select></td>');
    $("#purchaseTable1 tbody").append('<tr>  <td style="text-align:right;" colspan="4"><b><?php echo "Total" ?>:</b></td>'+
- '<td style="text-align:left;"> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td> <td>'+
-' <input type="text" id="Total" value="0.00" style="padding:5px;" alue="0.00" class="text-right" name="total"  readonly="readonly" />'+
- ' </td> </tr> </table> </td>   </tr>  <tr>  <td style="text-align:right;" colspan="4"><b>Tax Details :</b></td> '+
- '<td style="text-align:left;"> <table border="0"> <tr> <td><?php  echo $currency." ";  ?></td> <td>    '+
- ' <input type="text" id="tax_details" style="padding:5px;" class="text-right" value="0.00" name="tax_details"  readonly="readonly" />'+
+ '<td style="text-align:left;"> <table border="0"> <tr> <td><input type="text" id="Total" value="<?php  echo $currency." ";  ?>'+result[0]['total']+'" style="padding:5px;" alue="0.00" class="text-right" name="total" readonly="readonly"></td> <td>'+
+
+ '  </tr> </table> </td>   </tr>  <tr>  <td style="text-align:right;" colspan="4"><b>Tax Details :</b></td> '+
+ '<td style="text-align:left;"> <table border="0"> <tr> <td></td> <td>    '+
+ ' <input type="text" id="tax_details" style="padding:5px;" class="text-right" value="<?php  echo $currency." ";  ?>'+result[0]['tax_details']+'" name="tax_details"  readonly="readonly" />'+
  ' </td> </tr> </table> </td>   </tr> <tr> <td style="text-align:right;" colspan="4"><b><?php echo "Grand Total" ?>:</b></td> '+
- '<td>  <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" onchange=""value="0.00" readonly="readonly" />  </td> </tr>'+
-  '<tr><td style="border:none;text-align:right;font-weight:bold;" colspan="4"><b><?php echo "Grand Total" ?>:</b></td> <td>  <input type="text" style="padding:5px;"  id="vendor_gtotal"  name="vendor_gtotal" value="0.00" readonly="readonly" /> </td>   <input type="hidden" id="final_gtotal"  name="final_gtotal" />  <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td> </tr> <tr id="amt">  <td style="text-align:right;"  colspan="4"><b><?php echo "Amount Paid" ?>:</b></td>  <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="amount_paid"  style="padding:5px;" value="0.00" name="amount_paid"  readonly="readonly" /> </td> </tr> </table>   </td> </tr> <tr id="bal"> <td style="text-align:right;"  colspan="4"><b><?php echo "Balance Amount " ?>:</b></td> <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="balance"  style="padding:5px;" value="0.00" name="balance"  readonly="readonly" /> </td> </tr> </table> </td> </tr> <tr style="border-right:none;border-left:none;border-bottom:none;border-top:none">  <td colspan="6" style="text-align: end;"> <input type="submit" value="Make Payment" class="btn btn-primary btn-large" id="paypls"/> </td> </tr>');
-        //  $("#amount_paid").val(result[0]['amt_paid']);
-        //  $("#balance").val(result[0]['balance']);
+ '<td> <input type="text" id="gtotal" style="padding:5px;" name="gtotal" onchange="" value="<?php  echo $currency." ";  ?>'+result[0]['grand_total_amount']+'" readonly="readonly">  </td> </tr>'+
+  '<tr><td style="border:none;text-align:right;font-weight:bold;" colspan="4"><b><?php echo "Grand Total" ?>:</b><?php echo "Preferred Currency" ?>:</td> <td>  <input type="text" style="padding:5px;"  id="vendor_gtotal"  name="vendor_gtotal" value="<?php  echo $currency." ";  ?>'+result[0]['gtotal_preferred_currency']+'" readonly="readonly" /> </td>   <input type="hidden" id="final_gtotal"  name="final_gtotal" />  <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td> </tr> <tr id="amt">  <td style="text-align:right;"  colspan="4"><b><?php echo "Amount Paid" ?>:</b></td>  <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="amount_paid"  style="padding:5px;" value="0.00" name="amount_paid"  readonly="readonly" /> </td> </tr> </table>   </td> </tr> <tr id="bal"> <td style="text-align:right;"  colspan="4"><b><?php echo "Balance Amount " ?>:</b></td> <td> <table border="0"> <tr> <td class="cus" name="cus"></td> <td>         <input type="text" id="balance"  style="padding:5px;" value="0.00" name="balance"  readonly="readonly" /> </td> </tr> </table> </td> </tr> <tr style="border-right:none;border-left:none;border-bottom:none;border-top:none">  <td colspan="6" style="text-align: end;"> <input type="submit" value="Make Payment" class="btn btn-primary btn-large" id="paypls"/> </td> </tr>');
+      
             console.log(result);
         }
     });
