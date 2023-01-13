@@ -750,7 +750,7 @@ class Llpurchase {
 
             'supplier_id'   => $purchase_detail[0]['supplier_id'],
 
-            'grand_total'   => $purchase_detail[0]['grand_total_amount'],
+            'grand_total_amount'   => $purchase_detail[0]['grand_total_amount'],
 
             'purchase_details' => $purchase_detail[0]['purchase_details'],
 
@@ -773,7 +773,7 @@ class Llpurchase {
             'due_amount'    => $purchase_detail[0]['due_amount'],
 
             'bank_list'     => $bank_list,
-
+            'gtotal_preferred_currency' => $purchase_detail[0]['gtotal_preferred_currency'],
             'supplier_selected' => $supplier_selected,
 
             'discount_type' => $currency_details[0]['discount_type'],
@@ -782,8 +782,7 @@ class Llpurchase {
 
         );
 
-
-
+       // print_r($purchase_detail);die();
         $chapterList = $CI->parser->parse('purchase/edit_purchase_order_form', $data, true);
 
         return $chapterList;
@@ -1282,7 +1281,7 @@ class Llpurchase {
             'title'            => display('purchase_details'),
             'trucking_id'      => $purchase_detail[0]['trucking_id'],
             'grand_total' => $purchase_detail[0]['grand_total_amount'],
-             'shipment_bl_number' => $purchase_detail[0]['shipment_bl_number'],
+           
             'invoice_no' =>  $purchase_detail[0]['invoice_no'],
             'supplier' => $all_supplier[0]['supplier_name'],
             'invoice_date' => $purchase_detail[0]['invoice_date'],

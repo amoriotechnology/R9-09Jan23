@@ -843,7 +843,10 @@ class Lpurchase {
 
         $purchase_detail = $CI->Purchases->retrieve_purchase_order_editdata($purchase_id);
 
-
+        $taxfield1 = $CI->db->select('tax_id,tax')
+        ->from('tax_information')
+        ->get()
+        ->result_array();
 
         $supplier_id = $purchase_detail[0]['supplier_id'];
 
@@ -869,7 +872,7 @@ class Lpurchase {
 
         $currency_details = $CI->Web_settings->retrieve_setting_editdata();
         $curn_info_default = $CI->db->select('*')->from('currency_tbl')->where('icon',$currency_details[0]['currency'])->get()->result_array();
-      
+         
 
 $products = $CI->Products->get_products();
         $data = array(
@@ -879,9 +882,9 @@ $products = $CI->Products->get_products();
             'title'  => display('purchase_edit'),
 
             'ship_to'  => $purchase_detail[0]['ship_to'],
-
+            'gtotal_preferred_currency' => $purchase_detail[0]['gtotal_preferred_currency'],
             'quantity'  => $purchase_detail[0]['quantity'],
-
+            'tax' =>$taxfield1,
             'created_by' => $purchase_detail[0]['created_by'],
 
             'payment_terms' => $purchase_detail[0]['payment_terms'],
@@ -890,7 +893,7 @@ $products = $CI->Products->get_products();
 
             'est_ship_date' => $purchase_detail[0]['est_ship_date'],
 
-            'slabs' => $purchase_detail[0]['slabs'],
+            //'description' => $purchase_detail[0]['description'],
 
             'purchase_id'   => $purchase_detail[0]['purchase_id'],
 
@@ -900,7 +903,9 @@ $products = $CI->Products->get_products();
 
             'supplier_id'   => $purchase_detail[0]['supplier_id'],
 
-            'grand_total'   => $purchase_detail[0]['grand_total_amount'],
+            'grand_total_amount'   => $purchase_detail[0]['grand_total_amount'],
+            'gtotal_preferred_currency'   => $purchase_detail[0]['gtotal_preferred_currency'],
+            'tax_details'   => $purchase_detail[0]['tax_details'],
 
             'purchase_details' => $purchase_detail[0]['purchase_details'],
 
@@ -932,7 +937,7 @@ $products = $CI->Products->get_products();
             'products'  => $products
 
         );
-
+        print_r($purchase_detail);
 
         $chapterList = $CI->parser->parse('purchase/edit_purchase_order_form', $data, true);
 
@@ -1588,7 +1593,7 @@ public function purchase_details_data($purchase_id) {
     
           }
     
-    
+          $currency_details = $CI->Web_settings->retrieve_setting_editdata();
           $get_invoice_product = $CI->Purchases->invoice_product_edit($purchase_id);
     
           $data['packinglist']=$purchase_detail;
@@ -1605,7 +1610,8 @@ public function purchase_details_data($purchase_id) {
         'invoice'   => $invoice,
         'invoice_detail'   => $invoice_detail,
         'invoice_product'  => $get_invoice_product,
-        'prodt'   =>  $prodt
+        'prodt'   =>  $prodt,
+        'currency'   => $currency_details[0]['currency']
 
       );
    

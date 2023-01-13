@@ -366,7 +366,7 @@ textarea:focus, input:focus{
                                     <tr>
                                         <td class="span3 supplier">
                                          
-                                           <select  name="product_name" id="product_name_1" class="form-control product_name"  onchange="product_detail(1)">
+                                           <select  name="product_name[]" id="product_name_1" class="form-control product_name"  onchange="product_detail(1)">
                                         
                                     </select>
 
@@ -380,7 +380,7 @@ textarea:focus, input:focus{
                                         </td>
 
                                           <td class="wt">
-                                                <input type="text" id="" name="slabs[]" class="form-control text-right" placeholder="0.00"/>
+                                                <input type="text" id="" name="description[]" class="form-control text-right" placeholder="0.00"/>
                                             </td>
 
 
@@ -454,7 +454,7 @@ textarea:focus, input:focus{
                                     <table border="0">
       <tr>
         <td><?php  echo $currency." ";  ?></td>
-        <td>      <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" class="gtotal" onchange=""value="0.00" readonly="readonly" />  </td>
+        <td>      <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" class="gtotal" onchange="" value="<?php echo $purchase_detail[0]['grand_total_amount']; ?>" readonly="readonly" />  </td>
       
     </tr>
    </table> 
@@ -472,7 +472,7 @@ textarea:focus, input:focus{
                                     <table border="0">
       <tr>
       <td class="cus" name="cus"></td>
-        <td>       <input type="text" style="padding:5px;"  id="vendor_gtotal"  class="vendor_gtotal" name="vendor_gtotal" value="0.00" readonly="readonly" /> </td>
+        <td>       <input type="text" style="padding:5px;"  id="vendor_gtotal"  class="vendor_gtotal" name="vendor_gtotal" value="<?php echo $purchase_detail[0]['gtotal_preferred_currency']; ?>" readonly="readonly" /> </td>
      </tr>
    </table> 
                                           </td>
@@ -1130,7 +1130,7 @@ function addPurchaseOrderField2(divName){
        
 
 
-        newdiv.innerHTML ='<tr><td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name" onchange="product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="total_amt(' + count + ');" onchange="total_amt(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="total_amt(' + count + ');" onchange="total_amt(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td></tr>';
+        newdiv.innerHTML ='<tr><td class="span3 supplier"><select  name="product_name[]" id="product_name_'+ count +'" class="form-control product_name" onchange="product_detail(' + count + ');">  </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="description[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="total_amt(' + count + ');" onchange="total_amt(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="total_amt(' + count + ');" onchange="total_amt(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td></tr>';
         document.getElementById(divName).appendChild(newdiv);
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);

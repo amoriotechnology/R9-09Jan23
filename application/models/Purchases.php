@@ -2074,7 +2074,8 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
         'est_ship_date'  => $this->input->post('est_ship_date',TRUE),
         'chalan_no'          => $this->input->post('chalan_no',TRUE),
         'supplier_id'        => $this->input->post('supplier_id',TRUE),
-        'grand_total_amount' => $this->input->post('total',TRUE),
+        'total'  =>$this->input->post('total',TRUE),
+        'grand_total_amount' => $this->input->post('gtotal',TRUE),
          'gtotal_preferred_currency' => $this->input->post('vendor_gtotal',TRUE),
         'total_discount'     => $this->input->post('discount',TRUE),
         'purchase_date'      => $receive_date,
@@ -2082,7 +2083,7 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
         'payment_due_date'   => $this->input->post('payment_due_date',TRUE),
         'remarks'            => $this->input->post('remarks',TRUE),
         'message_invoice'    => $this->input->post('message_invoice',TRUE),
-        'tax_details'    => $this->input->post('tx',TRUE),
+        'tax_details'    => $this->input->post('tax_details',TRUE),
         'etd'   => $this->input->post('etd',TRUE),
         'eta'   => $this->input->post('eta',TRUE),
         'shipping_line'   => $this->input->post('shipping_line',TRUE),
@@ -2188,9 +2189,11 @@ $bankc = array(
    $this->db->where('chalan_no', $this->input->post('chalan_no',TRUE));
    $this->db->delete('purchase_order');
     $this->db->insert('purchase_order', $data);
+    echo $this->db->last_query();
   }
   else{
     $this->db->insert('purchase_order', $data);
+    echo $this->db->last_query();
   }
     $purchase_id = $this->db->select('purchase_order_id')->from('purchase_order')->where('chalan_no',$this->input->post('chalan_no',TRUE))->get()->row()->purchase_order_id;
     $this->session->set_userdata("SESSION_NAME",$purchase_id);
@@ -2211,12 +2214,18 @@ $bankc = array(
     }
     $rate = $this->input->post('product_rate',TRUE);
     $quantity = $this->input->post('product_quantity',TRUE);
-    $slabs_po = $this->input->post('slabs',TRUE);
+  
     $t_price = $this->input->post('total_price',TRUE);
     $discount = $this->input->post('discount',TRUE);
     $description = $this->input->post('description',TRUE);
-    for ($i = 0, $n = count($p_id); $i < $n; $i++) {
-        $slabs = $slabs_po[$i];
+    $this->db->where('purchase_id', $this->session->userdata("SESSION_NAME_1"));
+    $this->db->delete('purchase_order_details');
+    $rowCount = count($this->input->post('product_name',TRUE));
+
+ //   echo $this->db->last_query();echo "<br/>";
+    for ($i = 0; $i < $rowCount; $i++) {
+
+ 
         $product_quantity = $quantity[$i];
         $product_rate = $rate[$i];
         $product_id = $p_id[$i];
@@ -2227,7 +2236,7 @@ $bankc = array(
             'purchase_order_detail_id' => $this->generator(15),
             'purchase_id'        =>  $this->session->userdata("SESSION_NAME"),
             'product_id'         => $product_id,
-            'slabs'              => $slabs,
+          
             'quantity'           => $product_quantity,
             'rate'               => $product_rate,
             'total_amount'       => $total_price,
@@ -2241,11 +2250,11 @@ $bankc = array(
       //  echo $purchase_id;
       //  $this->db->where('purchase_id', $purchase_id );
        // $this->db->delete('purchase_order_details');
-     //   echo $this->db->last_query();
+        echo $this->db->last_query();
       //  if (!empty($quantity)) {
-        $this->db->where('purchase_id', $this->session->userdata("SESSION_NAME_1"));
-        $this->db->delete('purchase_order_details');
+       
         $this->db->insert('purchase_order_details', $data1);
+        echo $this->db->last_query();
        // }
     }
     return $purchase_id."/".$chalan_no;

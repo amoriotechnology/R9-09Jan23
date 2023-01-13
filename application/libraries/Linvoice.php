@@ -100,7 +100,8 @@ class Linvoice {
             'thickness' => $purchase_detail[0]['thickness'],
     
           'remarks' =>$purchase_detail[0]['remarks'],
-    
+          'currencyd' => $currency_details[0]['currency'],
+    'quantity_per_package'   =>$purchase_detail[0]['quantity_per_package'],
             'grand_total_amount' =>  $purchase_detail[0]['grand_total_amount'],
     
             'serial_no' =>   $purchase_detail[0]['serial_no'],
@@ -116,7 +117,7 @@ class Linvoice {
         );
  
     
-    
+  
       
         $chapterList = $CI->parser->parse('invoice/edit_packing_form', $data, true);
     

@@ -40,7 +40,12 @@
 
     </section>
 
-
+    <?php
+  $myArray = explode('(', $tax_details); 
+ $tax_amt=$myArray[0];
+ //$tax_des=$myArray[1];
+$tax_des= str_replace(")","",$myArray[1]);
+?>
 
     <section class="content">
 
@@ -310,12 +315,32 @@
                       <br>
 
                         <div class="table-responsive">
-
+                        <table class="taxtab table table-bordered table-hover" >
+                        <tr>
+                        <td class="hiden" style="width:30%;border:none;text-align:end;font-weight:bold;">
+                            Todays Rate : 
+                         </td>
+                
+                                <td class="hiden" style="width:200px;padding:5px;background-color: #38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
+                                 = <input style="width:50px;text-align:center;color:black;padding:5px;" type="text" class="custocurrency_rate"/>&nbsp;<label for="custocurrency" style="color:white;background-color: #38469f;"></label></td>
+                    <td style="border:none;text-align:right;font-weight:bold;">Tax : 
+                                 </td>
+                                <td style="width:40%">
+<select name="tx"  id="product_tax" class="form-control" >
+<option value="<?php  echo $tax_des; ?>" selected><?php  echo $tax_des; ?></option>
+<?php foreach($tax as $tx){?>
+  
+    <option value="<?php echo $tx['tax_id'].'-'.$tx['tax'].'%';?>">  <?php echo $tx['tax_id'].'-'.$tx['tax'].'%';  ?></option>
+<?php } ?>
+</select>
+</td>
+</tr>
+</table>
                              <table class="table table-bordered table-hover" id="purchaseTable">
                                 <thead>
                                      <tr>
                                             <th class="text-center" width="20%">Product Name(SKU)<i class="text-danger">*</i></th> 
-                                            <th class="text-center" width="20%">Slabs<i class="text-danger">*</i></th> 
+                                            <th class="text-center" width="20%">Description<i class="text-danger">*</i></th> 
                                             <th class="text-center">Balance</th> 
                                             <th class="text-center">Quantity (Sq. ft)<i class="text-danger">*</i></th>
                                             <th class="text-center">Unit Cost<i class="text-danger">*</i></th>
@@ -329,18 +354,15 @@
                                     <tr>
                                     <td class="span3 supplier">
                                          
-                                         <select  name="product_name" id="product_name_1" class="form-control product_name ;" onchange="product_detail(1);">
+                                         <select  name="product_name[]" id="product_name_1" class="form-control product_name ;" onchange="product_detail(1);">
                                       <option value="{product_name}" selected>{product_name}</option>
-                                          <?php
-                                          foreach($products as $tx){?>
- <option value="<?php echo $tx['product_name'].'-'.$tx['product_model'];?>">  <?php echo $tx['product_name'].'-'.$tx['product_model'];  ?></option>
-                                         <?php } ?>
+                                         
                                   </select>
 
                                   <input type="hidden"  name="product_id[]" value="{product_id}" id="prod_id_1"/>
                                          
 
-                                  <input type="hidden" class="sl" value="{sl}">
+                                 
 
                                        
 
@@ -350,7 +372,7 @@
                                          
 
                                     <td class="wt">
-                                                <input type="text" id="" name="slabs[]" value="{slabs}" class="form-control text-right" placeholder="0.00"/>
+                                                <input type="text" id="" name="description[]" value="{description}" class="form-control text-right" placeholder="0.00"/>
                                             </td>
 
 
@@ -394,46 +416,86 @@
                                          {/purchase_info}
                                 </tbody>
                                 <tfoot>
-                                    <tr>
-                                        
-                                        <td class="text-right" colspan="5" style="text-align:end;"><b>Grand Total:</b></td>
-                                        <td class="text-right">
-                                        <table border="0">
+                                <tr>
+                                   
+                                   <td style="text-align:right;" colspan="5"><b><?php echo display('total') ?>:</b></td>
+                                   <td style="text-align:left;">
+                                   <table border="0">
       <tr>
         <td><?php  echo $currency." ";  ?></td>
-        <td>   <input type="text" id="Total" class="text-right form-control" name="total" value="{grand_total}" readonly="readonly" /></td>
+        <td>    <input type="text" id="Total" class="total" value="0.00" style="padding:5px;" value="{grand_total_amount}" class="text-right" name="total"  readonly="readonly" />  </td>
      </tr>
-   </table>
-                                           
-                                        </td>
-                                        <td> <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item"  onClick="addPurchaseOrderField2('addPurchaseItem')"  tabindex="9"/><i class="fa fa-plus"></i></button>
-
-                                            <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
-                                    </tr>
-                                    <td style="width:30%;border:none;" ><span class="hiden" style="float: right;width:30%;border:none;text-align:end;font-weight:bold;">Today's Rate :</span>
-                         </td> 
-                
-                                <td  style="width:30%px;border:none;"><span class="hiden" style="width:200px;padding:5px;background-color:#38469f;border:none;font-weight:bold;color:white;">1 <?php  echo $curn_info_default;  ?>
-                                 = <input style="color:black;width:70px;text-align:center;padding:5px;" type="text" id="custocurrency_rate"/>&nbsp;<label for="custocurrency"></label></span></td>
-               
-                                 <td style="border:none;text-align:right;font-weight:bold;" colspan="3"><b><?php echo "Grand Total" ?>:</b><br/><b>(Preferred Currency)</b></td>
+   </table>  
+                                       </td>
+                               
+                                      
+                               </tr>
+                               
+                                    <tr>
+                                   
+                                   <td style="text-align:right;" colspan="5"><b>Tax Details :</b></td>
+                                   <td style="text-align:left;">
+                                   <table border="0">
+      <tr>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>     <input type="text" id="tax_details" class="tax_details" style="padding:5px;" class="text-right" value="<?php  echo $tax_details; ?>" name="tax_details"  readonly="readonly" />  </td>
+     </tr>
+   </table> 
+                                 </td>
+                               
+                                      
+                               </tr>
+                               <tr> <td style="text-align:right;" colspan="5"><b><?php echo "Grand Total" ?>:</b></td>
                                     <td>
                                     <table border="0">
       <tr>
-        <td class="cus" name="cus"></td>
-        <td> <input type="text" style="padding:5px;" id="vendor_gtotal"  name="vendor_gtotal" value="0.00" readonly="readonly" /></td>
+        <td><?php  echo $currency." ";  ?></td>
+        <td>      <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" class="gtotal"  value="<?php  echo $grand_total_amount; ?>"  readonly="readonly" />  </td>
+      
+    </tr>
+   </table> 
+                          </td>
+                                        
+                          <td> <button type="button" id="add_invoice_item" class="btn btn-info" name="add-invoice-item" onclick="addPurchaseOrderField2('addPurchaseItem');"  tabindex="9" ><i class="fa fa-plus"></i></button></td>
+                                           
+                                    </tr>
+                                    <tr>
+                  
+                
+                             
+                    <td style="border:none;text-align:right;font-weight:bold;" colspan="5"><b><?php echo "Grand Total" ?>:</b><br/><b>(Preferred Currency)</b></td>
+                                    <td>
+                                    <table border="0">
+      <tr>
+      <td class="cus" name="cus"></td>
+        <td>       <input type="text" style="padding:5px;"  id="vendor_gtotal"  class="vendor_gtotal" name="vendor_gtotal" value="<?php  echo $gtotal_preferred_currency; ?>" readonly="readonly" /> </td>
      </tr>
+   </table> 
+                                          </td>
+                                      
+
+                                            <input type="hidden" id="final_gtotal"  name="final_gtotal" />
+
+                                            <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>
+                                    </tr> 
+                                    
+                              
    </table>
                                            </td>
                                       
 
-                                            <input type="hidden" id="final_gtotal"  name="final_gtotal" />
+                                        
                                         </tr>
+                                    
+
+
+
+                                  
                                        <!--  <tr>
                                        
                                         <td class="text-right" colspan="4"><b><?php echo display('discounts') ?>:</b></td>
                                         <td class="text-right">
-                                            <input type="text" id="discount" class="text-right form-control discount" onkeyup="calculate_store(1)" name="discount" placeholder="0.00" value="" />
+                                            <input type="text" id="discount" class="text-right form-control discount" onkeyup="total_amt(1)" name="discount" placeholder="0.00" value="" />
                                         </td>
                                         <td> 
 
@@ -580,33 +642,53 @@
    
 var csrfName = '<?php echo $this->security->get_csrf_token_name();?>';
 var csrfHash = '<?php echo $this->security->get_csrf_hash();?>';
-var count = 2;
+
 var limits = 500;
 function addPurchaseOrderField2(divName){
-
-    if (count == limits)  {
+    var table = document.getElementById("purchaseTable");
+    var tbodyRowCount = table.tBodies[0].rows.length;
+   
+   
+    console.log(tbodyRowCount);
+    var count = tbodyRowCount + 1;
+      var  tab1 = 0;
+      var  tab2 = 0;
+      var  tab3 = 0;
+      var  tab4 = 0;
+      var  tab5 = 0;
+      var  tab6 = 0;
+      var  tab7 = 0;
+      var  tab8 = 0;
+      var  tab9 = 0;
+      var  tab10 = 0;
+      var  tab11 = 0;
+      var  tab12 = 0;
+    var limits = 500;
+    if (count == limits){
         alert("You have reached the limit of adding " + count + " inputs");
     }
-    else{
-        var newdiv = document.createElement('tr');
-        var tabin="product_name_"+count;
-         tabindex = count * 4 ,
-       newdiv = document.createElement("tr");
+    else {
+        var a = "product_name_" + count,
+                tabindex = count * 6,
+                e = document.createElement("tr");
         tab1 = tabindex + 1;
-        
         tab2 = tabindex + 2;
         tab3 = tabindex + 3;
         tab4 = tabindex + 4;
         tab5 = tabindex + 5;
-        tab6 = tab5 + 1;
-        tab7 = tab6 +1;
-       
-   newdiv.innerHTML ='<td class="span3 supplier"><select  name="product_name" id="product_name_'+ count +'" class="form-control product_name ;" onchange="product_detail(' + count + ');"><option value="Select the Product" selected>Select the Product</option><?php foreach($products as $tx){?> <option value="<?php echo $tx['product_name'].'-'.$tx['product_model'];?>">  <?php echo $tx['product_name'].'-'.$tx['product_model'];  ?></option> <?php } ?> </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
+        tab6 = tabindex + 6;
+        tab7 = tabindex + 7;
+        tab8 = tabindex + 8;
+        tab9 = tabindex + 9;
+        tab10 = tabindex + 10;
+        tab11 = tabindex + 11;
+        tab12 = tabindex + 12;
+   e.innerHTML ='<td class="span3 supplier"><select  name="product_name[]" id="product_name_'+ count +'" class="form-control product_name ;" onchange="product_detail(' + count + ');"><option value="Select the Product" selected>Select the Product</option> </select> <input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>  <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" class="form-control text-right" name="slabs[]" placeholder="0.00" /> </td>  <td class="wt"> <input type="text" id="available_quantity_'+ count +'" value="0.00" class="form-control text-right stock_ctn_'+ count +'"/> </td><td class="text-right"><input type="text" name="product_quantity[]" tabindex="'+tab2+'" required  id="cartoon_'+ count +'" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value="" min="0"/>  </td> <td style="width:220px"><table border="0"> <tr><td><?php  echo $currency." ";  ?></td> <td><input style="padding:5px;" type="text" name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" id="product_rate_'+ count +'" readonly class="product_rate_'+ count +'" placeholder="0.00" value="" min="0" tabindex="7"/></td></tr></table> </td> <td> <table border="0"> <tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_'+ count +'" value="0.00" readonly="readonly" /></td> </tr> </table> </td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
      
-
-        document.getElementById(divName).appendChild(newdiv);
-        document.getElementById(tabin).focus();
-        document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
+   document.getElementById(divName).appendChild(e),
+                document.getElementById(a).focus(),
+                document.getElementById("add_invoice_item").setAttribute("tabindex", tab6);
+      
         document.getElementById("add_purchase").setAttribute("tabindex", tab6);
    
        
@@ -648,7 +730,32 @@ var pdt=$('#product_name_'+id).val();
   
 }
 $( document ).ready(function() {
-   
+    $('.hiden').hide();
+  var data = {
+      value: $('#supplier_id').val()
+   };
+  data[csrfName] = csrfHash;
+  $.ajax({
+      type:'POST',
+      data: data,
+      //dataType tells jQuery to expect JSON response
+      dataType:"json",
+      url:'<?php echo base_url();?>Cinvoice/getvendor_products',
+      success: function(states, statut) {
+        console.log(states);
+        // $(".product_name").html("");
+             if (Object.keys(states).length > 0) {
+               // $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
+             }
+             else {
+                    $(".product_name").append($('<option></option>').val(0).html(''));
+             }
+           $.each(states, function (i, state) {
+            $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
+           });;
+      }
+  });
+
   
   var data = {
       value: $('#supplier_id').val()
@@ -681,10 +788,10 @@ function(data) {
  var Rate =parseFloat(x).toFixed(3);
   console.log(Rate);
   $('.hiden').show();
-  $("#custocurrency_rate").val(Rate);
+  $(".custocurrency_rate").val(Rate);
   var total=$('#Total').val();
   var final=parseInt(total * Rate);
-  $('#vendor_gtotal').val(final);
+ // $('#vendor_gtotal').val(final);
 });
       }
   });
@@ -734,6 +841,7 @@ function(data) {
  var custo_currency=result[0]['currency_type'];
     var x=data['rates'][custo_currency];
  var Rate =parseFloat(x).toFixed(3);
+ Rate = isNaN(Rate) ? 0 : Rate;
   console.log(Rate);
   $('.hiden').show();
   $("#custocurrency_rate").val(Rate);
@@ -852,8 +960,203 @@ window.onbeforeunload = function(){
        return false;
     }
 }
-  
+$('#product_tax').on('change', function (e) {
+        var first=$("#Total").val();
+    var tax= $('#product_tax').val();
+var field = tax.split('-');
 
+var percent = field[1];
+var answer=0;
+  var answer = parseInt((percent / 100) * first);
+   console.log("Answer : "+answer);
+  var gtotal = parseInt(first + answer);
+  console.log("gtotal :" +gtotal);
+  
+ var final_g= $('#final_gtotal').val();
+
+
+ var amt=parseInt(answer)+parseInt(first);
+ var num = isNaN(parseInt(amt)) ? 0 : parseInt(amt)
+ var custo_amt=$('.custocurrency_rate').val(); 
+ console.log("numhere :"+num +"-"+custo_amt);
+ var value=parseInt(num*custo_amt);
+ var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
+$('#vendor_gtotal').val(custo_final);  
+$('#balance').val(custo_final);
+calculate();
+});
+
+$( document ).ready(function() {
+    $('#gtotal').on('change textInput input', function (e) {
+    calculate();
+});
+$('.custocurrency_rate').on('change textInput input', function (e) {
+    calculate();
+});
+
+$('.common_qnt').on('change textInput input', function (e) {
+    calculate();
+});
+
+});
+$('#product_tax').on('change', function (e) {
+    var optionSelected = $("option:selected", this);
+    var valueSelected = this.value;
+    var total=$('#Total').val();
+var tax= $('#product_tax').val();
+
+var field = tax.split('-');
+
+var percent = field[1];
+percent=percent.replace("%","");
+ var answer = (percent / 100) * parseInt(total);
+$('#final_gtotal').val(answer);
+   $('#hdn').val(valueSelected);
+   console.log("taxi :"+valueSelected);
+  $('#tax_details').val(answer +" ( "+tax+" )");
+   calculate();
+ 
+});
+var arr=[];
+
+function total_amt(id){
+
+    var sum=0;
+  
+var total='total_price_'+id;
+
+var quantity='cartoon_'+id;
+var amount = 'product_rate_'+ id;
+var grand=$('#gtotal').val();
+var quan=$('#'+quantity).val();
+var amt=$('#'+amount).val();
+var result=parseInt(quan) * parseInt(amt);
+result = isNaN(result) ? 0 : result;
+arr.push(result);
+$('#'+total).val(result);
+
+gt();
+}
+function gt(){
+    var sum=0;
+    $('.total_price').each(function() {
+    sum += parseFloat($(this).val());
+});
+$('#Total').val(sum);
+var final_g= $('#final_gtotal').val();
+if(final_g !=''){
+var first=$("#Total").val();
+    var tax= $('#product_tax').val();
+
+var field = tax.split('-');
+
+var percent = field[1];
+var answer=0;
+  var answer =(parseInt(percent) / 100) * parseInt(first);
+   console.log(answer);
+   $('#tax_details').val(answer +" ( "+tax+" )");
+
+  var gtotal = parseInt(first + answer);
+  console.log(gtotal);
+var amt=parseInt(answer)+parseInt(first);
+
+ var num = isNaN(amt) ? 0 : amt;
+ var custo_amt=$('.custocurrency_rate').val();
+ $("#gtotal").val(num);  
+ console.log(num +"-"+custo_amt);
+ localStorage.setItem("customer_grand_amount_sale",num);
+
+ var value=parseInt(num*custo_amt);
+ var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
+$('#vendor_gtotal').val(custo_final);
+$('#balance').val(custo_final);
+}  
+}
+function calculate(){
+  
+  var first=$("#Total").val();
+  var tax= $('#product_tax').val();
+var field = tax.split('-');
+
+var percent = field[1];
+var answer=0;
+var answer = parseInt((percent / 100) * first);
+var gtotal = parseInt(first + answer);
+console.log(gtotal);
+var final_g= $('#final_gtotal').val();
+
+
+var amt=parseInt(final_g)+parseInt(first);
+var num = isNaN(amt) ? 0 : amt;
+$("#gtotal").val(num);  
+localStorage.setItem("customer_grand_amount_sale",num);
+
+var custo_amt=$('.custocurrency_rate').val();
+
+console.log(num +"-"+custo_amt);
+var value=parseInt(num*custo_amt);
+var custo_final = isNaN(parseInt(value)) ? 0 : parseInt(value)
+$('#vendor_gtotal').val(custo_final);  
+$('#balance').val(custo_final);
+}
+function supplier(id){
+    console.log(id);
+  var data = {
+      value: $('#supplier_id').val()
+   };
+  data[csrfName] = csrfHash;
+  $.ajax({
+      type:'POST',
+      data: data,
+   
+      //dataType tells jQuery to expect JSON response
+      dataType:"json",
+      url:'<?php echo base_url();?>Cinvoice/getvendor_products',
+      success: function(states, statut) {
+        console.log(states);
+        var select = $("#product_name_"+id);
+       // $("#product_name_"+id).html("");
+//        for (i = 0; 1 < Object.keys(states).length; i++) {
+//     select.append($('<option>', {
+//         value: i,
+//         text: states[i]
+//     }));
+// }
+  if (Object.keys(states).length > 0) {
+                $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
+             }
+          $.each(states, function (i, state) {
+            $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
+           });;
+      }
+  });
+  }
+  $('#add_invoice_item,#supplier_id').on('click change', function (e) {
+  var data = {
+      value: $('#supplier_id').val()
+   };
+  data[csrfName] = csrfHash;
+  $.ajax({
+      type:'POST',
+      data: data,
+      //dataType tells jQuery to expect JSON response
+      dataType:"json",
+      url:'<?php echo base_url();?>Cinvoice/getvendor_products',
+      success: function(states, statut) {
+        console.log(states);
+        // $(".product_name").html("");
+             if (Object.keys(states).length > 0) {
+               // $(".product_name").append($('<option></option>').val(0).html('Select a Product'));
+             }
+             else {
+                    $(".product_name").append($('<option></option>').val(0).html(''));
+             }
+           $.each(states, function (i, state) {
+            $(".product_name").append($('<option></option>').val(state.product_name+'-'+state.products_model).html(state.product_name+'-'+state.products_model));
+           });;
+      }
+  });
+});
     </script>
 
 <style>

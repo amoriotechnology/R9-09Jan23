@@ -828,7 +828,7 @@ textarea:focus, input:focus{
                                 <tbody id="addPurchaseItem">
                                     <tr>
                                         <td class="span3 supplier">
-                                        <select name="product_name" style="width:300px;" id="product_name_1" class="form-control product_name" required="" tabindex="1" onchange="product_detail(1);">
+                                        <select name="product_name[]" style="width:300px;" id="product_name_1" class="form-control product_name" required="" tabindex="1" onchange="product_detail(1);">
                                          
                                       </select>
 
@@ -1652,71 +1652,43 @@ textarea:focus, input:focus{
                 </form>
 
 
-            <div class="modal fade" id="myModal1" >
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content" style="    margin-top: 190px;">
-        <div class="modal-header" style="">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Expenses</h4>
-        </div>
-        <div class="modal-body" id="bodyModal1" style="font-weight:bold;text-align:center;">
-          
-          <h4></h4>
-     
-        </div>
-        <div class="modal-footer">
-          
-        </div>
-      </div>
-      
-    </div>
-  </div>
+           
    
-<div class="modal fade" id="exampleModalLong" >
+                <div class="modal fade" id="myModal1" role="dialog" >
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
+<!--Modal content -->
       <div class="modal-content" style="    margin-top: 190px;">
         <div class="modal-header" style="">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Expenses</h4>
+          <h4 class="modal-title">Expense </h4>
         </div>
         <div class="modal-body" id="bodyModal1" style="font-weight:bold;text-align:center;">
-          
-       
-     
         </div>
         <div class="modal-footer">
-          
         </div>
       </div>
-      
     </div>
   </div>
-
-
   <div id="myModal3" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Confirmation</h4>
-			</div>
-			<div class="modal-body">
-				<p>Your Invoice is not submitted. Would you like to submit or discard
-				</p>
-				<p class="text-warning">
-					<small>If you don't save, your changes will not be saved.</small>
-				</p>
-			</div>
-			<div class="modal-footer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Your Invoice is not submitted. Would you like to submit or discard
+                </p>
+                <p class="text-warning">
+                    <small>If you don't save, your changes will not be saved.</small>
+                </p>
+            </div>
+            <div class="modal-footer">
             <input type="submit" id="ok" class="btn btn-primary pull-left final_submit" onclick="submit_redirect()"  value="Submit"/>
                 <button id="btdelete" type="button" class="btn btn-danger pull-left" onclick="discard()">Discard</button>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
              
 <div class="modal fade" id="add_bank_info">
@@ -2230,7 +2202,7 @@ function addPurchaseOrderField1(divName){
        
 
 
-        newdiv.innerHTML ='<td class="span3 supplier"> <select name="product_name" style="width:300px;" id="product_name_'+ count +'" class="form-control product_name" required="" tabindex="1" onchange="product_detail('+ count +');"> </select><input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>   <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" id="" class="form-control" name="description[]" /></td><td class="text-right">  <div style="display:inline;float:left; "><input type="text" name="product_quantity[]" tabindex="'+tab2+'" id="cartoon_'+ count +'" required="" min="0" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value=""  tabindex="6" required/></div><div style="display:inline;float:right;"> <select class="form-control" name="slab[]"><option value="Slabs">Slabs</option> <option value="Square Feet">Square Feet</option>  </select> </div> </td><td><table border="0"><tr><td><?php  echo $currency." ";  ?></td><td><input type="text" readonly name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" style="padding:5px;" id="product_rate_' + count + '" class="product_rate_' + count + '" placeholder="0.00" value="" min="0" tabindex="7" required/></td></tr> </table></td><td><table border="0"><tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_' + count + '" value="0.00" readonly="readonly" />   </td></tr></table></td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
+        newdiv.innerHTML ='<td class="span3 supplier"> <select name="product_name[]" style="width:300px;" id="product_name_'+ count +'" class="form-control product_name" required="" tabindex="1" onchange="product_detail('+ count +');"> </select><input type="hidden"  name="product_id[]" id="prod_id_'+ count +'"/>   <input type="hidden" class="sl" value="'+ count +'">  </td>  <td class="wt"> <input type="text" id="" class="form-control" name="description[]" /></td><td class="text-right">  <div style="display:inline;float:left; "><input type="text" name="product_quantity[]" tabindex="'+tab2+'" id="cartoon_'+ count +'" required="" min="0" class="form-control text-right store_cal_' + count + '" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" placeholder="0.00" value=""  tabindex="6" required/></div><div style="display:inline;float:right;"> <select class="form-control" name="slab[]"><option value="Slabs">Slabs</option> <option value="Square Feet">Square Feet</option>  </select> </div> </td><td><table border="0"><tr><td><?php  echo $currency." ";  ?></td><td><input type="text" readonly name="product_rate[]" required="" onkeyup="calculate_store(' + count + ');" onchange="calculate_store(' + count + ');" style="padding:5px;" id="product_rate_' + count + '" class="product_rate_' + count + '" placeholder="0.00" value="" min="0" tabindex="7" required/></td></tr> </table></td><td><table border="0"><tr><td><?php  echo $currency." ";  ?></td><td><input class="total_price" type="text" style="padding:5px;" name="total_price[]" id="total_price_' + count + '" value="0.00" readonly="readonly" />   </td></tr></table></td><td> <input type="hidden" id="total_discount_1" class="" /><input type="hidden" id="all_discount_1" class="total_discount" /><button style="text-align: right;" class="btn btn-danger red" type="button"  onclick="deleteRow(this)" tabindex="8"><i class="fa fa-close"></i></button></td>';
         document.getElementById(divName).appendChild(newdiv);
         document.getElementById(tabin).focus();
         document.getElementById("add_invoice_item").setAttribute("tabindex", tab5);
@@ -2656,14 +2628,14 @@ if (isNaN(value)) {
         $('#bank').selectmenu(); 
         $('#bank').append(result).selectmenu('refresh',true);
        $("#bodyModal1").html("Bank Added Successfully");
-       $('#exampleModalLong').modal('show');
+       $('#myModal1').modal('show');
        $('#add_bank_info').modal('hide');
        
 
        window.setTimeout(function(){
       
     
-        $('#exampleModalLong').modal('hide');
+        $('#myModal1').modal('hide');
     
      }, 2000);
      
@@ -3029,7 +3001,7 @@ function discard(){
     console.log(input_hdn);
     $('#myModal3').modal('hide');
     $("#bodyModal1").html(input_hdn);
-        $('#exampleModalLong').modal('show');
+        $('#myModal1').modal('show');
     window.setTimeout(function(){
        
 
@@ -3045,7 +3017,7 @@ function discard(){
     console.log(input_hdn);
     $('#myModal3').modal('hide');
     $("#bodyModal1").html(input_hdn);
-        $('#exampleModalLong').modal('show');
+        $('#myModal1').modal('show');
     window.setTimeout(function(){
        
 

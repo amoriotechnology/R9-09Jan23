@@ -19,9 +19,14 @@
 
 	<!-- Invoice information -->
 	<section class="content">
+    <?php
+  $myArray = explode('(',$invoice[0]['tax_details']); 
+ $tax_amt=$myArray[0];
+ $tax_des=$myArray[1];
 
-		
-                
+?>
+
+           <?php // echo $match[0];  ?>     
     <div class="container" id="content">
     <?php 
 
@@ -107,8 +112,8 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 </tr>
 
 <tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+ <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax <?php echo "(".$tax_des; ?></td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $tax_amt; ?></td>
 </tr>
 
 
@@ -124,15 +129,6 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 
 
 
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
-</tr>
-
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
-</tr>
 
 
 </tbody>
@@ -234,8 +230,8 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 </tr>
 
 <tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+<td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax <?php echo "(".$tax_des; ?></td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $tax_amt; ?></td>
 </tr>
 
 
@@ -251,15 +247,6 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 
 
 
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
-</tr>
-
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
-</tr>
 
 
 </tbody>
@@ -354,8 +341,8 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 </tr>
 
 <tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['tax_details']; ?></td>
+<td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Tax <?php echo "(".$tax_des; ?></td>
+ <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $tax_amt; ?></td>
 </tr>
 
 
@@ -371,15 +358,6 @@ for($i=0;$i<sizeof($order);$i++){ ?>
 
 
 
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Paid Amount:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['paid_amount']; ?></td>
-</tr>
-
-<tr>
- <td colspan="5" class="text-right" style="text-align:right;font-weight:bold;">Balance:</td>
- <td style="font-size: 16px;"><?php echo $supplier_currency." "; ?><?= $invoice[0]['due_amount']; ?></td>
-</tr>
 
 
 
@@ -621,6 +599,7 @@ table th, table td {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script>
+
 $(document).ready(function () {
 function first(callback1,callback2){
 setTimeout( function(){
@@ -667,8 +646,9 @@ function third(){
     setTimeout( function(){
         window.location='<?php  echo base_url();   ?>'+'Cpurchase/manage_purchase_order';
         window.close();
-    }, 3500 );
+    }, 4000 );
 }
 first(second,third);
 });
+
 </script>

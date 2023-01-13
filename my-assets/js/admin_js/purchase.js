@@ -36,8 +36,9 @@ function calculate_store(sl) {
 var custo_amt=$('#custocurrency_rate').val();
 var valuee=first*custo_amt;
 console.log(first+"/"+custo_amt);
-$("#gtotal").val(first*custo_amt);
-var custo_final = isNaN(parseInt(valuee)) ? 0 : parseInt(valuee)
+var custo_final = isNaN(parseInt(valuee)) ? 0 : parseInt(valuee);
+$("#gtotal").val(custo_final);
+
 $('#vendor_gtotal').val(custo_final);  
 var paid=$('#amount_paid').val();
 var f=parseInt(custo_final-paid);

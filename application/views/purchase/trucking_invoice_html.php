@@ -246,7 +246,7 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
 <tr><td  class="key">Invoice Date</td><td style="width:10px;">:</td><td calss="value"><?php echo $invoice_date; ?></td></tr>
 <tr><td class="key">Trucking company</td><td style="width:10px;">:</td><td calss="value"><?php echo $shipment_company; ?></td></tr>
 <tr><td  class="key">Delivery Date</td><td style="width:10px;">:</td><td calss="value">{delivery_date}</td></tr>
-<tr><td  class="key">Shipment / BL Number</td><td style="width:10px;">:</td><td calss="value"><?php echo  $$shipment_number; ?></td></tr>
+<tr><td  class="key">Shipment / BL Number</td><td style="width:10px;">:</td><td calss="value"><?php echo  $shipment_number; ?></td></tr>
 </table>
              
       
