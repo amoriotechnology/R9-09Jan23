@@ -133,6 +133,7 @@ $CI = & get_instance();
         $this->load->model('Purchases');
         $po_num = $this->input->post('po');
         $data = $this->Purchases->get_po_details($po_num);
+        
         echo json_encode($data);
 
 
@@ -704,6 +705,7 @@ $data=array(
     'supplier_currency' =>$data['supplier'][0]['currency_type'],
     'company_info' =>$this->Purchases->company_info()
 );
+
         //$data['invoice_setting'] =$this->invoice_design->retrieve_data();
         $content = $this->load->view('purchase/purchase_order_invoice', $data, true);
         //$content='';

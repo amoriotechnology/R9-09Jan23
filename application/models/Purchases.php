@@ -2041,6 +2041,7 @@ $chalan_no =$this->input->post('chalan_no',TRUE);
     $p_id = $this->input->post('product_id',TRUE);
     $supplier_id = $this->input->post('supplier_id',TRUE);
     $supinfo =$this->db->select('*')->from('supplier_information')->where('supplier_id',$supplier_id)->get()->row();
+  //  echo $this->db->last_query();
     $sup_head = $supinfo->supplier_id.'-'.$supinfo->supplier_name;
     $sup_coa = $this->db->select('*')->from('acc_coa')->where('HeadName',$sup_head)->get()->row();
     $receive_by=$this->session->userdata('user_id');
@@ -2189,11 +2190,11 @@ $bankc = array(
    $this->db->where('chalan_no', $this->input->post('chalan_no',TRUE));
    $this->db->delete('purchase_order');
     $this->db->insert('purchase_order', $data);
-    echo $this->db->last_query();
+   // echo $this->db->last_query();
   }
   else{
     $this->db->insert('purchase_order', $data);
-    echo $this->db->last_query();
+  //  echo $this->db->last_query();
   }
     $purchase_id = $this->db->select('purchase_order_id')->from('purchase_order')->where('chalan_no',$this->input->post('chalan_no',TRUE))->get()->row()->purchase_order_id;
     $this->session->set_userdata("SESSION_NAME",$purchase_id);
@@ -2250,11 +2251,11 @@ $bankc = array(
       //  echo $purchase_id;
       //  $this->db->where('purchase_id', $purchase_id );
        // $this->db->delete('purchase_order_details');
-        echo $this->db->last_query();
+     //   echo $this->db->last_query();
       //  if (!empty($quantity)) {
        
         $this->db->insert('purchase_order_details', $data1);
-        echo $this->db->last_query();
+     //   echo $this->db->last_query();
        // }
     }
     return $purchase_id."/".$chalan_no;
@@ -2896,7 +2897,7 @@ public function company_info()
     $this->db->where('u.user_id',$_SESSION['user_id']);
     $query = $this->db->get();
 
-    // echo $this->db->last_query(); die();
+    
     
 
    if ($query->num_rows() > 0) {
@@ -3136,14 +3137,14 @@ public function company_info()
        
     }
     public function get_po_details($po_num) {
-        $this->db->select('a.*,b.*');
+        $this->db->select('a.*,b.*,c.*');
         $this->db->from('purchase_order a');
             $this->db->join('purchase_order_details b' , 'a.purchase_order_id=b.purchase_id');
-        
+            $this->db->join('supplier_information c', 'c.supplier_id = a.supplier_id');
         $this->db->where('a.chalan_no' ,$po_num);
             $query = $this->db->get();
          //  $query = $this->db->query($sql);
-       
+     
            if ($query->num_rows() > 0) {
                return $query->result_array();
            }

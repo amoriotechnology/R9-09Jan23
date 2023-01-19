@@ -348,6 +348,7 @@
 </tr>
 </table>
 <input type="hidden"  value="<?php echo $purchase_info[0]['payment_id']; ?>" name="payment_id" class="payment_id"/>
+<input type="text" id="invoice_hdn" /> <input type="text" id="invoice_hdn1"/>
     <table class="table table-bordered table-hover" id="purchaseTable">
 
         <thead>
@@ -513,7 +514,7 @@
 </table>
                     </td>
               
-                    <input type="hidden" id="invoice_hdn" /> <input type="hidden" id="invoice_hdn1"/>
+                  
                     <input type="hidden" id="final_gtotal"  name="final_gtotal" />
 
                     <input type="hidden" name="baseUrl" class="baseUrl" value="<?php echo base_url();?>"/></td>

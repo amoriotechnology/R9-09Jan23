@@ -383,12 +383,13 @@ border: 2px solid #dce4ec;
                                     <label for="container_number" class="col-sm-4 col-form-label">Container Number <i class="text-danger">*</i></label>
 
                                     <div class="col-sm-8">
-                                    <select name="container_number"  class="form-control " required="" tabindex="1">
+                                    <!-- <select name="container_number"  class="form-control " required="" tabindex="1">
                                             <option value=" "><?php echo display('select_one') ?></option>
                                             {container_no}
                                             <option value="{container_no}">{container_no}</option>
                                             {/container_no}
-                                        </select>
+                                        </select> -->
+                                        <input type="text" name="container_no" class="form-control">
                  
                                     </div>
 
@@ -406,12 +407,13 @@ border: 2px solid #dce4ec;
 
                                     <div class="col-sm-8">
 
-                                    <select name="bl_no" id="" class="form-control " required="" tabindex="1">
+                                    <!-- <select name="bl_no" id="" class="form-control " required="" tabindex="1">
                                             <option value=" "><?php echo display('select_one') ?></option>
                                             {booking_no}
                                             <option value="{booking_no}">{booking_no}</option>
                                             {/booking_no}
-                                        </select>
+                                        </select> -->
+                                        <input type="text" name="booking_no" class="form-control">
                                       
 
                                     </div>
@@ -530,7 +532,7 @@ input[type=number]::-webkit-outer-spin-button {
 <table class="table table-bordered table-hover" id="normalinvoice">
                                 <thead>
                                      <tr>
-                                            <th class="text-center" width="20%">Product name<i class="text-danger">*</i></th> 
+                                           <th class="text-center" width="20%">Product<i class="text-danger">*</i>  &nbsp;&nbsp; <a href="#" class="client-add-btn btn btn-info" aria-hidden="true" data-toggle="modal" data-target="#product_info"><i class="ti-plus m-r-2"></i></a></th>
                                             <th class="text-center">In stock</th>
                                             <th class="text-center">Quantity / Sq ft.<i class="text-danger">*</i></th>
                                             <th class="text-center">Amount<i class="text-danger">*</i></th>
@@ -1642,45 +1644,29 @@ function payment_info(){
 
 
 
-  <!------ add new product-->  
-  <div class="modal fade modal-success" id="product_info" role="dialog">
-
-                <div class="modal-dialog" role="document">
-
-                    <div class="modal-content">
-
-                        <div class="modal-header">
-
-                            
-
-                            <a href="#" class="close" data-dismiss="modal">&times;</a>
-
-                            <h3 class="modal-title"><?php echo display('new_product') ?></h3>
-
-                        </div>
-
-                        
-
-                        <div class="modal-body">
-
-                            <div id="customeMessage" class="alert hide"></div>
-
-                      <?php echo form_open_multipart('Cproduct/insert_product', array('class' => 'form-vertical', 'id' => 'insert_product', 'name' => 'insert_product')) ?>
-
-                    <div class="panel-body">
-
- <input type ="hidden" name="csrf_test_name" id="" value="<?php echo $this->security->get_csrf_hash();?>">
-
-                      <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group row">
+                  <!------ add new product-->
+       <form id="insert_product_from_expense"  method="post">
+            <div class="modal fade" id="product_info" role="dialog">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal">&times;</a>
+            <h3 class="modal-title"><?php echo display('new_product') ?></h3>
+        </div>
+        <div class="modal-body">
+            <div id="customeMessage" class="alert hide"></div>
+      <!-- <form action="ada"> -->
+    <div class="panel-body">
+<input type ="hidden" name="csrf_test_name" id="" value="<?php echo $this->security->get_csrf_hash();?>">
+      <div class="row">
+   <div class="form-group row">
                                     <label for="barcode_or_qrcode" class="col-sm-4 col-form-label"><?php echo display('barcode_or_qrcode') ?> <i class="text-danger"></i></label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" name="product_id" type="text" id="product_id" placeholder="<?php echo display('barcode_or_qrcode') ?>"  tabindex="1" >
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="product_id" type="text" id="product_id"   style="width:40%;" placeholder="<?php echo display('barcode_or_qrcode') ?>"  tabindex="1" >
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
+    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+    <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="quantity" class="col-sm-4 col-form-label"><?php echo 'Quantity' ?> <i class="text-danger">*</i></label>
                                     <div class="col-sm-8">
@@ -1689,9 +1675,6 @@ function payment_info(){
                                 </div>
                             </div>
                         </div>
-
-
-
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
@@ -1709,12 +1692,9 @@ function payment_info(){
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-
-
-                       <div class="row">
+                        <input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="product_model" class="col-sm-4 col-form-label"><?php echo display('model') ?> <i class="text-danger"></i></label>
@@ -1723,7 +1703,7 @@ function payment_info(){
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group row">
                                     <label for="category_id" class="col-sm-4 col-form-label"><?php echo display('category') ?></label>
                                     <div class="col-sm-8">
@@ -1738,22 +1718,17 @@ function payment_info(){
                                     </div>
                                 </div>
                             </div>
-
-
-                        </div>      
-
-
-
-                         <div class="row">
+                        </div>
+                        <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group row">
                                     <label for="sell_price" class="col-sm-4 col-form-label"><?php echo display('sell_price') ?> <i class="text-danger">*</i> </label>
                                     <div class="col-sm-8">
                                         <input class="form-control text-right" id="sell_price" name="price" type="text" required="" placeholder="0.00" tabindex="5" min="0">
                                     </div>
-                                </div> 
+                                </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-5">
                                 <div class="form-group row">
                                     <label for="unit" class="col-sm-4 col-form-label"><?php echo display('unit') ?></label>
                                     <div class="col-sm-8">
@@ -1769,21 +1744,8 @@ function payment_info(){
                                 </div>
                             </div>
                         </div>
-
-
-
-                       <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group row">
-                                    <label for="image" class="col-sm-4 col-form-label"><?php echo display('image') ?> </label>
-                                    <div class="col-sm-8">
-                                        <input type="file" name="image" class="form-control" id="image" tabindex="4">
-                                    </div>
-                                </div> 
-                            </div>
                              <?php  $i=0;
                     foreach ($taxfield as $taxss) {?>
-                   
                             <div class="col-sm-6">
                          <div class="form-group row">
                             <label for="tax" class="col-sm-4 col-form-label"><?php echo $taxss['tax_name']; ?> <i class="text-danger"></i></label>
@@ -1793,44 +1755,36 @@ function payment_info(){
                             <div class="col-sm-1"> <i class="text-success">%</i></div>
                         </div>
                     </div>
-               
                        <?php $i++;}?>
-                        </div> 
+                        </div>
                         <div class="table-responsive product-supplier">
                             <table class="table table-bordered table-hover"  id="product_table">
                                 <thead>
                                     <tr>
                                         <th class="text-center"><?php echo display('supplier') ?> <i class="text-danger">*</i></th>
                                         <th class="text-center"><?php echo display('supplier_price') ?> <i class="text-danger">*</i></th>
-
-
-                                        <!-- <th class="text-center"><?php// echo display('action') ?> <i class="text-danger"></i></th> -->
                                     </tr>
                                 </thead>
                                 <tbody id="proudt_item">
                                     <tr class="">
-
                                         <td width="300">
-                                            <select name="supplier_id[]" class="form-control"  required="">
-                                                <option value=""> select Supplier</option>
-                                                <?php if ($supplier) { ?>
-                                                    {supplier}
-                                                    <option value="{supplier_name}">{supplier_name}</option>
-                                                    {/supplier}
-                                                <?php } ?>
-                                            </select>
+                                        <select name="supplier_id" id="supplier_id" class="form-control " style="width:100%;" required="" tabindex="1">
+                                            <option value=" "><?php echo display('select_one') ?></option>
+                                            {all_supplier}
+                                            <option value="{supplier_id}">{supplier_name}</option>
+                                            {/all_supplier}
+                                        </select>
                                         </td>
                                         <td class="">
-                                            <input type="text" tabindex="6" class="form-control text-right" name="supplier_price[]" placeholder="0.00"  required  min="0"/>
-                                        </td>
-
-                                        <!-- <td width="100"> <a  id="add_purchase_item" class="btn  btn-sm" name="add-invoice-item" onClick="addpruduct('proudt_item');"  tabindex="9"/><i class="fa fa-plus-square" aria-hidden="true"></i></a> <a class="btn btn-danger btn-sm"  value="<?php //echo display('delete') ?>" onclick="deleteRow(this)" tabindex="10"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                            <input type="text" tabindex="6" class="form-control text-right" name="supplier_price" placeholder="0.00"  required  min="0"/>
+                                        <!-- </td>
+                                        <td width="100"> <a  id="add_purchase_item" class="btn btn-info btn-sm" name="add-invoice-item" onClick="addpruduct('proudt_item');"  tabindex="9"/><i class="fa fa-plus-square" aria-hidden="true"></i></a> <a class="btn btn-danger btn-sm"  value="<?php echo display('delete') ?>" onclick="deleteRow(this)" tabindex="10"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </td> -->
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                   <div class="row">
+                        <div class="row">
                             <div class="col-sm-12">
                                 <center><label for="description" class="col-form-label"><?php echo display('product_details') ?></label></center>
                                 <textarea class="form-control" name="description" id="description" rows="2" placeholder="<?php echo display('product_details') ?>" tabindex="2"></textarea>
@@ -1838,41 +1792,13 @@ function payment_info(){
                         </div><br>
                         <div class="form-group row">
                             <div class="col-sm-6">
-
-                                <input type="submit" id="add-product" class="btn btn-primary btn-large" name="add-product" value="<?php echo display('save') ?>" tabindex="10"/>
-
-                            
-                             
+                                <input type="submit" id="add-product" class="btn btn-primary btn-large" name="add-product"    value="<?php echo display('save') ?>" tabindex="10"/>
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
                             </div>
                         </div>
-
                     </div>
-
-                    
-
-                        </div>
-
-
-
-                        <div class="modal-footer">
-
-                            
-
-                            <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
-
-                            
-                            <input type="submit" id="add-deposit" class="btn btn-success" name="add-deposit" value="<?php echo display('save') ?>" tabindex="6"/>
-                           <!--  <input type="submit" class="btn btn-success" value="Submit"> -->
-
-                        </div>
-
-                        <?php echo form_close() ?>
-
-                    </div><!-- /.modal-content -->
-
-                </div><!-- /.modal-dialog -->
-
-            </div><!-- /.modal -->
+                </div>
+                </form>
 
   <!------ add new bank -->  
      

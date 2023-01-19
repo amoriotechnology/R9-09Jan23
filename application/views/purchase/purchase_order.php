@@ -454,7 +454,7 @@ textarea:focus, input:focus{
                                     <table border="0">
       <tr>
         <td><?php  echo $currency." ";  ?></td>
-        <td>      <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" class="gtotal" onchange="" value="<?php echo $purchase_detail[0]['grand_total_amount']; ?>" readonly="readonly" />  </td>
+        <td>      <input type="text" id="gtotal" style="padding:5px;"  name="gtotal" class="gtotal" onchange="" value="0.00" readonly="readonly" />  </td>
       
     </tr>
    </table> 
@@ -472,7 +472,7 @@ textarea:focus, input:focus{
                                     <table border="0">
       <tr>
       <td class="cus" name="cus"></td>
-        <td>       <input type="text" style="padding:5px;"  id="vendor_gtotal"  class="vendor_gtotal" name="vendor_gtotal" value="<?php echo $purchase_detail[0]['gtotal_preferred_currency']; ?>" readonly="readonly" /> </td>
+        <td>       <input type="text" style="padding:5px;"  id="vendor_gtotal"  class="vendor_gtotal" name="vendor_gtotal" value="0.00" readonly="readonly" /> </td>
      </tr>
    </table> 
                                           </td>
@@ -1233,7 +1233,7 @@ percent=percent.replace("%","");
 $('#final_gtotal').val(answer);
    $('#hdn').val(valueSelected);
    console.log("taxi :"+valueSelected);
-  $('#tax_details').val(answer +" ( "+tax+" )");
+  $('#tax_details').val(answer.toFixed(2) +" ( "+tax+" )");
    calculate();
  
 });
@@ -1274,7 +1274,7 @@ var percent = field[1];
 var answer=0;
   var answer =(parseInt(percent) / 100) * parseInt(first);
    console.log(answer);
-   $('#tax_details').val(answer +" ( "+tax+" )");
+   $('#tax_details').val(answer.toFixed(2) +" ( "+tax+" )");
 
   var gtotal = parseInt(first + answer);
   console.log(gtotal);

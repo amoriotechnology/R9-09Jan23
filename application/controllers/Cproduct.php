@@ -277,7 +277,7 @@ public function insert_product_from_expense(){
             $data['product_details'] = $this->input->post('description',TRUE);
             $data['image']        = (!empty($image_url) ? $image_url : base_url('my-assets/image/product.png'));
             $data['status']       = 1;
-      //print_r($data);dd();
+      print_r($data);die();
         $result = $CI->lproduct->insert_product($data);
         
 

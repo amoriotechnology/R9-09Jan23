@@ -865,14 +865,14 @@ $('#insert_purchase').submit(function (event) {
         data:$("#insert_purchase").serialize(),
 
         success:function (data) {
-        console.log(data);
+     
    
             var split = data.split("/");
             $('#invoice_hdn1').val(split[0]);
          
      
             $('#invoice_hdn').val(split[1]);
-            $("#myModal1").find('.modal-body').text('Purchase Order Updated Successfully');
+            $("#myModal1").find('.modal-body').text('Purchase Order Created Successfully');
             $('#final_submit').show();
 $('#download').show();
     $('#myModal1').modal('show');
